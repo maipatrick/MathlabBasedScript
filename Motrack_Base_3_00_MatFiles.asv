@@ -6,7 +6,7 @@ function Motrack_Base_2_11()
 % here (they become global to the function). We keep things tidy by putting
 % all GUI stuff in one structure and all data stuff in another. As the app
 % grows, we might consider making these objects rather than structures.
-
+% test PM
 data = createData();
 gui = createInterface();
 
@@ -17,8 +17,8 @@ gui = createInterface();
         % Create the shared data-structure for this application
         data.Report{1}.Header = 'Joint Kinematics';
         data.Report{1}.Replace = 'Kapitel1';
-        
-        
+
+
     end % createData
 
 %-------------------------------------------------------------------------%
@@ -35,29 +35,29 @@ gui = createInterface();
             'Color', [1 1 1], ...
             'Position', [100 100 1200 800], ...
             'HandleVisibility', 'off' );
-        
-        
+
+
         % + File menu
         gui.FileMenu = uimenu( gui.Window, 'Label', 'File' );
         uimenu( gui.FileMenu, 'Label', 'Save Log File', 'Callback', @onSaveLogFile );
         uimenu( gui.FileMenu, 'Label', 'Exit', 'Callback', @onExit );
-        
+
         % + View menu
         gui.ViewMenu = uimenu( gui.Window, 'Label', 'View' );
-        
-        
+
+
         % + Help menu
         helpMenu = uimenu( gui.Window, 'Label', 'Help' );
         uimenu( helpMenu, 'Label', 'Documentation', 'Callback', @onHelp );
-        
-        
+
+
         % Arrange the main interface
         mainLayout = uix.VBox( 'Parent', gui.Window, 'Spacing', 3 , 'Position', [0 0 1 1], 'BackgroundColor', [1 1 1]);
         VLogoAxes = axes( 'Parent', mainLayout,  ...
             'Position', [0 1010 590 200]);
-        
+
         imshow('header.jpg', 'Parent', VLogoAxes);
-        
+
         % + Create the panels
         gui.mainPanel = uix.TabPanel( 'Parent', mainLayout, 'Padding', 4 , 'Position', [0 0 1200 500], 'BackgroundColor', [1 1 1], 'HighlightColor', [1 1 1]);
         set(mainLayout, 'Heights', [170;630])
@@ -71,16 +71,16 @@ gui = createInterface();
         gui.mainPanel.Selection = 1;
         gui.mainPanel.FontName = 'Arial';
         gui.mainPanel.FontSize = 14;
-        
+
         gui.sfolder = 'c:\m_files\TUD\';
         % + Create the panels
-        
-        
+
+
         % + Adjust the main layout
         set( gui.mainPanel, 'TabWidth', 160  );
-        
-        
-        
+
+
+
         % + Create the controls
         % Create data structure
         data.errorlog = {};
@@ -93,7 +93,7 @@ gui = createInterface();
             'Parent', p1, ...
             'Position', [10 170 516 217], ...
             'String', {});
-        
+
         gui.BrowseTopFolder = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -102,7 +102,7 @@ gui = createInterface();
             'Position', [446 430 80 25], ...
             'String', 'Browse', ...
             'Callback', @onBrowseTopFolder);
-        
+
         gui.LoadExistingConditions = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -111,7 +111,7 @@ gui = createInterface();
             'Position', [540 390 250 25], ...
             'String', 'Load existing Conditions', ...
             'Callback', @onLoadExistingConditions);
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Top Folder: ', ...
             'FontSize', 14, ...
@@ -121,7 +121,7 @@ gui = createInterface();
             'BackgroundColor', [1 1 1], ...
             'HorizontalAlignment', 'Left', ...
             'Visible', 'on');
-        
+
         gui.EditTopFolder = uicontrol( 'Style', 'edit', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -130,7 +130,7 @@ gui = createInterface();
             'Parent', p1, ...
             'Position', [10 430 435 25], ...
             'String', 'Please selct top folder for the study / analysis');
-        
+
         gui.ConditionToAdd = uicontrol( 'Style', 'edit', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -139,7 +139,7 @@ gui = createInterface();
             'Parent', p1, ...
             'Position', [10 390 503 25], ...
             'String', 'Condition Name');
-        
+
         gui.AddCondition = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -148,7 +148,7 @@ gui = createInterface();
             'Position', [447 390 38 25], ...
             'String', '+', ...
             'Callback', @onAddCondition);
-        
+
         gui.RemCondition = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -157,7 +157,7 @@ gui = createInterface();
             'Position', [488 390 38 25], ...
             'String', '-', ...
             'Callback', @onRemCondition);
-        
+
         gui.CreateFolderStructure = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -166,7 +166,7 @@ gui = createInterface();
             'Position', [10 10 250 40], ...
             'String', 'Create Folder Structure', ...
             'Callback', @onCreateFolderStructure);
-        
+
         gui.Next1 = uicontrol( 'Style', 'pushbutton', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -176,9 +176,9 @@ gui = createInterface();
             'Position', [1000 10 140 40], ...
             'String', 'Next -->', ...
             'Callback', @onNext);
-        
-        
-        
+
+
+
         % Create Tab2 Components
         gui.Back2 = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
@@ -188,7 +188,7 @@ gui = createInterface();
             'Position', [10 10 250 40], ...
             'String', '<-- Back', ...
             'Callback', @onBack);
-        
+
         gui.Next2 = uicontrol( 'Style', 'pushbutton', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -198,7 +198,7 @@ gui = createInterface();
             'Position', [1000 10 140 40], ...
             'String', 'Next -->', ...
             'Callback', @onNext);
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Name: ', ...
             'FontSize', 14, ...
@@ -216,7 +216,7 @@ gui = createInterface();
             'Parent', p2, ...
             'Position', [263 500 300 25], ...
             'String', '');
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Age (years): ', ...
             'FontSize', 14, ...
@@ -285,7 +285,7 @@ gui = createInterface();
             'Parent', p2, ...
             'Position', [263 340 300 25], ...
             'String', '');
-        
+
         gui.AddSubject = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -294,7 +294,7 @@ gui = createInterface();
             'Position', [607 490 38 25], ...
             'String', '+', ...
             'Callback', @onAddSubject);
-        
+
         gui.RemSubject = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -303,7 +303,7 @@ gui = createInterface();
             'Position', [648 490 38 25], ...
             'String', '-', ...
             'Callback', @onRemSubject);
-        
+
         gui.LoadExistingSubjects = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -312,7 +312,7 @@ gui = createInterface();
             'Position', [560 540 200 25], ...
             'String', 'Load existing Subjects', ...
             'Callback', @onLoadExistingSubjects);
-        
+
         gui.LoadExistingSubjects = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -321,7 +321,7 @@ gui = createInterface();
             'Position', [560 540 200 25], ...
             'String', 'Load existing Subjects', ...
             'Callback', @onLoadExistingSubjects);
-        
+
         gui.LoadSubjectsFromExcel = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -330,7 +330,7 @@ gui = createInterface();
             'Position', [765 540 300 25], ...
             'String', 'Load Subjects from Excel', ...
             'Callback', @onLoadSubjectsFromExcel);
-        
+
         gui.SubjectList = uicontrol( 'Style', 'list', ...
             'BackgroundColor', 'w', ...
             'FontSize', 10, ...
@@ -340,7 +340,7 @@ gui = createInterface();
             'Position', [750 100 350 425], ...
             'String', {},...
             'Callback', @onSubjectList);
-        
+
         gui.ExpandFolderStructure = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -357,7 +357,7 @@ gui = createInterface();
             'Position', [290 280 250 40], ...
             'String', 'Save Anthro Changes', ...
             'Callback', @onUpdateCSV);
-        
+
         % Create tab3 components
         uicontrol('Style', 'text', ...
             'String', 'Experimental Setup: ', ...
@@ -413,7 +413,7 @@ gui = createInterface();
             'Parent', p3, ...
             'Position', [263 500 100 25], ...
             'String', '1');
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Static Reference Specifier: ', ...
             'FontSize', 14, ...
@@ -501,7 +501,7 @@ gui = createInterface();
             'Position', [263 300 100 25], ...
             'Visible', 'off', ...
             'String', '20');
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Analyzed Leg: ', ...
             'FontSize', 14, ...
@@ -520,7 +520,7 @@ gui = createInterface();
             'Position', [263 260 100 25], ...
             'Visible', 'on', ...
             'String', {'Right','Left','Both'});
-        
+
         gui.ForcePlateNumberText = uicontrol('Style', 'text', ...
             'String', 'Force Plate Number: ', ...
             'FontSize', 14, ...
@@ -530,7 +530,7 @@ gui = createInterface();
             'BackgroundColor', [1 1 1], ...
             'HorizontalAlignment', 'Right', ...
             'Visible', 'off');
-        
+
         gui.ForcePlateNumber = uicontrol( 'Style', 'popupmenu', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -541,7 +541,7 @@ gui = createInterface();
             'Visible', 'on', ...
             'String', {'1','2','3','4','5','6', '7','8','9','10','11','12'}, ...
             'Value', 2);
-        
+
         gui.ForceTresholdText = uicontrol('Style', 'text', ...
             'String', 'Stance Detection Threshold (N): ', ...
             'FontSize', 14, ...
@@ -551,7 +551,7 @@ gui = createInterface();
             'BackgroundColor', [1 1 1], ...
             'HorizontalAlignment', 'Right', ...
             'Visible', 'off');
-        
+
         gui.ForceTreshold = uicontrol( 'Style', 'edit', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -561,7 +561,7 @@ gui = createInterface();
             'Position', [263 180 100 25], ...
             'Visible', 'off', ...
             'String', {'50'});
-        
+
         gui.RotateMarkersButton = uicontrol('Style', 'pushbutton', ...
             'String', 'Rotate Traj.', ...
             'FontSize', 14, ...
@@ -572,7 +572,7 @@ gui = createInterface();
             'Callback', @onRotateMarkersButton,...
             'HorizontalAlignment', 'Right', ...
             'Visible', 'on');
-        
+
         gui.RotateMarkersEdit = uicontrol( 'Style', 'edit', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -582,7 +582,7 @@ gui = createInterface();
             'Position', [905 50 200 25], ...
             'Visible', 'on', ...
             'String', {'[1 0 0; 0 1 0; 0 0 1]'});
-        
+
         gui.Back3 = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
             'FontName', 'Arial', ...
@@ -591,7 +591,7 @@ gui = createInterface();
             'Position', [10 10 250 40], ...
             'String', '<-- Back', ...
             'Callback', @onBack);
-        
+
         gui.Next3 = uicontrol( 'Style', 'pushbutton', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -601,7 +601,7 @@ gui = createInterface();
             'Position', [1000 10 140 40], ...
             'String', 'Next -->', ...
             'Callback', @onNext);
-        
+
         startData = [cell(78,1),{'head_front_left';'head_front_right';'head_back_right';'head_back_left';'ear_left';'ear_right';'C_7';'B_10';'SIAS_left';'SIAS_right';'SIPS_right';'SIPS_left';'acrom_left';'acrom_right';'clav';'sternum';'shoulder_left';'elbow_top_left';'elbow_med_left';'elbow_lat_left';'shoulder_right';'elbow_top_right';'elbow_med_right';'elbow_lat_right';'hand_med_left';'hand_lat_left';'hand_top_left';'hand_med_right';'hand_lat_right';'hand_top_right';'epi_lat_left';'epi_med_left';'epi_lat_right';'epi_med_right';'mal_lat_left';'mal_med_left';'mal_lat_right';'mal_med_right';'calc_med_left';'calc_back_left';'calc_lat_left';'calc_med_right';'calc_back_right';'calc_lat_right';'forfoot_med_right';'forfoot_lat_right';'toe_right';'forefoot_med_left';'forefoot_lat_left';'toe_left';'cluster_upperarm_left_1';'cluster_upperarm_left_2';'cluster_upperarm_left_3';'cluster_lowerarm_left_1';'cluster_lowerarm_left_2';'cluster_lowerarm_left_3';'cluster_lowerarm_right_1';'cluster_lowerarm_right_2';'cluster_lowerarm_right_3';'cluster_upperarm_right_1';'cluster_upperarm_right_2';'cluster_upperarm_right_3';'cluster_femur_left_1';'cluster_femur_left_2';'cluster_femur_left_3';'cluster_femur_left_4';'cluster_femur_right_1';'cluster_femur_right_2';'cluster_femur_right_3';'cluster_femur_right_4';'cluster_tibia_left_1';'cluster_tibia_left_2';'cluster_tibia_left_3';'cluster_tibia_left_4';'cluster_tibia_right_1';'cluster_tibia_right_2';'cluster_tibia_right_3';'cluster_tibia_right_4'}];
         gui.MarkerTable = uitable(p3,'Data',startData,...
             'Position', [900 150 250 400],...
@@ -663,20 +663,20 @@ gui = createInterface();
             'Visible', 'on');
         gui.MarkerSetPictureList = {'Fontal_inkl_Marker.jpg'; 'Dorsal_inkl_Marker.jpg'; 'Links_inkl_Marker.jpg'; 'Rechts_inkl_Marker.jpg'; 'Arm_links_inkl_Marker.jpg'; 'Arm_rechts_inkl_Marker.jpg';'Fuesse_inkl_Marker.jpg'};
         gui.MarkerSetActPict = 1;
-        
+
         gui.MarkerSetPlot = axes( 'Parent', p3,  ...
             'Position', [0.33 0.15 0.40 0.7]);
         try
-        imshow('Fontal_inkl_Marker.jpg', 'Parent', gui.MarkerSetPlot);
-        gui.MarkerSetNext = uicontrol( 'Style', 'pushbutton', ...
-            'FontSize', 14, ...
-            'FontName', 'Arial', ...
-            'HorizontalAlignment', 'Left', ...
-            'Parent', p3, ...
-            'Position', [590 50 38 25], ...
-            'String', '>', ...
-            'Callback', @onMarkerSetNext);
-        catch 
+            imshow('Fontal_inkl_Marker.jpg', 'Parent', gui.MarkerSetPlot);
+            gui.MarkerSetNext = uicontrol( 'Style', 'pushbutton', ...
+                'FontSize', 14, ...
+                'FontName', 'Arial', ...
+                'HorizontalAlignment', 'Left', ...
+                'Parent', p3, ...
+                'Position', [590 50 38 25], ...
+                'String', '>', ...
+                'Callback', @onMarkerSetNext);
+        catch
         end
         gui.MarkerSetPrevious = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
@@ -686,7 +686,7 @@ gui = createInterface();
             'Position', [635 50 38 25], ...
             'String', '<', ...
             'Callback', @onMarkerSetPrevious);
-        
+
         % Create tab4 components
         gui.Back4 = uicontrol( 'Style', 'pushbutton', ...
             'FontSize', 14, ...
@@ -696,7 +696,7 @@ gui = createInterface();
             'Position', [10 10 250 40], ...
             'String', '<-- Back', ...
             'Callback', @onBack);
-        
+
         gui.Next4 = uicontrol( 'Style', 'pushbutton', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -706,7 +706,7 @@ gui = createInterface();
             'Position', [1000 10 140 40], ...
             'String', 'Next -->', ...
             'Callback', @onNext);
-        
+
         gui.RunModel = uicontrol( 'Style', 'pushbutton', ...
             'BackgroundColor', 'w', ...
             'FontSize', 14, ...
@@ -752,8 +752,8 @@ gui = createInterface();
             'Position', [263 150 100 25], ...
             'Visible', 'on', ...
             'String', {':'});
-        
-        
+
+
         % Create tab5 components
         uicontrol('Style', 'text', ...
             'String', 'Which conditions to analyze: ', ...
@@ -809,8 +809,8 @@ gui = createInterface();
             'Position', [263 420 100 25], ...
             'Visible', 'on', ...
             'String', {'Right','Left'});
-        
-        
+
+
         uicontrol('Style', 'text', ...
             'String', 'Results Folder: ', ...
             'FontSize', 14, ...
@@ -847,7 +847,7 @@ gui = createInterface();
             'Position', [213 510 200 25], ...
             'String', 'Single Subject Graphs', ...
             'Callback', @onSingleGraphs);
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Which conditions to analyze: ', ...
             'FontSize', 14, ...
@@ -938,10 +938,10 @@ gui = createInterface();
             'Position', [713 510 200 25], ...
             'String', 'Mean Graphs Graphs', ...
             'Callback', @onMeanGraphs);
-        
-        
-        
-        
+
+
+
+
         uicontrol('Style', 'text', ...
             'String', 'Which conditions to analyze: ', ...
             'FontSize', 14, ...
@@ -1014,7 +1014,7 @@ gui = createInterface();
             'Position', [213 210 200 25], ...
             'String', 'Right/Left Graphs', ...
             'Callback', @onRLGraphs);
-        
+
         uicontrol('Style', 'text', ...
             'String', 'Graph language: ', ...
             'FontSize', 14, ...
@@ -1051,7 +1051,7 @@ gui = createInterface();
             'Position', [600 30 300 25], ...
             'Visible', 'on', ...
             'String', 'Save .fig graphs?');
-        
+
     end % createInterface
 
 %-------------------------------------------------------------------------%
@@ -1060,7 +1060,7 @@ gui = createInterface();
 
 % Callback Functions Tab1
     function onBrowseTopFolder(~,~)
-        
+
         set(gui.EditTopFolder, 'String', uigetdir('c:\', 'Bitte Ordner angeben'));
     end % onBrowseTopFolder
 
@@ -1068,13 +1068,13 @@ gui = createInterface();
     function onAddCondition(~,~)
         actString = get(gui.ConditionsList, 'String');
         newString = get(gui.ConditionToAdd, 'String');
-        
+
         lString = length(actString);
         actString{lString+1,1} = newString;
-        
+
         set(gui.ConditionsList, 'String', actString);
         set(gui.ConditionsList, 'Value', lString+1);
-        
+
     end % onAddCondition
 
 % Remove a condition from the project
@@ -1117,7 +1117,7 @@ gui = createInterface();
     function onCreateFolderStructure(~,~)
         data.OPTIONS.TopFolder = get(gui.EditTopFolder, 'String');
         data.OPTIONS.ConditionFolders = get(gui.ConditionsList, 'String');
-        
+
         for i = 1:length(data.OPTIONS.ConditionFolders)
             mkdir([data.OPTIONS.TopFolder, '\', data.OPTIONS.ConditionFolders{i}]);
         end
@@ -1153,17 +1153,17 @@ gui = createInterface();
         else
             newString = ['S',num2str(actVal),'_', get(gui.Name, 'String')];
         end
-        
+
         actString{lString+1,1} = newString;
         set(gui.SubjectList, 'String', actString);
         set(gui.SubjectList, 'Value', lString+1);
-        
+
         data.Subjects{actVal}.Name = newString;
         data.Subjects{actVal}.Age = str2double(get(gui.Age, 'String'));
         data.Subjects{actVal}.Height = str2double(get(gui.Height, 'String'));
         data.Subjects{actVal}.Mass = str2double(get(gui.Mass, 'String'));
         data.Subjects{actVal}.FootLength = str2double(get(gui.FootLength, 'String'));
-        
+
         assignin('base', 'data', data);
     end % onAddSubject
 
@@ -1229,7 +1229,7 @@ gui = createInterface();
         end
         set(gui.SubjectList, 'String', NewList);
         set(gui.SubjectList, 'Value', length(NewList));
-        
+
     end %onLoadSubjectsFromExcel
 
 % Executes when a subject from the subject list is being selected.
@@ -1249,7 +1249,7 @@ gui = createInterface();
             try
                 CSVDATA = csvread([TFolder, '\', CondNames{1}, '\', SubjNames{ind},'\',CSVs.name]);
             catch
-            CSVDATA = xlsread([TFolder, '\', CondNames{1}, '\', SubjNames{ind},'\',CSVs.name]);
+                CSVDATA = xlsread([TFolder, '\', CondNames{1}, '\', SubjNames{ind},'\',CSVs.name]);
 
             end
             set(gui.Name, 'String', CSVs.name(1:end-4));
@@ -1265,7 +1265,7 @@ gui = createInterface();
 % Expands the conditions folder structure to include subfolders for each
 % subjet in each condition folder.
     function onExpandFolderStructure(~,~)
-        
+
         for ncond = 1:length(data.OPTIONS.ConditionFolders)
             for i = 1:length(data.Subjects)
                 mkdir([data.OPTIONS.TopFolder, '\', data.OPTIONS.ConditionFolders{ncond}, '\', data.Subjects{i}.Name]);
@@ -1288,10 +1288,10 @@ gui = createInterface();
         data.Subjects{actVal}.Height = str2double(get(gui.Height, 'String'));
         data.Subjects{actVal}.Mass = str2double(get(gui.Mass, 'String'));
         data.Subjects{actVal}.FootLength = str2double(get(gui.FootLength, 'String'));
-        
+
         for ncond = 1:length(ConFolders)
             for i = actVal
-                
+
                 SubInfo = [data.Subjects{i}.Height; data.Subjects{i}.Mass; data.Subjects{i}.FootLength; data.Subjects{i}.Age];
                 csvwrite([TopFolder, '\', ConFolders{ncond},...
                     '\', data.Subjects{i}.Name,'\', data.Subjects{i}.Name, '.csv'], SubInfo);
@@ -1348,14 +1348,14 @@ gui = createInterface();
         superordner = char(get(gui.EditTopFolder, 'String'));
         sordner = dir(superordner);
         for n_ordner = 3:size(sordner,1)
-            ueberordner = [superordner,'\',char(sordner(n_ordner).name)];
+            ueberordner = [superordner,'\',char(sordner(n_orddispner).name)];
             ordner = dir(ueberordner);
             n_dir = 1;
             for d = 3:size(ordner,1)
                 if ordner(d).isdir
                     Geruest(n_dir).pathnametest = cellstr([char(ueberordner),'\', ordner(d).name, '\']);
                     C3ds = dir([char(Geruest(n_dir).pathnametest),'*.c3d']);
-                    
+
                     for e = 1:size(C3ds,1)
                         Geruest(n_dir).filenametest(e) = cellstr(C3ds(e).name);
                     end
@@ -1363,25 +1363,25 @@ gui = createInterface();
                     clear C3ds
                 end
             end
-            
-            
+
+
             for n_probanden = 1:n_dir-1
-                
+
                 pathname = char(Geruest(n_probanden).pathnametest);
-                
+
                 filename = Geruest(n_probanden).filenametest;
                 n_trials = length(filename);
-                
-                
-                
+
+
+
                 for i = 1:length(filename)
                     fname = [pathname, char(filename(1,i))];
-                    
-                    
+
+
                     disp(fname)
                     u_strich = findstr(fname, '_');
-                    
-                    
+
+
                     M = c3dserver;
                     openc3d(M,0, fname);
                     acq = btkReadAcquisition(fname);
@@ -1396,7 +1396,7 @@ gui = createInterface();
                             end
                             if strmatch(char(Marker_Labels(j+1,i)) ,OLD_NAMES{z}, 'exact')
                                 %                                 M.SetParameterValue(index1(i,1),j, char(NEW_NAMES(z)));
-                                
+
                                 [points, pointsInfo] = btkSetPointLabel(acq, OLD_NAMES{z}, NEW_NAMES{z})
                                 disp('ja')
                             else
@@ -1404,19 +1404,19 @@ gui = createInterface();
                             end
                         end
                     end
-                    
-                    
-                    
+
+
+
                     nRet = M.SaveFile('',-1);
                     closec3d(M);
-                    
+
                     btkWriteAcquisition(acq, fname);
                     btkDeleteAcquisition(acq);
                 end
             end
-            
-            
-            
+
+
+
             clear Geruest
         end
     end %ChangeMarkerNames
@@ -1448,7 +1448,7 @@ gui = createInterface();
         else
             set(gui.Nsteps, 'Visible', 'off');
             set(gui.NstepsText, 'Visible', 'off');
-            
+
             set(gui.CutOffForce, 'Visible', 'off');
             set(gui.ForcePlateNumber, 'Visible', 'off');
             set(gui.ForceTreshold, 'Visible', 'off');
@@ -1457,8 +1457,8 @@ gui = createInterface();
             set(gui.ForceTresholdText, 'Visible', 'off');
             set(gui.UseRawContact, 'Visible', 'off');
         end
-        
-        
+
+
     end %onExperimentalSetup
 
     function onExit
@@ -1469,7 +1469,7 @@ gui = createInterface();
     function onSingleGraphs(~,~)
         evalin('base', 'clear');
         % Put all the settings information into one structure
-        
+
         data.OPTIONS.ForcePlateNumber = get(gui.ForcePlateNumber, 'Value');
         data.OPTIONS.ExperimentalSetup = get(gui.ExperimentalSetup, 'Value');
         data.OPTIONS.TopFolder = get(gui.EditTopFolder, 'String');
@@ -1484,11 +1484,11 @@ gui = createInterface();
         TopFolder = get(gui.EditTopFolder, 'String')
         subfolders = dir(TopFolder)
         char(subfolders(3).name)
-        
-        
+
+
         assignin('base', 'Bedingung', get(gui.ConditionsList, 'String'));
         assignin('base', 'ueberordner', TopFolder);
-        
+
         whichConditions = get(gui.SingleGraphsWhichConditions, 'String');
         if strcmp(whichConditions, ':')
             WC = 1:length(get(gui.ConditionsList, 'String'));
@@ -1499,26 +1499,26 @@ gui = createInterface();
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
-        
+
         whichSubjects = get(gui.SingleGraphsWhichSubjects, 'String');
         if strcmp(whichSubjects, ':')
             WS = 1:length(matfiles);
         else
             WS = eval(whichSubjects{1});
         end
-        
-        
-        
-        
-        
+
+
+
+
+
         if get(gui.SingleGraphsAnalyzedLeg, 'Value') == 1
             Leg = 'R';
         elseif get(gui.SingleGraphsAnalyzedLeg, 'Value') == 2
             Leg = 'L';
         end
-        
-                AngleNames = fieldnames(NORMAL.(Leg).ANGLES);
-%         AngleNames = {'RIGHT_ANKLE', 'RIGHT_KNEE', 'RIGHT_HIP'};
+
+        AngleNames = fieldnames(NORMAL.(Leg).ANGLES);
+        %         AngleNames = {'RIGHT_ANKLE', 'RIGHT_KNEE', 'RIGHT_HIP'};
         AxesNames = {'X','Y','Z'}; %{'Y'};
         % %
         assignin('base', 'Leg', Leg);
@@ -1529,22 +1529,22 @@ gui = createInterface();
         assignin('base', 'WSSS', WS);
         assignin('base', 'CurveType', 'ANGLES');
         assignin('base', 'ExpCond', data.OPTIONS.ExperimentalSetup);
-                assignin('base', 'OutputDirectory', [get(gui.SingleGraphsFolder, 'String'),'\ANGLES\']);
-                for t = 1:length(AngleNames)
-                    for ti = 1:length(AxesNames)
-                        mkdir([get(gui.SingleGraphsFolder, 'String'),'\ANGLES\', AngleNames{t}, '\', AxesNames{ti}]);
-                        options.format = 'html';
-                        options.outputDir = [get(gui.SingleGraphsFolder, 'String'),'\ANGLES\', AngleNames{t}, '\', AxesNames{ti}];
-                        options.showCode = false;
-                        assignin('base', 't', t);
-                        assignin('base', 'ti', ti);
-                        assignin('base', 'AngleNames', AngleNames);
-                        assignin('base', 'AxesNames', AxesNames);
-                        publish('SingleCurves', options);
-        
-                        %                 clearvars -except t ti AngleNames AxesNames
-                    end
-                end
+        assignin('base', 'OutputDirectory', [get(gui.SingleGraphsFolder, 'String'),'\ANGLES\']);
+        for t = 1:length(AngleNames)
+            for ti = 1:length(AxesNames)
+                mkdir([get(gui.SingleGraphsFolder, 'String'),'\ANGLES\', AngleNames{t}, '\', AxesNames{ti}]);
+                options.format = 'html';
+                options.outputDir = [get(gui.SingleGraphsFolder, 'String'),'\ANGLES\', AngleNames{t}, '\', AxesNames{ti}];
+                options.showCode = false;
+                assignin('base', 't', t);
+                assignin('base', 'ti', ti);
+                assignin('base', 'AngleNames', AngleNames);
+                assignin('base', 'AxesNames', AxesNames);
+                publish('SingleCurves', options);
+
+                %                 clearvars -except t ti AngleNames AxesNames
+            end
+        end
         if (data.OPTIONS.ExperimentalSetup == 6) || (data.OPTIONS.ExperimentalSetup == 7)
             MomentNames = fieldnames(NORMAL.(Leg).MOMENTS);
             assignin('base', 'CurveType', 'MOMENTS');
@@ -1560,12 +1560,12 @@ gui = createInterface();
                     assignin('base', 'AngleNames', MomentNames);
                     assignin('base', 'AxesNames', AxesNames);
                     publish('SingleCurves', options);
-                    
+
                     %                 clearvars -except t ti AngleNames AxesNames
                 end
             end
         end
-        
+
     end %onSingleGraphs
 
 
@@ -1573,7 +1573,7 @@ gui = createInterface();
     function onMeanGraphs(~,~)
         evalin('base', 'clear');
         % Put all the settings information into one structure
-        
+
         OPTIONS.ForcePlateNumber = get(gui.ForcePlateNumber, 'Value');
         OPTIONS.ExperimentalSetup = get(gui.ExperimentalSetup, 'Value');
         OPTIONS.TopFolder = get(gui.EditTopFolder, 'String');
@@ -1584,39 +1584,39 @@ gui = createInterface();
         OPTIONS.CutOffMarkers = str2double(get(gui.CutOffKinematics, 'String'));
         OPTIONS.CutOffGRF = str2double(get(gui.CutOffForce, 'String'));
         OPTIONS.ForceTreshold = str2double(get(gui.ForceTreshold, 'String'));
-        
+
         TopFolder = get(gui.EditTopFolder, 'String')
         subfolders = dir(TopFolder)
-        
+
         whichConditions = get(gui.MeanGraphsWhichConditions, 'String');
         if strcmp(whichConditions, ':')
             WC = 1:length(get(gui.ConditionsList, 'String'));
         else
             WC = eval(whichConditions{1});
         end
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         char(subfolders(3).name)
         matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
-        
+
         assignin('base', 'Bedingung', get(gui.ConditionsList, 'String'));
         assignin('base', 'ueberordner', TopFolder);
-        
+
         whichSubjects = get(gui.MeanGraphsWhichSubjects, 'String');
         if strcmp(whichSubjects, ':')
             WS = 1:length(matfiles);
         else
             WS = eval(whichSubjects{1});
         end
-        
-        
+
+
         if get(gui.MeanGraphsAnalyzedLeg, 'Value') == 1
             Leg = 'R';
         elseif get(gui.MeanGraphsAnalyzedLeg, 'Value') == 2
@@ -1628,19 +1628,19 @@ gui = createInterface();
             AngleNames = fieldnames(NORMAL.(Leg).ANGLES);
         catch
             try
-                
+
             catch
-                
+
             end
         end
         AxesNames = {'X','Y','Z'}; %{'Y'};
-        
+
         assignin('base', 'Leg', Leg);
-        
+
         assignin('base', 'WCMG', WC);
         assignin('base', 'WSMG', WS);
         assignin('base', 'CurveType', 'ANGLES');
-        
+
         mkdir([get(gui.MeanGraphsFolder, 'String'),'\ANGLES\']);
         options.format = 'html';
         options.outputDir = [get(gui.MeanGraphsFolder, 'String'),'\ANGLES\'];
@@ -1653,14 +1653,14 @@ gui = createInterface();
         assignin('base', 'SaveSVG', SaveSVG);
         assignin('base', 'SaveFIG', SaveFIG);
         publish('MeanCurves', options);
-        
+
         %                 clearvars -except t ti AngleNames AxesNames
-        
+
         if (OPTIONS.ExperimentalSetup == 6) || (OPTIONS.ExperimentalSetup == 7) || (OPTIONS.ExperimentalSetup == 8)
             MomentNames = fieldnames(NORMAL.(Leg).MOMENTS);
             assignin('base', 'CurveType', 'MOMENTS');
             evalin('base', 'clear AngleNames');
-            
+
             mkdir([get(gui.MeanGraphsFolder, 'String'),'\POWER\']);
             options.format = 'html';
             options.outputDir = [get(gui.MeanGraphsFolder, 'String'),'\MOMENTS\'];
@@ -1673,12 +1673,12 @@ gui = createInterface();
             SaveFIG = get(gui.SaveFIG, 'Value');
             assignin('base', 'SaveFIG', SaveFIG);
             publish('MeanCurves', options);
-            
-            
+
+
             PowerNames = fieldnames(NORMAL.(Leg).POWER);
             assignin('base', 'CurveType', 'POWER');
             evalin('base', 'clear AngleNames');
-            
+
             mkdir([get(gui.MeanGraphsFolder, 'String'),'\POWER\']);
             options.format = 'html';
             options.outputDir = [get(gui.MeanGraphsFolder, 'String'),'\POWER\'];
@@ -1689,11 +1689,11 @@ gui = createInterface();
             SaveSVG = get(gui.SaveSVG, 'Value');
             assignin('base', 'SaveSVG', SaveSVG);
             publish('MeanCurves', options);
-            
+
             GRFNames = fieldnames(NORMAL.(Leg).GRF);
             assignin('base', 'CurveType', 'GRF');
             evalin('base', 'clear AngleNames');
-            
+
             mkdir([get(gui.MeanGraphsFolder, 'String'),'\GRF\']);
             options.format = 'html';
             options.outputDir = [get(gui.MeanGraphsFolder, 'String'),'\GRF\'];
@@ -1704,11 +1704,11 @@ gui = createInterface();
             SaveSVG = get(gui.SaveSVG, 'Value');
             assignin('base', 'SaveSVG', SaveSVG);
             publish('MeanCurves', options);
-            
+
             %                 clearvars -except t ti AngleNames AxesNames
         end
-        
-        
+
+
     end %onMeanGraphs
 
 
@@ -1717,7 +1717,7 @@ gui = createInterface();
     function onRLGraphs(~,~)
         evalin('base', 'clear');
         % Put all the settings information into one structure
-        
+
         OPTIONS.ForcePlateNumber = get(gui.ForcePlateNumber, 'Value');
         OPTIONS.ExperimentalSetup = get(gui.ExperimentalSetup, 'Value');
         OPTIONS.TopFolder = get(gui.EditTopFolder, 'String');
@@ -1728,9 +1728,9 @@ gui = createInterface();
         OPTIONS.CutOffMarkers = str2double(get(gui.CutOffKinematics, 'String'));
         OPTIONS.CutOffGRF = str2double(get(gui.CutOffForce, 'String'));
         OPTIONS.ForceTreshold = str2double(get(gui.ForceTreshold, 'String'));
-        
-        
-        
+
+
+
         TopFolder = get(gui.EditTopFolder, 'String')
         subfolders = dir(TopFolder)
         char(subfolders(3).name)
@@ -1746,22 +1746,22 @@ gui = createInterface();
         assignin('base', 'Bedingung', BedingungTemp);
         assignin('base', 'BedingungLeg', BedingungLeg);
         assignin('base', 'ueberordner', TopFolder);
-        
+
         whichConditions = get(gui.RLGraphsWhichConditions, 'String');
         if strcmp(whichConditions, ':')
             WC = 1:length(get(gui.ConditionsList, 'String'));
         else
             WC = eval(whichConditions{1});
         end
-        
-        
+
+
         whichSubjects = get(gui.RLGraphsWhichSubjects, 'String');
         if strcmp(whichSubjects, ':')
             WS = 1:length(matfiles);
         else
             WS = eval(whichSubjects{1});
         end
-        
+
         if get(gui.AnalyzedLeg, 'Value') == 1
             Leg = 'R';
         elseif get(gui.AnalyzedLeg, 'Value') == 2
@@ -1772,13 +1772,13 @@ gui = createInterface();
         AngleNamesL = fieldnames(NORMAL.L.ANGLES);
         AngleNamesR = fieldnames(NORMAL.R.ANGLES);
         AxesNames = {'X','Y','Z'}; %{'Y'};
-        
+
         %         assignin('base', 'Leg', Leg);
-        
+
         assignin('base', 'WCLRG', WC);
         assignin('base', 'WSLRG', WS);
         assignin('base', 'CurveType', 'ANGLES');
-        
+
         mkdir([get(gui.RLGraphsFolder, 'String'),'\ANGLES\']);
         options.format = 'html';
         options.outputDir = [get(gui.RLGraphsFolder, 'String'),'\ANGLES\'];
@@ -1788,27 +1788,27 @@ gui = createInterface();
         assignin('base', 'AngleNamesR', AngleNamesR);
         assignin('base', 'AxesNames', AxesNames);
         publish('RLCurves', options);
-        
+
         %                 clearvars -except t ti AngleNames AxesNames
-        
+
         if (gui.ExperimentalSetup == 6) || (gui.ExperimentalSetup == 7)
             MomentNames = fieldnames(NORMAL.(Leg).MOMENTS);
             assignin('base', 'CurveType', 'MOMENTS');
             evalin('base', 'clear AngleNames');
-            
+
             mkdir([get(gui.MeanGraphsFolder, 'String'),'\MOMENTS\']);
             options.format = 'html';
             options.outputDir = [get(gui.MeanGraphsFolder, 'String'),'\MOMENTS\'];
             options.showCode = false;
-            
+
             assignin('base', 'AngleNames', MomentNames);
             assignin('base', 'AxesNames', AxesNames);
             publish('MeanCurves', options);
-            
+
             %                 clearvars -except t ti AngleNames AxesNames
         end
-        
-        
+
+
     end %onRLGraphs
 
     function onSingleGraphsBrowse(~,~)
@@ -1834,7 +1834,7 @@ gui = createInterface();
         [x,y] = size(data.errorlog);
         for i = 1:x
             fprintf(fid, '%s\r\n', data.errorlog{i});
-            
+
         end
         fclose(fid);
     end %onSaveLogFile
@@ -1868,7 +1868,7 @@ gui = createInterface();
                 if ordner(d).isdir
                     Geruest(n_dir).pathnametest = cellstr([char(ueberordner),'\', ordner(d).name, '\']);
                     C3ds = dir([char(Geruest(n_dir).pathnametest),'*.c3d']);
-                    
+
                     for e = 1:size(C3ds,1)
                         Geruest(n_dir).filenametest(e) = cellstr(C3ds(e).name);
                     end
@@ -1876,25 +1876,25 @@ gui = createInterface();
                     clear C3ds
                 end
             end
-            
-            
+
+
             for n_probanden = 1:n_dir-1
-                
+
                 pathname = char(Geruest(n_probanden).pathnametest);
-                
+
                 filename = Geruest(n_probanden).filenametest;
                 n_trials = length(filename);
-                
-                
-                
+
+
+
                 for i = 1:length(filename)
                     fname = [pathname, char(filename(1,i))];
                     MARKERS = getlabeledmarkers_GUI(fname);
                     Mnames = fieldnames(MARKERS);
                     disp(fname)
                     u_strich = findstr(fname, '_');
-                    
-                    
+
+
                     M = c3dserver;
                     openc3d(M,0, fname);
                     start = M.GetVideoFrame(0);
@@ -1905,7 +1905,7 @@ gui = createInterface();
                         Marker_Labels(j+1,i) = cellstr(M.GetParameterValue(index1(i,1),j));
                         for z = 1:length(Mnames)
                             if strmatch(char(Marker_Labels(j+1,i)) ,Mnames(z), 'exact')
-                                
+
                                 for jj = 0:2
                                     Mold(jj+1,:) = cell2mat(M.GetPointDataEx(j,jj,start,ende,'1'));
                                 end
@@ -1920,18 +1920,18 @@ gui = createInterface();
                             end
                         end
                     end
-                    
-                    
-                    
+
+
+
                     nRet = M.SaveFile('',-1);
-                    
+
                     closec3d(M);
                     clear Mold MNew RMString RotMat
                 end
             end
-            
-            
-            
+
+
+
             clear Geruest
         end
     end
@@ -1940,7 +1940,7 @@ gui = createInterface();
 % Starts the main analysis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function onRunModel(~,~)
-        
+
         ALV = get(gui.AnalyzedLeg, 'Value');
         ALC = get(gui.AnalyzedLeg, 'String');
         ALS = char(ALC(ALV));
@@ -1957,8 +1957,8 @@ gui = createInterface();
         data.OPTIONS.CutOffGRF = str2double(get(gui.CutOffForce, 'String'));
         data.OPTIONS.ForceTreshold = str2double(get(gui.ForceTreshold, 'String'));
         assignin('base', 'OPTIONS', data.OPTIONS);
-        
-        
+
+
         mainmodel   % This is the main function for the analysis
     end % onRunModel
 
@@ -1970,12 +1970,13 @@ gui = createInterface();
 % Calling this function starts the analysis of the data provided in the
 % folder structure.
     function mainmodel(~,~)
-        
+
         clc
-        
-        
+
+
         OPTIONS = data.OPTIONS;
         ConditionFolders = dir(OPTIONS.TopFolder);
+        ConditionFolders(find(contains({ConditionFolders.name}, '.mat')==1)) = [];
         whichConditions = get(gui.WhichConditions, 'String');
         % WC is created from the information provided in the Run Model tab
         if strcmp(whichConditions, ':')
@@ -1983,7 +1984,7 @@ gui = createInterface();
         else
             WC = eval(whichConditions{1});
         end
-        
+
         for n_condition = WC  %Main loop trough the different condition folders
             [FRAMEWORK, n_subjects] = get_file_framework([OPTIONS.TopFolder,'\', char(ConditionFolders(n_condition+2).name)]); % The FRAMEWORK variable is constructed for each Condition folder
             % WS is created from the information provided in the Run Model tab
@@ -1993,20 +1994,20 @@ gui = createInterface();
             else
                 WS = eval(whichSubjects{1});
             end
-            
+
             for n_sub = WS %Loop troigh  individual subject folders for the given condition
                 %                 try % By surrounding the entire for loop with a try end statement, the analysis will not stop due to a single error
                 % in the raw data provided. Probems are logged i nthe
                 % error file to understand why a cretain analysis was
                 % interrupted.
-                
+
                 % Set specific folder variables and athropometric information for this Condition - Subject
                 % Combination - they will be deleted at the end of n_sub loop
                 pathname = char(FRAMEWORK(n_sub).pathname);
                 filename = FRAMEWORK(n_sub).filename;
                 anthrofile = [pathname, FRAMEWORK(n_sub).anthro];
                 [OPTIONS.ANTHRO, OPTIONS.mass, OPTIONS.RunningSpeed] = getANTHRO_GUI(anthrofile, 'ZAT1983');
-                
+
                 %% Find the reference trial
                 % try
                 ind_reftrial = get_reftrial(filename, OPTIONS.RefSpecifier);
@@ -2016,29 +2017,41 @@ gui = createInterface();
                 %                         data.errorlog = [data.errorlog; {[pathname,char(filename(ind_reftrial)), ' : Probelems reading or filtering data']}];
                 %                     end
                 %  end
-                
+
                 % Once again to determine MoIs
+                % get bodymass and foot length from csv file and store it
+                % to the csv file
+                % static file
+                static_file_path = [pathname,char(filename(ind_reftrial))];
+                static_file = load (static_file_path);
+                bodymass_from_fp =  nanmean(static_file.Static_POSE_1.Force.Force(end,:))*-1/9.81;
+                footlength_from_static_file = abs((nanmean(REFMARKERS.Filt.calc_back_right.data(1,:))-nanmean(REFMARKERS.Filt.toe_right.data(1,:)))/10);
+                old_antro = csvread(anthrofile);
+                old_antro(2) = bodymass_from_fp;
+                old_antro(3) = footlength_from_static_file;
+                writematrix(old_antro, anthrofile);
                 try
                     [OPTIONS.ANTHRO, OPTIONS.mass, OPTIONS.RunningSpeed] = getANTHRO_GUI(anthrofile, 'ZAT1983', REFFRAME);
                 end
+
                 %% Analysis of dynamic trials
                 runi = 0;
-                
+
                 %                 if mat-files exists
                 %                     startTrial = Zahl aus Mat datei
                 %                 else
                 %                     startTrial = 1
                 %                 end
                 %
-                
-                
+
+
                 for i = 1:length(filename) %loop trough all dynamic trials
-                    
+
                     if isempty(strfind(char(filename(1,i)), OPTIONS.RefSpecifier))
                         runi = runi +1;
                         %% Determine Structname (name to identify individual trials)
                         name = correctumlaut(char(filename(1,i)));
-                        disp(name);
+                        disp([name, ' '] );
                         structname = ['T_', name(1:end-4)];
                         % Reading Analog Data if wanted
                         if get(gui.SaveAnalogData, 'Value')
@@ -2047,11 +2060,11 @@ gui = createInterface();
                         try
                             BELTVELOCITY.(structname).All = getBeltVelocity([pathname, char(filename(1,i))],[-300 1500], [-144 -154], [-634 -644], [-10 10]);
                         end
-                        
+
                         structname = genvarname(structname);
                         % Reading labeled marker trajectories
                         %                         try
-                        [MARKERS.(structname).Raw, LABELS.(structname).Exist, ~, OPTIONS.start, ~, OPTIONS.FreqKinematics, OPTIONS.ftkratio, nframes.(structname)] = getlabeledmarkers_GUI_mat([pathname, char(filename(1,i))]);
+                        [MARKERS.(structname).Raw, LABELS.(structname).Exist, ~, OPTIONS.start, ~, OPTIONS.FreqKinematics, OPTIONS.ftkratio, nframes.(structname)] = getlabeledmarkers_GUI_mat_DYNAMIC([pathname, char(filename(1,i))]);
                         OPTIONS.freqGRF = OPTIONS.FreqKinematics*OPTIONS.ftkratio;
                         % Filtering marker trajectories
                         ExistentMarkers = LABELS.(structname).Exist;
@@ -2142,7 +2155,7 @@ gui = createInterface();
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Missing Left Pelvis Marker']}];
                             end
                         end
-                        
+
                         if OPTIONS.AnalyzedLeg == 'B'
                             %Head
                             try
@@ -2181,7 +2194,7 @@ gui = createInterface();
                             catch
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Missing Left Lowerarm Marker']}];
                             end
-                            
+
                             % Trunk
                             try
                                 OPTI.Trunk = SVDopti(hinten(MARKERS.(structname).Filt.clav.data, MARKERS.(structname).Filt.C_7.data, MARKERS.(structname).Filt.sternum.data), hinten(REFMARKERS.Filt.clav.data, REFMARKERS.Filt.C_7.data, REFMARKERS.Filt.sternum.data));
@@ -2190,19 +2203,19 @@ gui = createInterface();
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Missing Trunk Marker']}];
                             end
                         end
-                        
-                        
-                        
+
+
+
                         % Determining Anatomical reference frames from tracking
                         % markers (technical frames), further calculate angular
                         % velocities and accelerations of the anatomical frames
                         % for each segment
-                        
+
                         % Right leg %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                        
+
                         if OPTIONS.AnalyzedLeg ~= 'L'
                             % Right Forefoot
-                            
+
                             try
                                 [FRAME.(structname).Technical.RightForefoot.O, FRAME.(structname).Technical.RightForefoot.R] = get_technical_frame_GUI(MARKERS.(structname).Opti.toe_right.data, MARKERS.(structname).Opti.forfoot_lat_right.data, MARKERS.(structname).Opti.forfoot_med_right.data);
                                 for g = 1:size(FRAME.(structname).Technical.RightForefoot.R, 3)
@@ -2340,7 +2353,7 @@ gui = createInterface();
                             catch
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Foot Coordinate System']}];
                             end
-                            
+
                             %Left Shank
                             try
                                 [FRAME.(structname).Technical.LeftShank.O, FRAME.(structname).Technical.LeftShank.R] = get_technical_frame_GUI(MARKERS.(structname).Opti.cluster_tibia_left_1.data, MARKERS.(structname).Opti.cluster_tibia_left_2.data, MARKERS.(structname).Opti.cluster_tibia_left_3.data, MARKERS.(structname).Opti.cluster_tibia_left_4.data);
@@ -2387,7 +2400,7 @@ gui = createInterface();
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Pelvis Coordinate System']}];
                             end
                         end
-                        
+
                         if OPTIONS.AnalyzedLeg == 'B'
                             % Head %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                             try
@@ -2450,8 +2463,8 @@ gui = createInterface();
                             catch
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right Hand Coordinate System']}];
                             end
-                            
-                            
+
+
                             % Left Upper Extremity
                             % Left Upper Arm
                             try
@@ -2498,7 +2511,7 @@ gui = createInterface();
                             catch
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Hand Coordinate System']}];
                             end
-                            
+
                             % Trunk
                             try
                                 [FRAME.(structname).Technical.Trunk.O, FRAME.(structname).Technical.Trunk.R] = get_technical_frame_GUI(MARKERS.(structname).Opti.clav.data, MARKERS.(structname).Opti.C_7.data, MARKERS.(structname).Opti.sternum.data);
@@ -2561,7 +2574,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right Ankle Joint Angle']}];
                         end
-                        
+
                         % Right MPT Joint
                         try
                             R.(structname).Right_Rearfoot_to_Forefoot = getR_ref_norm(FRAME.(structname).Anatomical.RightRearfoot.R, FRAME.(structname).Anatomical.RightForefoot.R, REFFRAME.Joint.Right_Rearfoot_to_Forefoot, get(gui.RefToStatic, 'Value'));
@@ -2577,8 +2590,8 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right MPT Joint Angle']}];
                         end
-                        
-                        
+
+
                         % Right Shoulder Joint
                         try
                             R.(structname).Trunk_to_Right_UpperArm = getR_ref_norm(FRAME.(structname).Anatomical.Trunk.R, FRAME.(structname).Anatomical.RightUpperArm.R, REFFRAME.Joint.Trunk_to_RightUpperArm, get(gui.RefToStatic, 'Value'));
@@ -2594,7 +2607,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right Shoulder Joint Angle']}];
                         end
-                        
+
                         % Right Elbow Joint
                         try
                             R.(structname).Right_UpperArm_to_LowerArm = getR_ref_norm(FRAME.(structname).Anatomical.RightUpperArm.R, FRAME.(structname).Anatomical.RightLowerArm.R, REFFRAME.Joint.Right_UpperArm_to_LowerArm, get(gui.RefToStatic, 'Value'));
@@ -2610,7 +2623,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right Elbow Joint Angle']}];
                         end
-                        
+
                         % Right Wrist Joint
                         try
                             R.(structname).Right_LowerArm_to_Hand = getR_ref_norm(FRAME.(structname).Anatomical.RightLowerArm.R, FRAME.(structname).Anatomical.RightHand.R, REFFRAME.Joint.Right_LowerArm_to_Hand, get(gui.RefToStatic, 'Value'));
@@ -2626,7 +2639,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right Wrist Joint Angle']}];
                         end
-                        
+
                         % Left Hip
                         try
                             R.(structname).Left_Hip_to_Thigh = getR_ref_norm(FRAME.(structname).Anatomical.LeftPelvis.R, FRAME.(structname).Anatomical.LeftThigh.R, REFFRAME.Joint.Left_Pelvis_to_Thigh, get(gui.RefToStatic, 'Value'));
@@ -2672,7 +2685,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Ankle Joint Angle']}];
                         end
-                        
+
                         %Left MTP
                         try
                             R.(structname).Left_Rearfoot_to_Forefoot = getR_ref_norm(FRAME.(structname).Anatomical.LeftRearfoot.R, FRAME.(structname).Anatomical.LeftForefoot.R, REFFRAME.Joint.Left_Rearfoot_to_Forefoot, get(gui.RefToStatic, 'Value'));
@@ -2688,7 +2701,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left MTP Joint Angle']}];
                         end
-                        
+
                         % Left Shoulder Joint
                         try
                             R.(structname).Trunk_to_Left_UpperArm = getR_ref_norm(FRAME.(structname).Anatomical.Trunk.R, FRAME.(structname).Anatomical.LeftUpperArm.R, REFFRAME.Joint.Trunk_to_LeftUpperArm, get(gui.RefToStatic, 'Value'));
@@ -2704,7 +2717,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Shoulder Joint Angle']}];
                         end
-                        
+
                         % Left Elbow Joint
                         try
                             R.(structname).Left_UpperArm_to_LowerArm = getR_ref_norm(FRAME.(structname).Anatomical.LeftUpperArm.R, FRAME.(structname).Anatomical.LeftLowerArm.R, REFFRAME.Joint.Left_UpperArm_to_LowerArm, get(gui.RefToStatic, 'Value'));
@@ -2720,7 +2733,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Elbow Joint Angle']}];
                         end
-                        
+
                         % Left Wrist Joint
                         try
                             R.(structname).Left_LowerArm_to_Hand = getR_ref_norm(FRAME.(structname).Anatomical.LeftLowerArm.R, FRAME.(structname).Anatomical.LeftHand.R, REFFRAME.Joint.Left_LowerArm_to_Hand, get(gui.RefToStatic, 'Value'));
@@ -2736,7 +2749,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Left Wrist Joint Angle']}];
                         end
-                        
+
                         % Trunk to Head
                         try
                             R.(structname).Trunk_to_Head = getR_ref_norm(FRAME.(structname).Anatomical.Trunk.R, FRAME.(structname).Anatomical.Head.R, REFFRAME.Joint.Trunk_to_Head, get(gui.RefToStatic, 'Value'));
@@ -2752,7 +2765,7 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right TrunktoHead Joint Angle']}];
                         end
-                        
+
                         % Pelvis to Trunk
                         try
                             R.(structname).Pelvis_to_Trunk = getR_ref_norm(FRAME.(structname).Anatomical.RightPelvis.R, FRAME.(structname).Anatomical.Trunk.R, REFFRAME.Joint.Pelvis_to_Trunk, get(gui.RefToStatic, 'Value'));
@@ -2768,8 +2781,8 @@ gui = createInterface();
                         catch
                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Right PelvistoTrunk Joint Angle']}];
                         end
-                        
-                        
+
+
                         %% Calculate Center of Mass
                         try
                             for h = 1:size(FRAME.(structname).Anatomical.RightForefoot.O,2)
@@ -2782,13 +2795,13 @@ gui = createInterface();
                         catch
                             %                             data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine Center of Mass']}];
                         end
-                        
+
                         %% Read in force data
                         if (OPTIONS.ExperimentalSetup == 6)
-                            
+
                             [FP.(structname).COP, FP.(structname).COP_vid,  FP.(structname).GRFfilt,FP.(structname).GRFfilt_vid, FP.(structname).FM, FP.(structname).ind_baseline] = get_treadmill_GRF_GUI_MoTrack_mat([pathname, char(filename(1,i))], OPTIONS, 1);
-                            
-                            
+
+
                             CONTACT.(structname) = getContactTreadmill_MoTrack(FP.(structname), MARKERS.(structname), OPTIONS);
                             FP.(structname).GRFfilt.Right = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).GRFfilt.Left = zeros(size(FP.(structname).GRFfilt.Both));
@@ -2796,24 +2809,24 @@ gui = createInterface();
                             FP.(structname).COP.Left = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).FM.Right = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).FM.Left = zeros(size(FP.(structname).GRFfilt.Both));
-                            
+
                             for w = 1:size(CONTACT.(structname).EVENTS_R,2)
                                 FP.(structname).GRFfilt.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).GRFfilt.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                                 FP.(structname).COP.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).COP.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                                 FP.(structname).FM.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).FM.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                             end
-                            
+
                             for w = 1:size(CONTACT.(structname).EVENTS_L,2)
                                 FP.(structname).GRFfilt.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).GRFfilt.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                                 FP.(structname).COP.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).COP.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                                 FP.(structname).FM.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).FM.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                             end
                             try
-                    size(FRAME.(structname).Anatomical.LeftFoot.R);
-                    use = 'LeftFoot';
+                                size(FRAME.(structname).Anatomical.LeftFoot.R);
+                                use = 'LeftFoot';
                             catch
-                    size(FRAME.(structname).Anatomical.RightFoot.R);
-                    use = 'RightFoot';
+                                size(FRAME.(structname).Anatomical.RightFoot.R);
+                                use = 'RightFoot';
 
                             end
                             for d = 1:size(FRAME.(structname).Anatomical.(use).R, 3)
@@ -2832,9 +2845,9 @@ gui = createInterface();
                             end
                             a=2;
                             KINETICS.(structname) = InverseDynamik_Hof(FRAME.(structname).Anatomical, OPTIONS, FP.(structname), MARKERS.(structname));
-                            
+
                         end
-                        
+
                         if OPTIONS.ExperimentalSetup == 7
                             %                             try
                             if OPTIONS.AnalyzedLeg == 'R'
@@ -2867,19 +2880,19 @@ gui = createInterface();
                             if OPTIONS.AnalyzedLeg == 'R' || OPTIONS.AnalyzedLeg == 'B'
                                 FP.(structname).GRFfilt.Right(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).Global(:,CONTACT.(structname));
                                 FP.(structname).COP.Right(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).COPglobal(:,CONTACT.(structname));
-%                                 FP.(structname).FM.Right(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).FreeMomentglobal(:,CONTACT.(structname));
+                                %                                 FP.(structname).FM.Right(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).FreeMomentglobal(:,CONTACT.(structname));
                             elseif OPTIONS.AnalyzedLeg == 'L' || OPTIONS.AnalyzedLeg == 'B'
                                 FP.(structname).GRFfilt.Left(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).Global(:,CONTACT.(structname));
                                 FP.(structname).COP.Left(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).COPglobal(:,CONTACT.(structname));
-%                                 FP.(structname).FM.Left(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).FreeMomentglobal(:,CONTACT.(structname));
+                                %                                 FP.(structname).FM.Left(:,CONTACT.(structname)) = FP.(structname).Forceplate.(['Forceplate', num2str(OPTIONS.ForcePlateNumber)]).FreeMomentglobal(:,CONTACT.(structname));
                             end
-                            
+
                             try
                                 letrial = size(FRAME.(structname).Anatomical.RightFoot.R, 3);
                             catch
                                 letrial = size(FRAME.(structname).Anatomical.LeftFoot.R, 3);
                             end
-                            
+
                             for d = 1:letrial
                                 try
                                     MARKERS.(structname).Derived.RightMPJC(:,d) = FRAME.(structname).Anatomical.RightForefoot.O(:,d)  +  FRAME.(structname).Anatomical.RightForefoot.R(:,:,d) * REFMARKERS.Derived.RightMPJCinForefoot;
@@ -2893,15 +2906,15 @@ gui = createInterface();
                                     MARKERS.(structname).Derived.LeftKneeJC(:,d) = FRAME.(structname).Anatomical.LeftThigh.O(:,d)  +  FRAME.(structname).Anatomical.LeftThigh.R(:,:,d) * REFMARKERS.Derived.LeftKneeJCinThigh;
                                     MARKERS.(structname).Derived.LeftHipJC(:,d) = FRAME.(structname).Anatomical.LeftPelvis.O(:,d)  +  FRAME.(structname).Anatomical.LeftPelvis.R(:,:,d) * REFMARKERS.Derived.LeftHipJCinPelvis;
                                 end
-                                
+
                             end
-                            
-                            
+
+
                             KINETICS.(structname) = InverseDynamik_Hof(FRAME.(structname).Anatomical, OPTIONS, FP.(structname), MARKERS.(structname));
-                            
-                            
+
+
                             %                             end
-                            
+
                             %% Calculate joint Power
                             % left MTP joint
                             try
@@ -2952,21 +2965,21 @@ gui = createInterface();
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating right hip joint power']}];
                             end
                         end
-                        
-                        
+
+
                         if (OPTIONS.ExperimentalSetup == 8)
-                            
+
                             [FP.(structname).COP, FP.(structname).COP_vid,  FP.(structname).GRFfilt,FP.(structname).GRFfilt_vid, FP.(structname).FM, FP.(structname).ind_baseline] = get_treadmill_GRF_GUI_Treadmetrix([pathname, char(filename(1,i))], OPTIONS, 1);
-                            
-                            
+
+
                             CONTACT.(structname) = getContactTreadmill_MoTrack(FP.(structname), MARKERS.(structname), OPTIONS);
-                            
+
                             %%
                             %                             BELTVELOCITY.(structname).Corr = BELTVELOCITY.(structname).All;
                             %                             for evv = 1:length(CONTACT.(structname).EVENTSvid)-1
                             %                                 BELTVELOCITY.(structname).Corr(CONTACT.(structname).EVENTSvid(2,evv)+1 : CONTACT.(structname).EVENTSvid(1,evv+1)-1) = BELTVELOCITY.(structname).Corr(CONTACT.(structname).EVENTSvid(2,evv)+1);
                             %                             end
-                            
+
                             %                             figure
                             %                             plot(BELTVELOCITY.(structname).All, 'r');
                             %                             hold on
@@ -2976,29 +2989,29 @@ gui = createInterface();
                             %                                 plot([CONTACT.(structname).EVENTSvid(1,evv) CONTACT.(structname).EVENTSvid(1,evv)], get(gca, 'Ylim'), 'k--')
                             %                                 plot([CONTACT.(structname).EVENTSvid(2,evv) CONTACT.(structname).EVENTSvid(2,evv)], get(gca, 'Ylim'), 'k--')
                             %                             end
-                            
-                            
-                            
-                            
+
+
+
+
                             FP.(structname).GRFfilt.Right = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).GRFfilt.Left = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).COP.Right = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).COP.Left = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).FM.Right = zeros(size(FP.(structname).GRFfilt.Both));
                             FP.(structname).FM.Left = zeros(size(FP.(structname).GRFfilt.Both));
-                            
+
                             for w = 1:size(CONTACT.(structname).EVENTS_R,2)
                                 FP.(structname).GRFfilt.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).GRFfilt.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                                 FP.(structname).COP.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).COP.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                                 FP.(structname).FM.Right(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w)) = FP.(structname).FM.Both(:,CONTACT.(structname).EVENTS_R(1,w):CONTACT.(structname).EVENTS_R(2,w));
                             end
-                            
+
                             for w = 1:size(CONTACT.(structname).EVENTS_L,2)
                                 FP.(structname).GRFfilt.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).GRFfilt.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                                 FP.(structname).COP.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).COP.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                                 FP.(structname).FM.Left(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w)) = FP.(structname).FM.Both(:,CONTACT.(structname).EVENTS_L(1,w):CONTACT.(structname).EVENTS_L(2,w));
                             end
-                            
+
                             for d = 1:size(FRAME.(structname).Anatomical.RightFoot.R, 3)
                                 try
                                     MARKERS.(structname).Derived.RightMPJC(:,d) = FRAME.(structname).Anatomical.RightForefoot.O(:,d)  +  FRAME.(structname).Anatomical.RightForefoot.R(:,:,d) * REFMARKERS.Derived.RightMPJCinForefoot;
@@ -3022,9 +3035,9 @@ gui = createInterface();
                                     MARKERS.(structname).Derived.NeckJC(:,d) = FRAME.(structname).Anatomical.Trunk.O(:,d)  +  FRAME.(structname).Anatomical.Trunk.R(:,:,d) * REFMARKERS.Derived.NeckJCinTrunk;
                                 end
                             end
-                            
+
                             [KINETICS.(structname), IGlobal.(structname)] = InverseDynamik_Hof(FRAME.(structname).Anatomical, OPTIONS, FP.(structname), MARKERS.(structname));
-                            
+
                             %% Calculate joint Power
                             % left MTP joint
                             try
@@ -3074,58 +3087,58 @@ gui = createInterface();
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating right hip joint power']}];
                             end
-                            
+
                             % right shoulder joint
                             try
                                 KINETICS.(structname).RightShoulderJointPower = KINETICS.(structname).RightShoulderMomentInProximal.*fit_n(JOINT.(structname).Right_Shoulder.AngV, length(KINETICS.(structname).RightShoulderMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating right shoulder joint power']}];
                             end
-                            
+
                             % right elbow joint
                             try
                                 KINETICS.(structname).RightElbowJointPower = KINETICS.(structname).RightElbowMomentInProximal.*fit_n(JOINT.(structname).Right_Elbow.AngV, length(KINETICS.(structname).RightElbowMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating right elbow joint power']}];
                             end
-                            
+
                             % right wrist joint
                             try
                                 KINETICS.(structname).RightWristJointPower = KINETICS.(structname).RightWristMomentInProximal.*fit_n(JOINT.(structname).Right_Wrist.AngV, length(KINETICS.(structname).RightWristMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating right wrist joint power']}];
                             end
-                            
-                            
+
+
                             % left shoulder joint
                             try
                                 KINETICS.(structname).LeftShoulderJointPower = KINETICS.(structname).LeftShoulderMomentInProximal.*fit_n(JOINT.(structname).Left_Shoulder.AngV, length(KINETICS.(structname).LeftShoulderMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating left shoulder joint power']}];
                             end
-                            
+
                             % left elbow joint
                             try
                                 KINETICS.(structname).LeftElbowJointPower = KINETICS.(structname).LeftElbowMomentInProximal.*fit_n(JOINT.(structname).Left_Elbow.AngV, length(KINETICS.(structname).LeftElbowMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating left elbow joint power']}];
                             end
-                            
+
                             % left wrist joint
                             try
                                 KINETICS.(structname).LeftWristJointPower = KINETICS.(structname).LeftWristMomentInProximal.*fit_n(JOINT.(structname).Left_Wrist.AngV, length(KINETICS.(structname).LeftWristMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating left wrist joint power']}];
                             end
-                            
-                            
+
+
                             % neck joint
                             try
                                 KINETICS.(structname).NeckJointPower = KINETICS.(structname).NeckMomentInProximal.*fit_n(JOINT.(structname).TrunktoHead.AngV, length(KINETICS.(structname).NeckMomentInProximal));
                             catch
                                 data.errorlog = [data.errorlog; {[structname, ' : Problems calculating neck joint power']}];
                             end
-                            
+
                             try
                                 ENERGY.(structname).Potential.CoM = MARKERS.(structname).Calc.CoM_MALE(3,:).*OPTIONS.mass.*9.81./1000; %/1000 wg mm zu m
                                 ENERGY.(structname).Potential.RightFoot = FRAME.(structname).Anatomical.RightFoot.O(3,:).*OPTIONS.ANTHRO.SegmentMass.Foot.*9.81./1000;
@@ -3142,11 +3155,11 @@ gui = createInterface();
                                 ENERGY.(structname).Potential.LeftHand = FRAME.(structname).Anatomical.LeftHand.O(3,:).*OPTIONS.ANTHRO.SegmentMass.Hand.*9.81./1000;
                                 ENERGY.(structname).Potential.Trunk = FRAME.(structname).Anatomical.Trunk.O(3,:).*OPTIONS.ANTHRO.SegmentMass.Trunk.*9.81./1000;
                                 ENERGY.(structname).Potential.Head = FRAME.(structname).Anatomical.Head.O(3,:).*OPTIONS.ANTHRO.SegmentMass.Head.*9.81./1000;
-                                
+
                                 CorrMat = zeros(3,length(FRAME.(structname).Anatomical.RightFoot.O));
                                 CorrMat(1,1:length(BELTVELOCITY.(structname).All)) = BELTVELOCITY.(structname).All;
                                 CorrMat(1,length(BELTVELOCITY.(structname).All):end) = BELTVELOCITY.(structname).All(end);
-                                
+
                                 ENERGY.(structname).Kinetic.CoM = 0.5.*OPTIONS.mass.*(MARKERS.(structname).Calc.VCoM_MALE + CorrMat).^2;
                                 ENERGY.(structname).Kinetic.RightFoot = 0.5.*OPTIONS.ANTHRO.SegmentMass.Foot.*(FRAME.(structname).Anatomical.RightFoot.LinV + CorrMat).^2;
                                 ENERGY.(structname).Kinetic.LeftFoot = 0.5.*OPTIONS.ANTHRO.SegmentMass.Foot.*(FRAME.(structname).Anatomical.LeftFoot.LinV + CorrMat).^2;
@@ -3164,7 +3177,7 @@ gui = createInterface();
                                 ENERGY.(structname).Kinetic.Trunk = 0.5.*OPTIONS.ANTHRO.SegmentMass.Trunk.*(FRAME.(structname).Anatomical.Trunk.LinV + CorrMat).^2;
                                 IndShort = 1:OPTIONS.ftkratio:size(IGlobal.(structname).RightFoot,3);
                                 for iii = 1:length(IndShort)
-                                    
+
                                     ENERGY.(structname).Rotational.Trunk(1,iii) = 0.5.*FRAME.(structname).Anatomical.Trunk.V(:,iii)'*IGlobal.(structname).Trunk(:,:,IndShort(iii))*FRAME.(structname).Anatomical.Trunk.V(:,iii);
                                     ENERGY.(structname).Rotational.Head(1,iii) = 0.5.*FRAME.(structname).Anatomical.Head.V(:,iii)'*IGlobal.(structname).Head(:,:,IndShort(iii))*FRAME.(structname).Anatomical.Head.V(:,iii);
                                     ENERGY.(structname).Rotational.RightUpperArm(1,iii) = 0.5.*FRAME.(structname).Anatomical.RightUpperArm.V(:,iii)'*IGlobal.(structname).RightUpperArm(:,:,IndShort(iii))*FRAME.(structname).Anatomical.RightUpperArm.V(:,iii);
@@ -3173,7 +3186,7 @@ gui = createInterface();
                                     ENERGY.(structname).Rotational.RightThigh(1,iii) = 0.5.*FRAME.(structname).Anatomical.RightThigh.V(:,iii)'*IGlobal.(structname).RightThigh(:,:,IndShort(iii))*FRAME.(structname).Anatomical.RightThigh.V(:,iii);
                                     ENERGY.(structname).Rotational.RightShank(1,iii) = 0.5.*FRAME.(structname).Anatomical.RightShank.V(:,iii)'*IGlobal.(structname).RightShank(:,:,IndShort(iii))*FRAME.(structname).Anatomical.RightShank.V(:,iii);
                                     ENERGY.(structname).Rotational.RightFoot(1,iii) = 0.5.*FRAME.(structname).Anatomical.RightFoot.V(:,iii)'*IGlobal.(structname).RightFoot(:,:,IndShort(iii))*FRAME.(structname).Anatomical.RightFoot.V(:,iii);
-                                    
+
                                     ENERGY.(structname).Rotational.LeftUpperArm(1,iii) = 0.5.*FRAME.(structname).Anatomical.LeftUpperArm.V(:,iii)'*IGlobal.(structname).LeftUpperArm(:,:,IndShort(iii))*FRAME.(structname).Anatomical.LeftUpperArm.V(:,iii);
                                     ENERGY.(structname).Rotational.LeftLowerArm(1,iii) = 0.5.*FRAME.(structname).Anatomical.LeftLowerArm.V(:,iii)'*IGlobal.(structname).LeftLowerArm(:,:,IndShort(iii))*FRAME.(structname).Anatomical.LeftLowerArm.V(:,iii);
                                     ENERGY.(structname).Rotational.LeftHand(1,iii) = 0.5.*FRAME.(structname).Anatomical.LeftHand.V(:,iii)'*IGlobal.(structname).LeftHand(:,:,IndShort(iii))*FRAME.(structname).Anatomical.LeftHand.V(:,iii);
@@ -3183,8 +3196,8 @@ gui = createInterface();
                                 end
                             end
                         end
-                        
-                        
+
+
                         %COM
                         try
                             COM.X.(structname) = MARKERS.(structname).Calc.CoM_MALE(1,:)/1000; %/1000 wg mm zu m
@@ -3197,9 +3210,9 @@ gui = createInterface();
                         catch
                             alf = 2;
                         end
-                        
-                        
-                        
+
+
+
                         try
                             assignin('base', 'gui', gui);
                             assignin('base', 'KINETICS', KINETICS);
@@ -3207,7 +3220,7 @@ gui = createInterface();
                         end
                         %Determine contact phases (see Fellin et al.
                         %2010)
-                        
+
                         ConditionsVector = get(gui.ConditionsList, 'String');
                         % Determine TD and Toe Off Events for the Right
                         % Leg
@@ -3255,7 +3268,7 @@ gui = createInterface();
                                 end
                             end
                         end
-                        
+
                         if OPTIONS.ExperimentalSetup == 4
                             if (get(gui.AnalyzedLeg, 'Value') == 1)  ||  (get(gui.AnalyzedLeg, 'Value') == 3)
                                 try
@@ -3276,7 +3289,7 @@ gui = createInterface();
                                             TDR_EMG.(structname) = TDR_Analog.(structname)+round(0.016*OPTIONS.freqGRF);
                                         end
                                     end
-                                    
+
                                     TOR.(structname) = length(WINKEL.(structname).JOINT.Classic.Right_Knee.grad.Y);
                                     TOR_Analog.(structname) = TOR.(structname).*OPTIONS.ftkratio-(OPTIONS.ftkratio-1);
                                     TOR_EMG.(structname) = TOR_Analog.(structname)+round(0.016*2000);
@@ -3333,8 +3346,8 @@ gui = createInterface();
                                 end
                             end
                         end
-                        
-                        
+
+
                         if OPTIONS.ExperimentalSetup == 5
                             if (get(gui.AnalyzedLeg, 'Value') == 1)  ||  (get(gui.AnalyzedLeg, 'Value') == 3)
                                 try
@@ -3348,7 +3361,7 @@ gui = createInterface();
                                             TDR_EMG.(structname)(runrtd) = TDR_Analog.(structname)(runrtd)+round(0.016*2000);
                                         end
                                     end
-                                    
+
                                     runrto = 0;
                                     for ka = TDR.(structname)(1):length(VHEEL)-10
                                         if  (VHEEL(ka-1) < 0) &&   (sum(VHEEL(ka:ka+9) > 0) == 10)
@@ -3375,7 +3388,7 @@ gui = createInterface();
                                             TDL_EMG.(structname)(runltd) = TDL_Analog.(structname)(runltd)+round(0.016*2000);
                                         end
                                     end
-                                    
+
                                     runlto = 0;
                                     for ka = TDL.(structname)(1):length(VHEEL)-10
                                         if  (VHEEL(ka-1) < 0) &&   (sum(VHEEL(ka:ka+9) > 0) == 10)
@@ -3391,25 +3404,25 @@ gui = createInterface();
                                 end
                             end
                         end
-                        
-                        
-                        
-                        
+
+
+
+
                         if OPTIONS.ExperimentalSetup == 9
-                            
+
                             %                                 try
                             EV = loadevents([pathname, filename{i}]);
                             runrtd = 0;
                             runrto = 0;
                             runltd = 0;
                             runlto = 0;
-                            
+
                             for ka = 1:length(EV.Labels)
                                 if  (strcmp(EV.Labels{ka}, 'Event'))
                                     IsGeneral(ka) = 1;
                                 end
                             end
-                            
+
                             if sum(IsGeneral) == length(EV.Labels)
                                 for ka = 1:length(EV.Labels)
                                     if mod(ka, 2) ~= 0
@@ -3423,7 +3436,7 @@ gui = createInterface();
                                     end
                                 end
                             else
-                                
+
                                 for ka = 1:length(EV.Labels)
                                     if  (strcmp(EV.Labels{ka}, 'Foot Strike') && strcmp(EV.Contexts{ka}, 'Right')) || (strcmp(EV.Labels{ka}, 'Start'))
                                         runrtd = runrtd+1;
@@ -3446,10 +3459,10 @@ gui = createInterface();
                                         TOL_Analog.(structname)(runrto) = TOL.(structname)(runlto).*OPTIONS.ftkratio-(OPTIONS.ftkratio-1);
                                         %                                             TOR_EMG.(structname)(runrto) = TOR_Analog.(structname)(runrto)+round(0.016*2000);
                                     end
-                                    
-                                    
+
+
                                 end
-                                
+
                                 if (strcmp(EV.Labels{1}, 'Start'))
                                     TDL.(structname) = TDR.(structname);
                                     TDL_Analog.(structname) = TDR_Analog.(structname);
@@ -3459,7 +3472,7 @@ gui = createInterface();
                             end
                         end
                         if OPTIONS.ExperimentalSetup == 10
-                            
+
                             try
                                 xmlfile = dir([pathname, '*.xml']);
                                 Fzebris = readinzebrisforce([pathname,xmlfile(1).name]);
@@ -3485,7 +3498,7 @@ gui = createInterface();
                                             end
                                         end
                                     end
-                                    
+
                                 end
                                 if KW(1) < KW(2)
                                     TDR.(structname) = poi(1:2:end);
@@ -3498,21 +3511,21 @@ gui = createInterface();
                                     TDL.(structname) = poi(1:2:end);
                                     TOL.(structname) = poi2(1:2:end);
                                 end
-                                
+
                                 TDR_Analog.(structname) = TDR.(structname).*OPTIONS.ftkratio-(OPTIONS.ftkratio-1);
                                 TDR_EMG.(structname) = TDR_Analog.(structname)+round(0.016*OPTIONS.freqGRF);
                                 TOR_Analog.(structname) = TOR.(structname).*OPTIONS.ftkratio-(OPTIONS.ftkratio-1);
                                 TOR_EMG.(structname) = TOR_Analog.(structname)+round(0.016*OPTIONS.freqGRF);
-                                
-                                
+
+
                             catch
                                 runi = runi - 1;
                                 data.errorlog = [data.errorlog; {[pathname, filename{1,i}, ' : Could not determine right leg TD and TO events']}];
                             end
-                            
+
                         end
-                        
-                        
+
+
                         % Write normalized Data in NORMAL struct
                         if OPTIONS.ExperimentalSetup == 9
                             if OPTIONS.AnalyzedLeg == 'B'
@@ -3572,50 +3585,65 @@ gui = createInterface();
                                 ContactR.(structname).data = 1:nframes.(structname);
                                 ContactL.(structname).data = 1:nframes.(structname);
                             end
-                            try
-                                NORMAL.HEADER(1,ns+(runi-1)*numsteps) = filename(1,i);
+                            % try
+                            NORMAL.HEADER(1,ns+(runi-1)*numsteps) = {[erase(filename{1,i}, '.mat'), '_step_',num2str(ns)]}; %filename(1,i);
+                            % end
+                            markernames_labels = fieldnames(MARKERS.(structname).Derived);
+                            for ml = 1 : length (markernames_labels)
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(1,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(2,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(3,ContactR.(structname).data), 0.5)';
                             end
+
+                            markernames_labels = fieldnames(MARKERS.(structname).Opti);
+                            for ml = 1 : length (markernames_labels)
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(1,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(2,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(3,ContactR.(structname).data), 0.5)';
+                            end
+
+
                             try
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.X(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.Y(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.Z(ContactR.(structname).data), 0.5)';
-                                
+
                                 NORMAL.R.ANGU_VEL.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Ankle.AngV(1,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Ankle.AngV(2,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_ANKLE.Z(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Ankle.AngV(3,(ContactR.(structname).data))* 180/pi ,0.5);
-                                
+
                             end
                             try
                                 NORMAL.R.ANGLES.RIGHT_KNEE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Knee.grad.X(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_KNEE.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Knee.grad.Y(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_KNEE.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Knee.grad.Z(ContactR.(structname).data), 0.5)';
-                                
+
                                 NORMAL.R.ANGU_VEL.RIGHT_KNEE.X(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Knee.AngV(1,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_KNEE.Y(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Knee.AngV(2,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_KNEE.Z(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Knee.AngV(3,(ContactR.(structname).data))* 180/pi ,0.5);
-                                
-                                
+
+
                             end
                             try
                                 NORMAL.R.ANGLES.RIGHT_HIP.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Hip.grad.X(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_HIP.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Hip.grad.Y(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_HIP.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Hip.grad.Z(ContactR.(structname).data), 0.5)';
-                                
+
                                 NORMAL.R.ANGU_VEL.RIGHT_HIP.X(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Hip.AngV(1,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_HIP.Y(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Hip.AngV(2,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_HIP.Z(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_Hip.AngV(3,(ContactR.(structname).data))* 180/pi ,0.5);
-                                
-                                
+
+
                             end
                             try
                                 NORMAL.R.ANGLES.RIGHT_MPJ.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_MPJ.grad.X(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_MPJ.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_MPJ.grad.Y(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_MPJ.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_MPJ.grad.Z(ContactR.(structname).data), 0.5)';
-                                
+
                                 NORMAL.R.ANGU_VEL.RIGHT_MPJ.X(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_MPJ.AngV(1,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_MPJ.Y(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_MPJ.AngV(2,(ContactR.(structname).data))* 180/pi ,0.5);
                                 NORMAL.R.ANGU_VEL.RIGHT_MPJ.Z(:,ns+(runi-1)*numsteps) = normalize (JOINT.(structname).Right_MPJ.AngV(3,(ContactR.(structname).data))* 180/pi ,0.5);
-                                
+
                             end
                             try
                                 NORMAL.R.ANGLES.RIGHT_SHOULDER.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Shoulder.grad.X(ContactR.(structname).data), 0.5)';
@@ -3687,10 +3715,10 @@ gui = createInterface();
                                 NORMAL.R.ANGLES.RIGHT_HAND.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).SEGMENT.Classic.Right_Hand.grad.Y(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_HAND.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).SEGMENT.Classic.Right_Hand.grad.Z(ContactR.(structname).data), 0.5)';
                             end
-                            
-                            
-                            
-                            
+
+
+
+
                             try
                                 NORMAL.R.MOMENTS.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightAnkleMomentInProximal(1,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.R.MOMENTS.RIGHT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightAnkleMomentInProximal(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
@@ -3711,7 +3739,7 @@ gui = createInterface();
                                 NORMAL.R.MOMENTS.RIGHT_MPJ.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightMPJMomentInProximal(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.R.MOMENTS.RIGHT_MPJ.Z(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightMPJMomentInProximal(3,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                             end
-                            
+
                             try
                                 NORMAL.R.POWER.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightAnkleJointPower(1,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.R.POWER.RIGHT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).RightAnkleJointPower(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
@@ -3741,21 +3769,25 @@ gui = createInterface();
                                 NORMAL.L.FM.DATA.X(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(1,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.FM.DATA.Y(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.FM.DATA.Z(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(3,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
-                                
+
                             end
-                            
-                            
+                            a = 2;
+
+
                             if (OPTIONS.ExperimentalSetup == 6) || (OPTIONS.ExperimentalSetup == 7)  ||  (OPTIONS.ExperimentalSetup == 8)
                                 try
                                     NORMAL.R.GRF.DATA.X(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(1,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                     NORMAL.R.GRF.DATA.Y(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                     NORMAL.R.GRF.DATA.Z(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(3,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
+                                    NORMAL.R.COP.DATA.X(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(1,ContactR_analog.(structname).data), 0.5)';
+                                    NORMAL.R.COP.DATA.Y(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(2,ContactR_analog.(structname).data), 0.5)';
+                                    NORMAL.R.COP.DATA.Z(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(3,ContactR_analog.(structname).data), 0.5)';
                                 end
                             end
-                            
-                            
-                            
-                            
+
+
+
+
                             % Left
                             try
                                 NORMAL.L.ANGLES.LEFT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.X(ContactL.(structname).data), 0.5)';
@@ -3847,7 +3879,7 @@ gui = createInterface();
                                 NORMAL.L.ANGLES.LEFT_HAND.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).SEGMENT.Classic.Left_Hand.grad.Y(ContactL.(structname).data), 0.5)';
                                 NORMAL.L.ANGLES.LEFT_HAND.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).SEGMENT.Classic.Left_Hand.grad.Z(ContactL.(structname).data), 0.5)';
                             end
-                            
+
                             try
                                 NORMAL.L.MOMENTS.LEFT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftAnkleMomentInProximal(1,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.MOMENTS.LEFT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftAnkleMomentInProximal(2,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
@@ -3868,7 +3900,7 @@ gui = createInterface();
                                 NORMAL.L.MOMENTS.LEFT_MPJ.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftMPJMomentInProximal(2,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.MOMENTS.LEFT_MPJ.Z(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftMPJMomentInProximal(3,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                             end
-                            
+
                             try
                                 NORMAL.L.POWER.LEFT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftAnkleJointPower(1,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.POWER.LEFT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftAnkleJointPower(2,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
@@ -3889,17 +3921,17 @@ gui = createInterface();
                                 NORMAL.L.POWER.LEFT_MPJ.Y(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftMPJointPower(2,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.POWER.LEFT_MPJ.Z(:,ns+(runi-1)*numsteps) = normalize(KINETICS.(structname).LeftMPJointPower(3,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                             end
-                            
+
                             try
                                 NORMAL.L.FM.DATA.X(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(1,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.FM.DATA.Y(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(2,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                 NORMAL.L.FM.DATA.Z(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(3,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
                             catch
-                                
+
                                 aaa= 2;
                             end
-                            
-                            
+
+
                             if (OPTIONS.ExperimentalSetup == 6) || (OPTIONS.ExperimentalSetup == 7) || (OPTIONS.ExperimentalSetup == 8)
                                 try
                                     NORMAL.L.GRF.DATA.X(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Left(1,ContactL_analog.(structname).data)./OPTIONS.mass, 0.5)';
@@ -3923,7 +3955,7 @@ gui = createInterface();
                                     CONTACT.L.(structname){ns} = ContactL.(structname).data;
                                 end
                             end
-                            
+
                         end
                         if (OPTIONS.ExperimentalSetup == 10)  ||  (OPTIONS.ExperimentalSetup == 9) ||  (OPTIONS.ExperimentalSetup == 3)
                             try
@@ -3940,7 +3972,7 @@ gui = createInterface();
                                 PARAMETERS.L = get_parameters_from_NORMAL(NORMAL.L, 'L', CONTACT, OPTIONS);
                             end
                         end
-                        
+
                         %hier muss ich dann speichern
                     end %Comparison to ref specifier
                 end %loop through individual c3d files i
@@ -3966,16 +3998,16 @@ gui = createInterface();
                                 'REFFRAME', 'REFMARKERS', 'PARAMETERS',  'R', 'NORMAL','JOINT', 'LABELS', 'CONTACT');%, 'ENERGY','BELTVELOCITY');
                             %%'PARAMETERS' Patrick Mai TODO
                             %%%%%%%  save([spath, sname, '.mat'],'COM_pm','-append')
-                            
+
                         elseif (OPTIONS.ExperimentalSetup == 1)
                             save([spath, sname, '.mat'], 'OPTIONS', 'pathname', 'WINKEL', 'MARKERS', 'FRAME',...
                                 'REFFRAME', 'REFMARKERS',   'R', 'NORMAL','JOINT', 'LABELS');
                         else
-                            
+
                             save([spath, sname, '.mat'], 'OPTIONS', 'pathname', 'WINKEL', 'MARKERS', 'FRAME',...
                                 'REFFRAME', 'REFMARKERS',   'R', 'NORMAL','JOINT', 'LABELS', 'PARAMETERS', 'CONTACT');
-                            
-                            
+
+
                         end
                     end
                 catch
@@ -3983,16 +4015,16 @@ gui = createInterface();
                 end
                 clearvars -except  data gui ConditionFolders FRAMEWORK OPTIONS  REFFRAME REFMARKERS  pathname filename n_subjects kinetics
             end
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
         end
-        
+
         disp ('done')
     end %mainmodel
 
@@ -4005,19 +4037,19 @@ gui = createInterface();
         %you to start data analysis by one click and afterwords the model takes the
         %data by itself, if the data is arranged in the correct way inside the
         %folder structure (framework)
-        
-        
+
+
         folders = dir(top_folder);
         n_dir = 1;
         size_framework = size(folders,1) - 2;
-        
+
         for d = 3:size_framework+2
             if folders(d).isdir
                 FRAMEWORK(n_dir).pathname = cellstr([char(top_folder),'\', folders(d).name, '\']);  %#ok<AGROW>
                 C3ds = dir([char(FRAMEWORK(n_dir).pathname),'*.mat']);
                 C3ds = C3ds(arrayfun(@(x) ~strcmp(x.name(1),'.'),C3ds));
                 try
-                    
+
                     CSVs = dir([char(FRAMEWORK(n_dir).pathname),'*.csv']);
                     CSVs = CSVs(arrayfun(@(x) ~strcmp(x.name(1),'.'),CSVs));
                     if ~isempty(CSVs)
@@ -4046,21 +4078,21 @@ gui = createInterface();
         % using the MoTrack GUI.
         if (nargin == 2 && sum(strfind(method, 'ZAT1983')))  ||  (nargin == 3)
             try
-            A_MEASURES = csvread(anthrofile);
+                A_MEASURES = csvread(anthrofile);
             catch
-            A_MEASURES = xlsread(anthrofile);
+                A_MEASURES = xlsread(anthrofile);
 
             end
             X1 = A_MEASURES(2);  % body mass in kg
             mass = X1;
             X2 = A_MEASURES(1);  % body height in cm
-            
+
             ANTHRO.FootLength = A_MEASURES(3)*10; % foot length in mm
-            
+
             ANTHRO.Mass = X1; %in kg
             ANTHRO.Height = X2/100; % in m
-            
-            
+
+
             ANTHRO.SegmentMass.Foot_old = (-0.829 + 0.0077*X1 + 0.0073*X2) ;
             ANTHRO.SegmentMass.Foot = X1*0.0137;
             ANTHRO.SegmentMass.Shank_old = (-1.592 + 0.0362*X1 + 0.0121*X2);
@@ -4072,7 +4104,7 @@ gui = createInterface();
             ANTHRO.SegmentMass.UpperArm = X1*0.0271;
             ANTHRO.SegmentMass.LowerArm = X1*0.0162;
             ANTHRO.SegmentMass.Hand = X1*0.0061;
-            
+
             if nargin == 3
                 ANTHRO.MoI.Foot.X_old = (-15.48 + 0.144*X1 + 0.088*X2) / 100^2;   %/100 due to conversion from kg*cm^2  auf kg*m^2
                 try
@@ -4110,7 +4142,7 @@ gui = createInterface();
                 catch
                     ANTHRO.MoI.Shank.Z = ANTHRO.SegmentMass.Shank * (REFFRAME.Anatomical.LeftShank.Length*0.102)^2;
                 end
-                
+
                 ANTHRO.MoI.Thigh.X_old = (-3557 + 31.7*X1 + 18.61*X2) / 100^2;
                 try
                     ANTHRO.MoI.Thigh.X = ANTHRO.SegmentMass.Thigh * (REFFRAME.Anatomical.RightThigh.Length*0.329)^2;
@@ -4156,7 +4188,7 @@ gui = createInterface();
                 end
             end
         end
-        
+
         if size(A_MEASURES, 1) > 3
             RunningSpeed = A_MEASURES(4);
         else
@@ -4170,9 +4202,9 @@ gui = createInterface();
     function ind_reftrial = get_reftrial(filename, ref_identifier)
         % finds the index of the reftrial that includes the reference identifier
         % specified in the OPTIONS struct
-        
+
         n_trials = length(filename);
-        
+
         for h = 1:n_trials
             if n_trials == 1
                 filename = cellstr(filename);
@@ -4180,7 +4212,7 @@ gui = createInterface();
             if strfind(char(filename(1,h)), ref_identifier) > 0
                 ind_reftrial = h;
                 disp(['Referenzdatei Stand ist: ',char(filename(1,h))]);
-%                 disp
+                %                 disp
             end
         end
     end %ind_reftrial
@@ -4190,10 +4222,10 @@ gui = createInterface();
     function [REFFRAME, MARKERS, WEIGHT] = get_refinfo_GUI(ref_file, OPTIONS)
         % Function to extract the neccesary information from a static
         % reference trial.
-        
+
         % Get Marker information
         % get marker trajectories and further information from the c3d file
-        
+
         try
             [MARKERS.Raw, LABELS.Exist, ~, ~, ~, OPTIONS.FreqKinematics, OPTIONS.ftkratio] = getlabeledmarkers_GUI_mat(ref_file);
             alf = 2;
@@ -4206,18 +4238,18 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems reading in marker data']}];
         end
-        
-        
+
+
         %% Determine subjects wheight
-        
-        
+
+
         WEIGHT = OPTIONS.mass*9.81;
-        
-        
+
+
         %% Determine Technical and Anatomical Reference Frames for each Segment
-        
+
         % Right leg %%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+
         % Right forefoot
         try
             [FRAME.Technical.RightForefoot.O, FRAME.Technical.RightForefoot.R] = get_technical_frame_GUI(MARKERS.Filt.toe_right.data, MARKERS.Filt.forfoot_lat_right.data, MARKERS.Filt.forfoot_med_right.data);
@@ -4231,7 +4263,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Forefoot Segment in Static Reference']}];
         end
-        
+
         % Right rearfoot
         try
             [FRAME.Technical.RightRearfoot.O, FRAME.Technical.RightRearfoot.R] = get_technical_frame_GUI(MARKERS.Filt.calc_back_right.data, MARKERS.Filt.calc_med_right.data, MARKERS.Filt.calc_lat_right.data);
@@ -4245,7 +4277,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Rearfoot Segment in Static Reference']}];
         end
-        
+
         % Right foot
         try
             [FRAME.Technical.RightFoot.O, FRAME.Technical.RightFoot.R] = get_technical_frame_GUI(MARKERS.Filt.calc_back_right.data, MARKERS.Filt.forfoot_lat_right.data, MARKERS.Filt.forfoot_med_right.data);
@@ -4259,7 +4291,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Foot Segment in Static Reference']}];
         end
-        
+
         % Right shank
         try
             [FRAME.Technical.RightShank.O, FRAME.Technical.RightShank.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_tibia_right_1.data, MARKERS.Filt.cluster_tibia_right_2.data, MARKERS.Filt.cluster_tibia_right_3.data, MARKERS.Filt.cluster_tibia_right_4.data);
@@ -4273,7 +4305,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Shank Segment in Static Reference']}];
         end
-        
+
         % Right pelvis
         try
             [FRAME.Technical.RightPelvis.O, FRAME.Technical.RightPelvis.R] = get_technical_frame_GUI(MARKERS.Filt.SIAS_right.data, MARKERS.Filt.SIAS_left.data, MARKERS.Filt.SIPS_right.data, MARKERS.Filt.SIPS_left.data);
@@ -4288,9 +4320,9 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Pelvis Segment in Static Reference']}];
         end
-        
+
         % Right thigh
-       try
+        try
             [FRAME.Technical.RightThigh.O, FRAME.Technical.RightThigh.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_femur_right_1.data, MARKERS.Filt.cluster_femur_right_2.data, MARKERS.Filt.cluster_femur_right_3.data, MARKERS.Filt.cluster_femur_right_4.data);
             [FRAME.Anatomical.RightThigh.O, FRAME.Anatomical.RightThigh.R, FRAME.Anatomical.RightThigh.Length] = getanaframe_GUI(MARKERS.Filt, OPTIONS, 'RightThigh_regular');
             for u = 1:size(FRAME.Technical.RightThigh.R, 3)
@@ -4299,10 +4331,10 @@ gui = createInterface();
             end
             REFFRAME.Technical_to_Anatomical.RightThigh.R = Rmean(FRAME.Technical_to_Anatomical.RightThigh.R);
             REFFRAME.Technical_to_Anatomical.RightThigh.O = Vmean(FRAME.Technical_to_Anatomical.RightThigh.O);
-         catch
-%             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Thigh Segment in Static Reference']}];
-         end
-        
+        catch
+            %             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Thigh Segment in Static Reference']}];
+        end
+
         % Right Upper Extremity
         try
             [FRAME.Technical.RightUpperArm.O, FRAME.Technical.RightUpperArm.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_upperarm_right_1.data, MARKERS.Filt.cluster_upperarm_right_2.data, MARKERS.Filt.cluster_upperarm_right_3.data);
@@ -4316,9 +4348,9 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file,  ' : Problems constructing Right UpperArm Segment in Static Reference']}];
         end
-        
+
         % Left leg %%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+
         % Left forefoot
         try
             [FRAME.Technical.LeftForefoot.O, FRAME.Technical.LeftForefoot.R] = get_technical_frame_GUI(MARKERS.Filt.toe_left.data, MARKERS.Filt.forefoot_lat_left.data, MARKERS.Filt.forefoot_med_left.data);
@@ -4332,7 +4364,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Forefoot Segment in Static Reference']}];
         end
-        
+
         % Left rearfoot
         try
             [FRAME.Technical.LeftRearfoot.O, FRAME.Technical.LeftRearfoot.R] = get_technical_frame_GUI(MARKERS.Filt.calc_back_left.data, MARKERS.Filt.calc_med_left.data, MARKERS.Filt.calc_lat_left.data);
@@ -4346,7 +4378,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Rearfoot Segment in Static Reference']}];
         end
-        
+
         % Left foot
         try
             [FRAME.Technical.LeftFoot.O, FRAME.Technical.LeftFoot.R] = get_technical_frame_GUI(MARKERS.Filt.calc_back_left.data, MARKERS.Filt.forefoot_lat_left.data, MARKERS.Filt.forefoot_med_left.data);
@@ -4360,7 +4392,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Foot Segment in Static Reference']}];
         end
-        
+
         % Left shank
         try
             [FRAME.Technical.LeftShank.O, FRAME.Technical.LeftShank.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_tibia_left_1.data, MARKERS.Filt.cluster_tibia_left_2.data, MARKERS.Filt.cluster_tibia_left_3.data, MARKERS.Filt.cluster_tibia_left_4.data);
@@ -4388,7 +4420,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Pelvis Segment in Static Reference']}];
         end
-        
+
         % Left thigh
         try
             [FRAME.Technical.LeftThigh.O, FRAME.Technical.LeftThigh.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_femur_left_1.data, MARKERS.Filt.cluster_femur_left_2.data, MARKERS.Filt.cluster_femur_left_3.data, MARKERS.Filt.cluster_femur_left_4.data);
@@ -4415,7 +4447,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Head Segment in Static Reference']}];
         end
-        
+
         % Right arm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Right upper arm
         try
@@ -4430,7 +4462,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Upperarm Segment in Static Reference']}];
         end
-        
+
         % Right lower arm
         try
             [FRAME.Technical.RightLowerArm.O, FRAME.Technical.RightLowerArm.R] = get_technical_frame_GUI(MARKERS.Filt.cluster_lowerarm_right_1.data, MARKERS.Filt.cluster_lowerarm_right_2.data, MARKERS.Filt.cluster_lowerarm_right_3.data);
@@ -4444,7 +4476,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Lowerarm Segment in Static Reference']}];
         end
-        
+
         % Right hand
         try
             [FRAME.Technical.RightHand.O, FRAME.Technical.RightHand.R] = get_technical_frame_GUI(MARKERS.Filt.hand_med_right.data, MARKERS.Filt.hand_lat_right.data, MARKERS.Filt.hand_top_right.data);
@@ -4458,7 +4490,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Hand Segment in Static Reference']}];
         end
-        
+
         % Left arm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Left upper arm
         try
@@ -4486,7 +4518,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Lowerarm Segment in Static Reference']}];
         end
-        
+
         % Left hand
         try
             [FRAME.Technical.LeftHand.O, FRAME.Technical.LeftHand.R] = get_technical_frame_GUI(MARKERS.Filt.hand_med_left.data, MARKERS.Filt.hand_lat_left.data, MARKERS.Filt.hand_top_left.data);
@@ -4500,7 +4532,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Hand Segment in Static Reference']}];
         end
-        
+
         % Trunk
         try
             [FRAME.Technical.Trunk.O, FRAME.Technical.Trunk.R] = get_technical_frame_GUI(MARKERS.Filt.clav.data, MARKERS.Filt.C_7.data, MARKERS.Filt.sternum.data);
@@ -4514,9 +4546,9 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Trunk Segment in Static Reference']}];
         end
-        
+
         REFFRAME.Anatomical = FRAME.Anatomical;
-        
+
         %% Determining rotation matrices between adjacent coordinate systems
         try
             REFFRAME.Joint.Pelvis_to_Trunk = getR(FRAME.Anatomical.RightPelvis.R, FRAME.Anatomical.Trunk.R);
@@ -4578,7 +4610,7 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Rearfoot to Forefoot Rotation Matrix in Static Reference']}];
         end
-        
+
         try
             REFFRAME.Joint.Left_Pelvis_to_Thigh = getR(FRAME.Anatomical.LeftPelvis.R, FRAME.Anatomical.LeftThigh.R);
         catch
@@ -4599,8 +4631,8 @@ gui = createInterface();
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Rearfoot to Forefoot Rotation Matrix in Static Reference']}];
         end
-        
-        
+
+
         %% Describing joint centers in their respenctive segment coordinate systems
         try
             MARKERS.Derived.RightMPJCinForefoot = FRAME.Anatomical.RightFoot.R' * (FRAME.Anatomical.RightFoot.O - FRAME.Anatomical.RightFoot.O);
@@ -4608,12 +4640,12 @@ gui = createInterface();
             MARKERS.Derived.RightKneeJCinThigh = FRAME.Anatomical.RightThigh.R' * ((mean(MARKERS.Filt.epi_lat_right.data,2) + mean(MARKERS.Filt.epi_med_right.data,2))./2 - FRAME.Anatomical.RightThigh.O);
             MARKERS.Derived.RightHipJCinPelvis = FRAME.Anatomical.RightPelvis.R' * (mean(FRAME.Anatomical.RightPelvis.O,2) - FRAME.Anatomical.RightPelvis.O);
             MARKERS.Derived.RightHipJCinThigh = FRAME.Anatomical.RightThigh.R' * (mean(FRAME.Anatomical.RightPelvis.O,2) - FRAME.Anatomical.RightThigh.O);
-            
+
             MARKERS.Derived.RightShoulderJCinTrunk = FRAME.Anatomical.Trunk.R' * (mean([MARKERS.Filt.acrom_right.data(1:2,:);MARKERS.Filt.shoulder_right.data(3,:)],2) - FRAME.Anatomical.Trunk.O);
             MARKERS.Derived.RightElbowJCinUpperArm = FRAME.Anatomical.RightUpperArm.R' * (mean((MARKERS.Filt.elbow_lat_right.data + MARKERS.Filt.elbow_med_right.data)./2, 2) - FRAME.Anatomical.RightUpperArm.O);
             MARKERS.Derived.RightWristJCinLowerArm = FRAME.Anatomical.RightLowerArm.R' * (mean((MARKERS.Filt.hand_lat_right.data + MARKERS.Filt.hand_med_right.data)./2, 2) - FRAME.Anatomical.RightLowerArm.O);
-            
-            
+
+
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Right Leg Joint Centers in Local Coordinate Systems']}];
         end
@@ -4623,23 +4655,23 @@ gui = createInterface();
             MARKERS.Derived.LeftKneeJCinThigh = FRAME.Anatomical.LeftThigh.R' * ((mean(MARKERS.Filt.epi_lat_left.data,2) + mean(MARKERS.Filt.epi_med_left.data,2))./2 - FRAME.Anatomical.LeftThigh.O);
             MARKERS.Derived.LeftHipJCinPelvis = FRAME.Anatomical.LeftPelvis.R' * (mean(FRAME.Anatomical.LeftPelvis.O,2) - FRAME.Anatomical.LeftPelvis.O);
             MARKERS.Derived.LeftHipJCinThigh = FRAME.Anatomical.LeftThigh.R' * (mean(FRAME.Anatomical.LeftPelvis.O,2) - FRAME.Anatomical.LeftThigh.O);
-            
+
             MARKERS.Derived.LeftShoulderJCinTrunk = FRAME.Anatomical.Trunk.R' * (mean([MARKERS.Filt.acrom_left.data(1:2,:);MARKERS.Filt.shoulder_left.data(3,:)],2) - FRAME.Anatomical.Trunk.O);
             MARKERS.Derived.LeftElbowJCinUpperArm = FRAME.Anatomical.LeftUpperArm.R' * (mean((MARKERS.Filt.elbow_lat_left.data + MARKERS.Filt.elbow_med_left.data)./2, 2) - FRAME.Anatomical.LeftUpperArm.O);
             MARKERS.Derived.LeftWristJCinLowerArm = FRAME.Anatomical.LeftLowerArm.R' * (mean((MARKERS.Filt.hand_lat_left.data + MARKERS.Filt.hand_med_left.data)./2, 2) - FRAME.Anatomical.LeftLowerArm.O);
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Left Leg Joint Centers in Local Coordinate Systems']}];
         end
-        
+
         try
             MARKERS.Derived.NeckJCinTrunk = FRAME.Anatomical.Trunk.R' * (mean([(MARKERS.Filt.C_7.data(1,:) + MARKERS.Filt.clav.data(1,:))./2; MARKERS.Filt.clav.data(2:3,:)], 2) - FRAME.Anatomical.Trunk.O);
         catch
             data.errorlog = [data.errorlog; {[ref_file, ' : Problems constructing Neck Joint Center in Local Coordinate System']}];
         end
-        
-        
-        
-        
+
+
+
+
     end %get_refinfo_GUI
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4661,7 +4693,7 @@ gui = createInterface();
                 string(i) = '_';
             end
         end
-        
+
         Y = string;
     end %correctumlaut
 
@@ -4670,19 +4702,19 @@ gui = createInterface();
     function [Markers, Labels, Gaps, start, ende, freq, ftkratio, nframes] = getlabeledmarkers_GUI(Pfad)
         % Reads in labeled c3d trajectories from c3d file (using c3d server
         % functionality)
-        
+
         %% Open C3D Files using C3D Server
         M = c3dserver;
         openc3d(M,0,Pfad);
         freq = M.GetVideoFrameRate; %XXX.FrameRate
-        
+
         ftkratio = M.GetAnalogVideoRatio; %XXX.Force.Frequency/XXX.FrameRate
-        
-        
+
+
         start = M.GetVideoFrame(0); %XXX.StartFrame
         ende = M.GetVideoFrame(1);  %XXX.Frames
         nframes = ende-start+1; %XXX.Frames
-        
+
         index1 = M.GetParameterIndex('POINT', 'LABELS');
         n_labels = M.GetParameterLength(index1);
         run = 1;
@@ -4690,7 +4722,7 @@ gui = createInterface();
             if ~isempty(M.GetParameterValue(index1,i))
                 label = deleteblank(M.GetParameterValue(index1,i)); %
                 sternlabel = strfind(label, '*');
-                
+
                 if isempty(sternlabel)
                     Labels(run,1) = cellstr(label); %#ok<AGROW>
                     run = run+1;
@@ -4701,7 +4733,7 @@ gui = createInterface();
             end
             clear label sternlabel
         end
-        
+
         %% Checking for Gaps
         for k = 1:length(Labels)
             for l = 1:ende-start+1
@@ -4728,48 +4760,134 @@ gui = createInterface();
         mainStruct = [];
         mainStruct = load(Pfad);
         name = string(fieldnames(mainStruct));
-        
+
         freq = mainStruct.(name).FrameRate;
-        
+
         try
-        ftkratio = mainStruct.(name).Force.Frequency/mainStruct.(name).FrameRate;
+            ftkratio = mainStruct.(name).Force.Frequency/mainStruct.(name).FrameRate;
         catch
-           % ploy(r,x)
-        ftkratio = 2000/mainStruct.(name).FrameRate;
+            % ploy(r,x)
+            ftkratio = 2000/mainStruct.(name).FrameRate;
         end
         start = mainStruct.(name).StartFrame;
-        
+
         %end umschreiben in frames die genommen werden von dem File
         %(berechnen)
         ende = start + mainStruct.(name).Frames - 1;
         nframes = mainStruct.(name).Frames;
-        
+
         n_labels = mainStruct.(name).Trajectories.Labeled.Count;
-        
+
         Labels = mainStruct.(name).Trajectories.Labeled.Labels';
-        
+
         for n = 1:length(Labels)
             rotated_data = rotate_marker_90_z(squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :)));
-            Markers.(Labels{n}).data = rotated_data;%; squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
-        figure(100)
-        temp = mean( Markers.(Labels{n}).data,2); 
-        scatter3 (temp(1)/100, temp(2)/100, temp(3)/100)
-        hold on
-        % Plot the x-axis (from origin to [1, 0, 0])
-plot3([0 5], [0 0], [0 0], 'r', 'LineWidth', 2); % x-axis in red
-hold on; % Hold the plot for additional plotting
+            Markers.(Labels{n}).data =rotated_data ; % squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+            %Markers.(Labels{n}).data =squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+            Markers.(Labels{n}).data(1,:) =Markers.(Labels{n}).data(1,:) +500 ;
+            Markers.(Labels{n}).data (2,:) = Markers.(Labels{n}).data (2,:)+300;
+            % figure(100)
+            % temp = mean( Markers.(Labels{n}).data,2);
+            % if strcmp((Labels{n}), 'epi_med_right')
+            %
+            %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % elseif strcmp((Labels{n}), 'mal_med_right')
+            %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % elseif strcmp((Labels{n}), 'toe_right')
+            %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            %
+            % elseif strcmp((Labels{n}), 'SIPS_right')
+            %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            %
+            % else
+            %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100)
+            %
+            % end
+            % hold on
+            % Plot the x-axis (from origin to [1, 0, 0])
+            % plot3([0 5], [0 0], [0 0], 'r', 'LineWidth', 2); % x-axis in red
+            % hold on; % Hold the plot for additional plotting
+            %
+            % Plot the y-axis (from origin to [0, 1, 0])
+            % plot3([0 0], [0 5], [0 0], 'g', 'LineWidth', 2); % y-axis in green
+            %
+            % Plot the z-axis (from origin to [0, 0, 1])
+            % plot3([0 0], [0 0], [0 5], 'b', 'LineWidth', 2); % z-axis in blue
+            %
+            % Label the axes
+            % text(1, 0, 0, 'X', 'FontSize', 12, 'Color', 'r'); % X-axis label
+            % text(0, 1, 0, 'Y', 'FontSize', 12, 'Color', 'g'); % Y-axis label
+            % text(0, 0, 1, 'Z', 'FontSize', 12, 'Color', 'b'); % Z-axis label
+            % axis equal
+        end
+        alf = 2;
+        Gaps = 0;
+    end
 
-% Plot the y-axis (from origin to [0, 1, 0])
-plot3([0 0], [0 5], [0 0], 'g', 'LineWidth', 2); % y-axis in green
+    function [Markers, Labels, Gaps, start, ende, freq, ftkratio, nframes] = getlabeledmarkers_GUI_mat_DYNAMIC(Pfad)
+        %         tmpName = split(Pfad, '\');
+        close all
+        mainStruct = [];
+        mainStruct = load(Pfad);
+        name = string(fieldnames(mainStruct));
 
-% Plot the z-axis (from origin to [0, 0, 1])
-plot3([0 0], [0 0], [0 5], 'b', 'LineWidth', 2); % z-axis in blue
+        freq = mainStruct.(name).FrameRate;
 
-% Label the axes
-text(1, 0, 0, 'X', 'FontSize', 12, 'Color', 'r'); % X-axis label
-text(0, 1, 0, 'Y', 'FontSize', 12, 'Color', 'g'); % Y-axis label
-text(0, 0, 1, 'Z', 'FontSize', 12, 'Color', 'b'); % Z-axis label
-axis equal
+        try
+            ftkratio = mainStruct.(name).Force.Frequency/mainStruct.(name).FrameRate;
+        catch
+            % ploy(r,x)
+            ftkratio = 2000/mainStruct.(name).FrameRate;
+        end
+        start = mainStruct.(name).StartFrame;
+
+        %end umschreiben in frames die genommen werden von dem File
+        %(berechnen)
+        ende = start + mainStruct.(name).Frames - 1;
+        nframes = mainStruct.(name).Frames;
+
+        n_labels = mainStruct.(name).Trajectories.Labeled.Count;
+
+        Labels = mainStruct.(name).Trajectories.Labeled.Labels';
+
+        for n = 1:length(Labels)
+            % rotated_data = rotate_marker_90_z(squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :)));
+            % Markers.(Labels{n}).data =rotated_data ; % squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+            Markers.(Labels{n}).data =squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+
+            % % % figure(100)
+            % % % temp = mean( Markers.(Labels{n}).data,2);
+            % % % if strcmp((Labels{n}), 'epi_med_right')
+            % % %
+            % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % % % elseif strcmp((Labels{n}), 'mal_med_right')
+            % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % % % elseif strcmp((Labels{n}), 'toe_right')
+            % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % % %
+            % % % elseif strcmp((Labels{n}), 'SIPS_right')
+            % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
+            % % %
+            % % % else
+            % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100)
+            % % %
+            % % % end
+            % % % hold on
+            % % % % Plot the x-axis (from origin to [1, 0, 0])
+            % % % plot3([0 5], [0 0], [0 0], 'r', 'LineWidth', 2); % x-axis in red
+            % % % hold on; % Hold the plot for additional plotting
+            % % %
+            % % % % Plot the y-axis (from origin to [0, 1, 0])
+            % % % plot3([0 0], [0 5], [0 0], 'g', 'LineWidth', 2); % y-axis in green
+            % % %
+            % % % % Plot the z-axis (from origin to [0, 0, 1])
+            % % % plot3([0 0], [0 0], [0 5], 'b', 'LineWidth', 2); % z-axis in blue
+            % % %
+            % % % % Label the axes
+            % % % text(1, 0, 0, 'X', 'FontSize', 12, 'Color', 'r'); % X-axis label
+            % % % text(0, 1, 0, 'Y', 'FontSize', 12, 'Color', 'g'); % Y-axis label
+            % % % text(0, 0, 1, 'Z', 'FontSize', 12, 'Color', 'b'); % Z-axis label
+            % % % axis equal
         end
         alf = 2;
         Gaps = 0;
@@ -4782,9 +4900,9 @@ axis equal
         % Filters raw 3D trajectory data
         if nargin == 3
             for j = 1:3
-                 RAW.data(j,:) = fillmissing(RAW.data(j,:),'nearest');
-                 MARKERS_FILT.data(j,:) = zeros (1,  length (RAW.data(j,:)));
-                 MARKERS_FILT.data(j,:) = filtfilt(b,a,double(RAW.data(j,:)));
+                RAW.data(j,:) = fillmissing(RAW.data(j,:),'nearest');
+                MARKERS_FILT.data(j,:) = zeros (1,  length (RAW.data(j,:)));
+                MARKERS_FILT.data(j,:) = filtfilt(b,a,double(RAW.data(j,:)));
             end
         else
             for j = 1:3
@@ -4798,22 +4916,22 @@ axis equal
     function [Trial_opti] = SVDopti(Trial_raw,Ref)
         % Optimizes marker trajectories to better comply with rigid body
         % assumptions.
-        
+
         %____________________________________________________________________
         %% Segment mit 3 Markern
         if size(Ref,2)==3
-            
+
             %%
             Trial=Trial_raw;
-            
-            
+
+
             %% Allg. Paper der Methode: Söderkvist 1993, J. Biomech, s. 1473 bis 1477
-            
+
             % Technical-Frame und Barrycenter für Trial erstellen
             oTrial(:,1,:)=(Trial(:,1,:)+Trial(:,2,:)+Trial(:,3,:))/3;
             y=repmat(oTrial,1,size(Trial,2));
             tech_Trial= Trial-y;
-            
+
             % Technical-Frame und Barrycenter für Ref erstellen und Mittelwerte dieser
             oRef(:,1,:)=(Ref(:,1,:)+Ref(:,2,:)+Ref(:,3,:))/3;
             y2=repmat(oRef,1,size(Ref,2));
@@ -4821,75 +4939,75 @@ axis equal
             oRefh(:,:)=oRef(:,1,:);
             oRefm=mean(oRefh,2);
             tech_Ref=mean(tech_Refh,3);
-            
-            
-            
+
+
+
             % Cross-Dispersionsmatrix: Arun 1987, IEEE TRANSACTIONS ON PATTERN ANALYSIS
             % AND MACHINE INTELLIGENCE, s. 698 - 700
-            
+
             for i=1:size(Trial,3)
                 G(:,:,i)=tech_Trial(:,:,i)*tech_Ref'; %#ok<AGROW>
             end
             clear i
-            
-            
+
+
             % Singulärwertzerlegung % Optimal nach Hanson and Norris (1981, 363) in
             % SIAM J. Sci. Stat. comput.
             for i=1:size(Trial,3)
-                
+
                 [U,~,V] = svd(G(:,:,i));
                 v=[1 1 (det(U'*V))'];
                 R(:,:,i)=U*(diag(v))*V'; %#ok<AGROW>
-                
+
                 d(:,i)=oTrial(:,1,i)-R(:,:,i)*(oRefm); %#ok<AGROW>
                 clear U  V v
-                
+
                 %Globale Variable des Trials optimiert rekonstruieren
                 Vektor_1(:,i)=R(:,:,i)*Ref(:,1)+d(:,i); %#ok<AGROW>
                 Vektor_2(:,i)=R(:,:,i)*Ref(:,2)+d(:,i); %#ok<AGROW>
                 Vektor_3(:,i)=R(:,:,i)*Ref(:,3)+d(:,i); %#ok<AGROW>
             end
             clear G U S V i v
-            
+
             %% Output der Funktion
             Trial_opti(:,1,:)=Vektor_1;
             Trial_opti(:,2,:)=Vektor_2;
             Trial_opti(:,3,:)=Vektor_3;
-            
+
             clear G U S V i v
-            
-            
+
+
             %% gefilterter Trial für Plot Aufbereitet
             vek1(:,:)=Trial_raw(:,1,:);
             vek2(:,:)=Trial_raw(:,2,:);
             vek3(:,:)=Trial_raw(:,3,:);
-            
-            
+
+
             %%
             clear G U S V i v Test_a Test_b A B r R1h R1hs R2h R2hs R3h R3hs
             clear tech_Refh y y2 yy yyy oRefh
         end
-        
-        
-        
-        
+
+
+
+
         %____________________________________________________________________
         %% Segment mit 4 Markern
-        
-        
+
+
         if size(Ref,2)==4
-            
+
             %%
             Trial=Trial_raw;
-            
-            
+
+
             %% Allg. Paper der Methode: Söderkvist 1993, J. Biomech, s. 1473 bis 1477
-            
+
             % Technical-Frame und Barrycenter für Trial erstellen
             oTrial(:,1,:)=(Trial(:,1,:)+Trial(:,2,:)+Trial(:,3,:)+Trial(:,4,:))/4;
             y=repmat(oTrial,1,size(Trial,2));
             tech_Trial= Trial-y;
-            
+
             % Technical-Frame und Barrycenter für Ref erstellen und Mittelwerte dieser
             oRef(:,1,:)=(Ref(:,1,:)+Ref(:,2,:)+Ref(:,3,:)+Ref(:,4,:))/4;
             y2=repmat(oRef,1,size(Ref,2));
@@ -4897,29 +5015,29 @@ axis equal
             oRefh(:,:)=oRef(:,1,:);
             oRefm=mean(oRefh,2);
             tech_Ref=mean(tech_Refh,3);
-            
-            
-            
+
+
+
             % Cross-Dispersionsmatrix: Arun 1987, IEEE TRANSACTIONS ON PATTERN ANALYSIS
             % AND MACHINE INTELLIGENCE, s. 698 - 700
-            
+
             for i=1:size(Trial,3)
                 G(:,:,i)=tech_Trial(:,:,i)*tech_Ref';
             end
             clear i
-            
-            
+
+
             % Singulärwertzerlegung % Optimal nach Hanson and Norris (1981, 363) in
             % SIAM J. Sci. Stat. comput.
             for i=1:size(Trial,3)
-                
+
                 [U,~,V] = svd(G(:,:,i));
                 v=[1 1 (det(U'*V))'];
                 R(:,:,i)=U*(diag(v))*V';
-                
+
                 d(:,i)=oTrial(:,1,i)-R(:,:,i)*(oRefm);
                 clear U  V v
-                
+
                 %Globale Variable des Trials optimiert rekonstruieren
                 Vektor_1(:,i)=R(:,:,i)*Ref(:,1)+d(:,i);
                 Vektor_2(:,i)=R(:,:,i)*Ref(:,2)+d(:,i);
@@ -4927,30 +5045,30 @@ axis equal
                 Vektor_4(:,i)=R(:,:,i)*Ref(:,4)+d(:,i); %#ok<AGROW>
             end
             clear G U S V i v
-            
+
             %% Output der Funktion
             Trial_opti(:,1,:)=Vektor_1;
             Trial_opti(:,2,:)=Vektor_2;
             Trial_opti(:,3,:)=Vektor_3;
             Trial_opti(:,4,:)=Vektor_4;
-            
+
             clear G U S V i v
-            
-            
+
+
             %% gefilterter Trial für Plot Aufbereitet
             vek1(:,:)=Trial_raw(:,1,:); %#ok<NASGU>
             vek2(:,:)=Trial_raw(:,2,:); %#ok<NASGU>
             vek3(:,:)=Trial_raw(:,3,:); %#ok<NASGU>
             vek4(:,:)=Trial_raw(:,4,:); %#ok<NASGU>
-            
-            
-            
+
+
+
             %%
             clear G U S V i v Test_a Test_b A B r R1h R1hs R2h R2hs R3h R3hs
             clear tech_Refh y y2 yy yyy oRefh
-            
+
         end
-        
+
     end %SVDopti
 
 
@@ -4966,11 +5084,11 @@ axis equal
         if size(V,2) == 1
             for i = 1:size(V,3)
                 Y1(:,i) = V(:,1,i);
-                
+
             end
         end
-        
-        
+
+
         if size(V,2) == 3
             for i = 1:size(V,3)
                 Y1(:,i) = V(:,1,i);
@@ -4978,7 +5096,7 @@ axis equal
                 Y3(:,i) = V(:,3,i);
             end
         end
-        
+
         if size(V,2) == 4
             for i = 1:size(V,3)
                 Y1(:,i) = V(:,1,i);
@@ -5000,7 +5118,7 @@ axis equal
                 Y(:,3,i) = P3(:,i);
             end
         end
-        
+
         if nargin == 4
             for i = 1:size(P1,2)
                 Y(:,1,i) = P1(:,i);
@@ -5019,22 +5137,22 @@ axis equal
         if nargin == 3
             [~, y] = size(P1);
             O = zeros(3,y);
-            
-            
+
+
             for i = 1:y
                 O(:,i) = (P1(:,i) + P2(:,i) + P3(:,i)) / 3;
             end
-            
-            
-            
-            
+
+
+
+
             Help1 = zeros(3,1,y);
             X = zeros(3,1,y);
             Y = zeros(3,1,y);
             Z = zeros(3,1,y);
             for i = 1:y
-                
-                
+
+
                 X(:,i) = P2(:,i) - P1(:,i);
                 Help1(:,i) = P3(:,i) - P1(:,i);
                 Z(:,i) = cross(X(:,i), Help1(:,i));
@@ -5043,28 +5161,28 @@ axis equal
                 Y(:,i) = Y(:,i) / norm(Y(:,i));
                 Z(:,i) = Z(:,i) / norm(Z(:,i));
             end
-            
+
             R = [X,Y,Z];
-            
+
         else
             [~, y] = size(P1);
             O = zeros(3,y);
-            
-            
+
+
             for i = 1:y
                 O(:,i) = (P1(:,i) + P2(:,i) + P3(:,i) + P4(:,i)) / 4;
             end
-            
-            
-            
-            
+
+
+
+
             Help1 = zeros(3,1,y);
             X = zeros(3,1,y);
             Y = zeros(3,1,y);
             Z = zeros(3,1,y);
             for i = 1:y
-                
-                
+
+
                 Z(:,i) = ((P1(:,i) + P2(:,i)) / 2) - O(:,i);
                 Help1(:,i) = ((P2(:,i) + P4(:,i)) / 2) - O(:,i);
                 X(:,i) = cross(Help1(:,i), Z(:,i));
@@ -5073,7 +5191,7 @@ axis equal
                 Y(:,i) = Y(:,i) / norm(Y(:,i));
                 Z(:,i) = Z(:,i) / norm(Z(:,i));
             end
-            
+
             R = [X,Y,Z];
         end
     end %get_technical_frame_GUI
@@ -5129,7 +5247,7 @@ axis equal
                 end
             end
             Matrix(:,size(M,2)) = Matrix(:,size(M,2)-1);
-            
+
         elseif ndims(M) == 3
             for i = 2:size(M,3)-1
                 for j = 1:size(M,1)
@@ -5169,7 +5287,7 @@ axis equal
             X_yxz(:,i)=atan2(-R(2,3,i),sqrt((R(1,3,i)^2)+(R(3,3,i)^2)));
             Z_yxz(:,i)=atan2(R(2,1,i), R(2,2,i));
         end
-        
+
         Winkel.X = X_yxz;
         Winkel.Y = Y_yxz;
         Winkel.Z = Z_yxz;
@@ -5187,7 +5305,7 @@ axis equal
         t_mod=0:100/(length(VEK)-1):100;
         t_nor=0:interv:100;
         y=interp1(t_mod, VEK, t_nor,'pchip');
-        
+
     end %normalize
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5205,7 +5323,7 @@ axis equal
             OUT.(ChName)(1,:) = cell2mat(M.GetAnalogDataEx(w-1,start,ende,'1',0,0,'1'));
         end
         closec3d(M);
-        
+
     end %getAllAnalogChannels
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5229,13 +5347,13 @@ axis equal
             end
             L = OUT.ContactTime.*OPTIONS.freqGRF;
         end
-        
-        
-        
+
+
+
         level1 = fieldnames(NORMAL);
         for j = 1:length(level1)
             level2{j} = fieldnames(NORMAL.(char(level1(j))));
-            
+
         end
         for k = 1:length(level2)
             for l = 1:length(level2{k})
@@ -5245,8 +5363,8 @@ axis equal
         assignin('base', 'level1', level1);
         assignin('base', 'level2', level2);
         assignin('base', 'level3', level3);
-        
-        
+
+
         for i = 1:length(level1)
             for j = 1:length(level2{i})
                 for k = 1:length(level3{i,j})
@@ -5271,10 +5389,10 @@ axis equal
                             OUT.([char(level1(i)),'_',char(level2{i}(j)),'_',char(level3{i,j}(k)),'_','MIN2']) = min(-NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k)))(101:201,:),[],1);
                         end
                     end
-                    
-                    
-                    
-                    
+
+
+
+
                     %                     for l = 1:size(NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k))), 2)
                     %
                     %                         D = interp1(NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k)))(:,l), 1:201/L(l):201);
@@ -5289,8 +5407,8 @@ axis equal
                     %                         end
                     %                         clear D M
                     %                     end
-                    
-                    
+
+
                     for l = 1:size(NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k))), 2)
                         [OUT.([char(level1(i)),'_',char(level2{i}(j)),'_',char(level3{i,j}(k)),'_','MEAN0_10'])(1,l),...
                             OUT.([char(level1(i)),'_',char(level2{i}(j)),'_',char(level3{i,j}(k)),'_','MEAN10_20'])(1,l),...
@@ -5305,12 +5423,12 @@ axis equal
                         OUT.([char(level1(i)),'_',char(level2{i}(j)),'_',char(level3{i,j}(k)),'_','MEAN5_95'])(1,l) = mean(NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k)))(10:190,l));
                         OUT.([char(level1(i)),'_',char(level2{i}(j)),'_',char(level3{i,j}(k)),'_','MEAN50_100'])(1,l) = mean(NORMAL.(char(level1(i))).(char(level2{i}(j))).(char(level3{i,j}(k)))(100:201,l));
                     end
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
                 end
             end
         end
@@ -5400,8 +5518,8 @@ axis equal
                 Y = zeros(3,1,y);
                 Z = zeros(3,1,y);
                 for i = 1:y
-                    
-                    
+
+
                     Z(:,i) = MidPointKnee(:,i) - MidPointAnkle(:,i);
                     Zo(:,i) = MidPointKnee(:,i) - MidPointAnkle(:,i);
                     Help1(:,i) = [0;1;0];
@@ -5411,14 +5529,14 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
             case 'RightPelvis_regular'
                 % This time R is initially determined; O comes subsequently
                 [~, y] = size(MARKERS.SIAS_right.data);
-                
+
                 MPASI = zeros(3,1,y);
                 MPPSI = zeros(3,1,y);
                 Help1 = zeros(3,1,y);
@@ -5436,38 +5554,38 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
-                
+
+
                 R = Rmean([X,Y,Z]);
                 SLength = 0;
-                
-                
+
+
                 % Bestimmung des mittleren Abstandes zwischen LASI und RASI Marker
                 % bzw. zwischen RASI und RPSI Marker
                 DIST.ASIS = getdistance(MARKERS.SIAS_left.data, MARKERS.SIAS_right.data);
                 DIST.RASI_RPSI = getdistance(MARKERS.SIAS_right.data, MARKERS.SIPS_right.data);
                 DIST.LASI_LPSI = getdistance(MARKERS.SIAS_left.data, MARKERS.SIPS_left.data);
-                
+
                 % Ermittlung des Hüftgelenkmittelpunkts im loaklen
                 % Hüftkoordinatensystem (Ursprung RASI) nach Seidel (1995) (X und Y
                 % Koordinate)  bzw. Bell (1989) (Z - Koordinate)
                 POS.hip.pelvis.lokal(1,1) = -DIST.RASI_RPSI.mean*0.34;
                 POS.hip.pelvis.lokal(2,1) = DIST.ASIS.mean*0.14;
                 POS.hip.pelvis.lokal(3,1) = -DIST.ASIS.mean*0.31;
-                
+
                 % Transformieren in globales Koordinatensystem
                 O_allframes = zeros(3,y);
                 for u = 1:y
                     O_allframes(:,u) = R*POS.hip.pelvis.lokal + MARKERS.SIAS_right.data(:,u);
                 end
-                
+
                 O = mean(O_allframes,2);
-                
+
             case 'RightThigh_regular'
                 [~, y] = size(MARKERS.cluster_femur_right_1.data);
                 O_allframes = zeros(3,y);
                 MidPointKnee = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     MidPointKnee(:,i) = (MARKERS.epi_med_right.data(:,i) + MARKERS.epi_lat_right.data(:,i)) / 2;
@@ -5489,17 +5607,17 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-                
-                
-                
+
+
+
             case 'RightThigh_Orthese'
                 [~, y] = size(MARKERS.cluster_femur_right_1.data);
                 O_allframes = zeros(3,y);
                 MidPointKnee = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     KneeVec(:,i) = MARKERS.epi_med_right.data(:,i) - MARKERS.epi_lat_right.data(:,i);
@@ -5513,26 +5631,26 @@ axis equal
                     [closDist, indClosDist] = min(DistPat);
                     mSize = 13;
                     cols = [0.5 0.8 0.9; 1 1 0.7; 0.7 0.8 0.9; 0.8 0.5 0.4; 0.5 0.7 0.8; 1 0.8 0.5; 0.7 1 0.4; 1 0.7 1; 0.6 0.6 0.6; 0.7 0.5 0.7; 0.8 0.9 0.8; 1 1 0.4; 0.5 0.8 0.9; 1 1 0.7; 0.7 0.8 0.9; 0.8 0.5 0.4; 0.5 0.7 0.8; 1 0.8 0.5; 0.7 1 0.4; 1 0.7 1; 0.6 0.6 0.6; 0.7 0.5 0.7; 0.8 0.9 0.8; 1 1 0.4];
-%                     figure
-%                     
-%                     
-%                     for mm = 1:length(multi)
-%                         plot3(KneeVecMult(1,mm),KneeVecMult(2,mm),KneeVecMult(3,mm),'o', 'Color', [0.7 0.7 0.7]);
-%                         hold on
-%                     end
-%                     plot3(MARKERS.epi_med_right.data(1,i),MARKERS.epi_med_right.data(2,i),MARKERS.epi_med_right.data(3,i),'ko');
-%                     hold on
-%                     plot3(MARKERS.epi_lat_right.data(1,i),MARKERS.epi_lat_right.data(2,i),MARKERS.epi_lat_right.data(3,i),'ko');
-%                     
-%                     plot3(MARKERS.pat_right.data(1,i),MARKERS.pat_right.data(2,i),MARKERS.pat_right.data(3,i),'bo');
-%                     
-%                     plot3(KneeVecMult(1,indClosDist),KneeVecMult(2,indClosDist),KneeVecMult(3,indClosDist),'ro');
-%                     plot3([KneeVecMult(1,indClosDist) MARKERS.pat_right.data(1,i)], [KneeVecMult(2,indClosDist) MARKERS.pat_right.data(2,i)], [KneeVecMult(3,indClosDist) MARKERS.pat_right.data(3,i)], 'r-');
-%                     axis equal
-                    
+                    %                     figure
+                    %
+                    %
+                    %                     for mm = 1:length(multi)
+                    %                         plot3(KneeVecMult(1,mm),KneeVecMult(2,mm),KneeVecMult(3,mm),'o', 'Color', [0.7 0.7 0.7]);
+                    %                         hold on
+                    %                     end
+                    %                     plot3(MARKERS.epi_med_right.data(1,i),MARKERS.epi_med_right.data(2,i),MARKERS.epi_med_right.data(3,i),'ko');
+                    %                     hold on
+                    %                     plot3(MARKERS.epi_lat_right.data(1,i),MARKERS.epi_lat_right.data(2,i),MARKERS.epi_lat_right.data(3,i),'ko');
+                    %
+                    %                     plot3(MARKERS.pat_right.data(1,i),MARKERS.pat_right.data(2,i),MARKERS.pat_right.data(3,i),'bo');
+                    %
+                    %                     plot3(KneeVecMult(1,indClosDist),KneeVecMult(2,indClosDist),KneeVecMult(3,indClosDist),'ro');
+                    %                     plot3([KneeVecMult(1,indClosDist) MARKERS.pat_right.data(1,i)], [KneeVecMult(2,indClosDist) MARKERS.pat_right.data(2,i)], [KneeVecMult(3,indClosDist) MARKERS.pat_right.data(3,i)], 'r-');
+                    %                     axis equal
+
                     MidPointKnee(:,i) = KneeVecMult(:,indClosDist);
-                    
-                    clear KneeVecMult closDist indClosDist DistPat  multi 
+
+                    clear KneeVecMult closDist indClosDist DistPat  multi
                     O_allframes(:,i) = MARKERS.hip_joint_center_right.data(:,i) + (MidPointKnee(:,i)-MARKERS.hip_joint_center_right.data(:,i))*0.4095; %Center of mass after deLeva 1996;
                 end
                 O = mean(O_allframes, 2);
@@ -5551,10 +5669,10 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
                 %%%%%%%%%%%%%%%%%%%%%%%%%% Left Leg %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             case 'LeftFoot_regular'
                 [~, y] = size(MARKERS.calc_back_left.data);
@@ -5567,7 +5685,7 @@ axis equal
                 % Determine coordinate system (rotation matrix R) for segment
                 R = eye(3,3);
                 SLength = OPTIONS.ANTHRO.FootLength./1000;
-                
+
             case 'LeftForefoot_regular'
                 [~, y] = size(MARKERS.toe_left.data);
                 O_allframes = zeros(3,y);
@@ -5581,7 +5699,7 @@ axis equal
                 % Determine coordinate system (rotation matrix R) for segment
                 R = eye(3,3);
                 SLength = 0;
-                
+
             case 'LeftRearfoot_regular'
                 [~, y] = size(MARKERS.calc_back_left.data);
                 O_allframes = zeros(3,y);
@@ -5593,7 +5711,7 @@ axis equal
                 % Determine coordinate system (rotation matrix R) for segment
                 R = eye(3,3);
                 SLength = 0;
-                
+
             case 'LeftFoot_regular'
                 [~, y] = size(MARKERS.calc_back_right.data);
                 O_allframes = zeros(3,y);
@@ -5605,7 +5723,7 @@ axis equal
                 % Determine coordinate system (rotation matrix R) for segment
                 R = eye(3,3);
                 SLength = OPTIONS.ANTHRO.FootLength./1000;
-                
+
             case 'LeftShank_regular'
                 [~, y] = size(MARKERS.mal_med_left.data);
                 O_allframes = zeros(3,y);
@@ -5624,8 +5742,8 @@ axis equal
                 Y = zeros(3,1,y);
                 Z = zeros(3,1,y);
                 for i = 1:y
-                    
-                    
+
+
                     Z(:,i) = MidPointKnee(:,i) - MidPointAnkle(:,i);
                     Zo(:,i) = MidPointKnee(:,i) - MidPointAnkle(:,i);
                     Help1(:,i) = [0;1;0];
@@ -5635,14 +5753,14 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
             case 'LeftPelvis_regular'
                 % This time R is initially determined; O comes subsequently
                 [~, y] = size(MARKERS.SIAS_left.data);
-                
+
                 MPASI = zeros(3,1,y);
                 MPPSI = zeros(3,1,y);
                 Help1 = zeros(3,1,y);
@@ -5660,38 +5778,38 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
-                
+
+
                 R = Rmean([X,Y,Z]);
                 SLength = 0;
-                
-                
+
+
                 % Bestimmung des mittleren Abstandes zwischen LASI und RASI Marker
                 % bzw. zwischen RASI und RPSI Marker
                 DIST.ASIS = getdistance(MARKERS.SIAS_left.data, MARKERS.SIAS_right.data);
                 DIST.RASI_RPSI = getdistance(MARKERS.SIAS_left.data, MARKERS.SIPS_left.data);
                 DIST.LASI_LPSI = getdistance(MARKERS.SIAS_left.data, MARKERS.SIPS_left.data);
-                
+
                 % Ermittlung des Hüftgelenkmittelpunkts im loaklen
                 % Hüftkoordinatensystem (Ursprung RASI) nach Seidel (1995) (X und Y
                 % Koordinate)  bzw. Bell (1989) (Z - Koordinate)
                 POS.hip.pelvis.lokal(1,1) = -DIST.RASI_RPSI.mean*0.34;
                 POS.hip.pelvis.lokal(2,1) = -DIST.ASIS.mean*0.14; %Minus weil linke Seite
                 POS.hip.pelvis.lokal(3,1) = -DIST.ASIS.mean*0.31;
-                
+
                 % Transformieren in globales Koordinatensystem
                 O_allframes = zeros(3,y);
                 for u = 1:y
                     O_allframes(:,u) = R*POS.hip.pelvis.lokal + MARKERS.SIAS_left.data(:,u);
                 end
-                
+
                 O = mean(O_allframes,2);
-                
+
             case 'LeftThigh_regular'
                 [~, y] = size(MARKERS.cluster_femur_left_1.data);
                 O_allframes = zeros(3,y);
                 MidPointKnee = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     MidPointKnee(:,i) = (MARKERS.epi_med_left.data(:,i) + MARKERS.epi_lat_left.data(:,i)) / 2;
@@ -5713,14 +5831,14 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-             case 'LeftThigh_Orthese'
-                 [~, y] = size(MARKERS.cluster_femur_left_1.data);
+            case 'LeftThigh_Orthese'
+                [~, y] = size(MARKERS.cluster_femur_left_1.data);
                 O_allframes = zeros(3,y);
                 MidPointKnee = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     KneeVec(:,i) = MARKERS.epi_med_left.data(:,i) - MARKERS.epi_lat_left.data(:,i);
@@ -5734,27 +5852,27 @@ axis equal
                     [closDist, indClosDist] = min(DistPat);
                     mSize = 13;
                     cols = [0.5 0.8 0.9; 1 1 0.7; 0.7 0.8 0.9; 0.8 0.5 0.4; 0.5 0.7 0.8; 1 0.8 0.5; 0.7 1 0.4; 1 0.7 1; 0.6 0.6 0.6; 0.7 0.5 0.7; 0.8 0.9 0.8; 1 1 0.4; 0.5 0.8 0.9; 1 1 0.7; 0.7 0.8 0.9; 0.8 0.5 0.4; 0.5 0.7 0.8; 1 0.8 0.5; 0.7 1 0.4; 1 0.7 1; 0.6 0.6 0.6; 0.7 0.5 0.7; 0.8 0.9 0.8; 1 1 0.4];
-%                     figure
-%                     
-%                     
-%                     for mm = 1:length(multi)
-%                         plot3(KneeVecMult(1,mm),KneeVecMult(2,mm),KneeVecMult(3,mm),'o', 'Color', [0.7 0.7 0.7]);
-%                         hold on
-%                     end
-%                     plot3(MARKERS.epi_med_right.data(1,i),MARKERS.epi_med_right.data(2,i),MARKERS.epi_med_right.data(3,i),'ko');
-%                     hold on
-%                     plot3(MARKERS.epi_lat_right.data(1,i),MARKERS.epi_lat_right.data(2,i),MARKERS.epi_lat_right.data(3,i),'ko');
-%                     
-%                     plot3(MARKERS.pat_right.data(1,i),MARKERS.pat_right.data(2,i),MARKERS.pat_right.data(3,i),'bo');
-%                     
-%                     plot3(KneeVecMult(1,indClosDist),KneeVecMult(2,indClosDist),KneeVecMult(3,indClosDist),'ro');
-%                     plot3([KneeVecMult(1,indClosDist) MARKERS.pat_right.data(1,i)], [KneeVecMult(2,indClosDist) MARKERS.pat_right.data(2,i)], [KneeVecMult(3,indClosDist) MARKERS.pat_right.data(3,i)], 'r-');
-%                     axis equal
-                    
+                    %                     figure
+                    %
+                    %
+                    %                     for mm = 1:length(multi)
+                    %                         plot3(KneeVecMult(1,mm),KneeVecMult(2,mm),KneeVecMult(3,mm),'o', 'Color', [0.7 0.7 0.7]);
+                    %                         hold on
+                    %                     end
+                    %                     plot3(MARKERS.epi_med_right.data(1,i),MARKERS.epi_med_right.data(2,i),MARKERS.epi_med_right.data(3,i),'ko');
+                    %                     hold on
+                    %                     plot3(MARKERS.epi_lat_right.data(1,i),MARKERS.epi_lat_right.data(2,i),MARKERS.epi_lat_right.data(3,i),'ko');
+                    %
+                    %                     plot3(MARKERS.pat_right.data(1,i),MARKERS.pat_right.data(2,i),MARKERS.pat_right.data(3,i),'bo');
+                    %
+                    %                     plot3(KneeVecMult(1,indClosDist),KneeVecMult(2,indClosDist),KneeVecMult(3,indClosDist),'ro');
+                    %                     plot3([KneeVecMult(1,indClosDist) MARKERS.pat_right.data(1,i)], [KneeVecMult(2,indClosDist) MARKERS.pat_right.data(2,i)], [KneeVecMult(3,indClosDist) MARKERS.pat_right.data(3,i)], 'r-');
+                    %                     axis equal
+
                     MidPointKnee(:,i) = KneeVecMult(:,indClosDist);
-                    
-                    clear KneeVecMult closDist indClosDist DistPat  multi 
-                     O_allframes(:,i) = MARKERS.hip_joint_center_left.data(:,i) + (MidPointKnee(:,i)-MARKERS.hip_joint_center_left.data(:,i))*0.4095; %Center of mass after deLeva 1996;
+
+                    clear KneeVecMult closDist indClosDist DistPat  multi
+                    O_allframes(:,i) = MARKERS.hip_joint_center_left.data(:,i) + (MidPointKnee(:,i)-MARKERS.hip_joint_center_left.data(:,i))*0.4095; %Center of mass after deLeva 1996;
                 end
                 O = mean(O_allframes, 2);
                 % Determine coordinate system (rotation matrix R) for segment
@@ -5772,9 +5890,9 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                SLength = norm(mean(Zo, 2))./1000;  
+                SLength = norm(mean(Zo, 2))./1000;
                 %%%%%%%%%%%%%%%%% Head %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             case 'Head_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
@@ -5787,7 +5905,7 @@ axis equal
                 % Determine coordinate system (rotation matrix R) for segment
                 R = eye(3,3);
                 SLength = OPTIONS.ANTHRO.Height*0.1395;
-                
+
             case 'RightUpperArm_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
@@ -5824,11 +5942,11 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
             case 'RightLowerArm_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
@@ -5863,17 +5981,17 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
-                
+
+
             case 'RightHand_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
                 WristCenter = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     WristCenter(:,i) = (MARKERS.hand_lat_right.data(:,i) + MARKERS.hand_med_right.data(:,i)) / 2;
@@ -5902,12 +6020,12 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
-                
+
+
             case 'LeftUpperArm_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
@@ -5931,7 +6049,7 @@ axis equal
                 for i = 1:y
                     Z(:,i) = ShoulderCenter(:,i) - ElbowCenter(:,i);
                     Zo(:,i) = ShoulderCenter(:,i) - ElbowCenter(:,i);
-                    
+
                     if Vtest(3,1) > norm(Vtest(:,1))*0.5
                         Help1(:,i) = [0;1;0];
                         X(:,i) = cross(Help1(:,i), Z(:,i));
@@ -5941,15 +6059,15 @@ axis equal
                         Y(:,i) = cross(Z(:,i),Help1(:,i));
                         X(:,i) = cross(Y(:,i), Z(:,i));
                     end
-                    
+
                     X(:,i) = X(:,i) / norm(X(:,i));
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
             case 'LeftLowerArm_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
@@ -5984,17 +6102,17 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
-                
+
+
             case 'LeftHand_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
                 WristCenter = zeros(3,y);
-                
+
                 % Determine origin of anatomical reference frame
                 for i = 1:y
                     WristCenter(:,i) = (MARKERS.hand_lat_left.data(:,i) + MARKERS.hand_med_left.data(:,i)) / 2;
@@ -6023,12 +6141,12 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
-                
+
+
             case 'Trunk_regular'
                 [~, y] = size(MARKERS.head_front_left.data);
                 O_allframes = zeros(3,y);
@@ -6059,11 +6177,11 @@ axis equal
                     Y(:,i) = Y(:,i) / norm(Y(:,i));
                     Z(:,i) = Z(:,i) / norm(Z(:,i));
                 end
-                
+
                 R = Rmean([X,Y,Z]);
-                
+
                 SLength = norm(mean(Zo, 2))./1000;
-                
+
         end
     end %getanaframe_GUI
 
@@ -6138,7 +6256,7 @@ axis equal
             end
             Matrix(:,size(M,3)) = 0;
         end
-        
+
         if ndims(M) == 2
             for j = 1:size(M,1)
                 for k = 2:size(M,2)-1
@@ -6168,7 +6286,7 @@ axis equal
             end
             Matrix(:,size(M,3)-1:size(M,3)) = 0;
         end
-        
+
         if ndims(M) == 2
             for j = 1:size(M,1)
                 for k = 3:size(M,2)-2
@@ -6183,7 +6301,7 @@ axis equal
 
     function DIST = getdistance(V1, V2)
         % Determines the distance between 2 points in 3D space
-        
+
         for t = 1:length(V1)
             DIST.vector(:,t) = V1(:,t) - V2(:,t);
             DIST.scalar(1,t) = v3dlaenge(DIST.vector(:,t));
@@ -6195,12 +6313,12 @@ axis equal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     function y = v3dlaenge(V)
-        
+
         % Determines the norm of a vector
         if size(V,1) == 3
             y = sqrt(V(1,1)^2 + V(2,1)^2 + V(3,1)^2);
         end
-        
+
         if size(V,1) == 2
             y = sqrt(V(1,1)^2 + V(2,1)^2)
         end
@@ -6217,7 +6335,7 @@ axis equal
     end %getR
 
     function OUT = loadevents(File)
-        
+
         M = c3dserver;
         openc3d(M,0,File);
         start = M.GetVideoFrame(0);
@@ -6239,19 +6357,19 @@ axis equal
             OUT.Frame(run) = (round(OUT.Frame(run).*fRate)+1) - start + 1;;
             run = run+1;
         end
-        
+
         closec3d(M);
     end %loadevents
 
     function [KINETICS, LL] = InverseDynamik_Hof(FRAME, OPTIONS, FP, MARKERS)
-        
-        
+
+
         %% Vorgehensweise wie in Hof 1992 beschrieben
         %1. Gechwindigkeiten, Beschleunigungen und Rotationsmatrizen auf mit
         %reaktionskräften auf eine Länge bringen --> interpolieren
         for j = 1:3
             for k = 1:3
-                
+
                 try
                     FRAME.RightFoot.Theta_long(j,k,:) = fit(FRAME.RightFoot.Theta(j,k,:), FP.COP.Right(j,:));
                 end
@@ -6297,7 +6415,7 @@ axis equal
                 try
                     FRAME.LeftThigh.Theta_long(j,k,:) = fit(FRAME.LeftThigh.Theta(j,k,:), FP.COP.Left(j,:));
                 end
-                
+
                 %
                 try
                     FRAME.RightFoot.R_long(j,k,:) = fit(FRAME.RightFoot.R(j,k,:), FP.COP.Right(j,:));
@@ -6354,7 +6472,7 @@ axis equal
                     FRAME.LeftPelvis.R_long(j,k,:) = fit(FRAME.LeftPelvis.R(j,k,:), FP.COP.Left(j,:));
                 end
             end
-            
+
             %
             try
                 FRAME.RightFoot.O_long(j,:) = fit(FRAME.RightFoot.O(j,:), FP.COP.Right(j,:));
@@ -6395,7 +6513,7 @@ axis equal
             try
                 FRAME.LeftHand.O_long(j,:) = fit(FRAME.LeftHand.O(j,:), FP.COP.Right(j,:));
             end
-            
+
             try
                 FRAME.LeftFoot.O_long(j,:) = fit(FRAME.LeftFoot.O(j,:), FP.COP.Left(j,:));
             end
@@ -6405,7 +6523,7 @@ axis equal
             try
                 FRAME.LeftThigh.O_long(j,:) = fit(FRAME.LeftThigh.O(j,:), FP.COP.Left(j,:));
             end
-            
+
             %
             try
                 FRAME.RightFoot.V_long(j,:) = fit(FRAME.RightFoot.V(j,:), FP.COP.Right(j,:));
@@ -6440,7 +6558,7 @@ axis equal
             try
                 FRAME.LeftHand.V_long(j,:) = fit(FRAME.LeftHand.V(j,:), FP.COP.Right(j,:));
             end
-            
+
             try
                 FRAME.LeftFoot.V_long(j,:) = fit(FRAME.LeftFoot.V(j,:), FP.COP.Left(j,:));
             end
@@ -6450,7 +6568,7 @@ axis equal
             try
                 FRAME.LeftThigh.V_long(j,:) = fit(FRAME.LeftThigh.V(j,:), FP.COP.Left(j,:));
             end
-            
+
             %
             try
                 FRAME.RightFoot.ACC_long(j,:) = fit(FRAME.RightFoot.ACC(j,:), FP.COP.Right(j,:));
@@ -6494,7 +6612,7 @@ axis equal
             try
                 FRAME.LeftThigh.ACC_long(j,:) = fit(FRAME.LeftThigh.ACC(j,:), FP.COP.Left(j,:));
             end
-            
+
             %
             try
                 FRAME.RightFoot.LinACC_long(j,:) = fit(FRAME.RightFoot.LinACC(j,:), FP.COP.Right(j,:));
@@ -6538,7 +6656,7 @@ axis equal
             try
                 FRAME.LeftThigh.LinACC_long(j,:) = fit(FRAME.LeftThigh.LinACC(j,:), FP.COP.Left(j,:));
             end
-            
+
             try
                 MARKERS.Derived.RightAnkleJC_long(j,:) = fit(MARKERS.Derived.RightAnkleJC(j,:), FP.COP.Right(j,:));
             end
@@ -6585,42 +6703,42 @@ axis equal
                 MARKERS.Derived.NeckJC_long(j,:) = fit(MARKERS.Derived.NeckJC(j,:), FP.COP.Right(j,:));
             end
         end
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         %2. Lösen der Bewegungsgleichungen für das rechte Sprunggelenk
         try
             Wheight.Foot = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Foot, 1, length(FP.COP.Right));
             MA.RightFoot = repmat(OPTIONS.ANTHRO.SegmentMass.Foot,3,length(FP.COP.Right)) .* FRAME.RightFoot.LinACC_long;
-            
+
             KINETICS.RightAnkle.Term1 = cross((FP.COP.Right - MARKERS.Derived.RightAnkleJC_long), FP.GRFfilt.Right)./1000; %wg Nmm zu Nm
             KINETICS.RightAnkle.Term2 = cross((FRAME.RightFoot.O_long  - MARKERS.Derived.RightAnkleJC_long), Wheight.Foot)./1000; %wg Nmm zu Nm
             KINETICS.RightAnkle.Term3 = cross((FRAME.RightFoot.O_long - MARKERS.Derived.RightAnkleJC_long), MA.RightFoot)./1000; %wg Nmm zu Nm
-            
+
             I.Foot = repmat([OPTIONS.ANTHRO.MoI.Foot.X;OPTIONS.ANTHRO.MoI.Foot.Y;OPTIONS.ANTHRO.MoI.Foot.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightFoot.R_long,3)
                 LL.RightFoot(:,:,kk)=FRAME.RightFoot.R_long(:,:,kk)*I.Foot*FRAME.RightFoot.R_long(:,:,kk)';
                 KINETICS.RightAnkle.Term4(:,kk)=(LL.RightFoot(:,:,kk)*FRAME.RightFoot.ACC_long(:,kk))+(FRAME.RightFoot.Theta_long(:,:,kk)*LL.RightFoot(:,:,kk)*FRAME.RightFoot.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightAnkle.Moment = -FP.FM.Right - KINETICS.RightAnkle.Term1 - KINETICS.RightAnkle.Term2 + KINETICS.RightAnkle.Term3 + KINETICS.RightAnkle.Term4;
             for f = 1:length(KINETICS.RightAnkle.Moment)
                 KINETICS.RightAnkleMomentInProximal(:,f) = FRAME.RightShank.R_long(:,:,f)' * KINETICS.RightAnkle.Moment(:,f);
             end
         end
-        
+
         %2b. Lösen der Bewgungsgleichungen für das rechte MTP Gelenk
         try
-            
-            
+
+
             KINETICS.RightMPJ.Term1 = cross((FP.COP.Right - MARKERS.Derived.RightMPJC_long), FP.GRFfilt.Right)./1000; %wg Nmm zu Nm
-            
-            
-            
+
+
+
             KINETICS.RightMPJ.Moment = -FP.FM.Right - KINETICS.RightMPJ.Term1;
             for f = 1:length(KINETICS.RightMPJ.Moment)
                 KINETICS.RightMPJMomentInProximal(:,f) = FRAME.RightRearfoot.R_long(:,:,f)' * KINETICS.RightMPJ.Moment(:,f);
@@ -6636,25 +6754,25 @@ axis equal
             KINETICS.RightMPJMomentInProximal(:,isnegMPJR) = 0;
             KINETICS.RightMPJMomentInProximal(1,:) = 0;
             KINETICS.RightMPJMomentInProximal(3,:) = 0;
-            
+
         end
-        
+
         %3. Lösen der Bewgungsgleichungen für das linke Sprunggelenk
         try
             Wheight.Foot = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Foot, 1, length(FP.COP.Right));
             MA.LeftFoot = repmat(OPTIONS.ANTHRO.SegmentMass.Foot,3,length(FP.COP.Left)) .* FRAME.LeftFoot.LinACC_long;
-            
+
             KINETICS.LeftAnkle.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftAnkleJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
             KINETICS.LeftAnkle.Term2 = cross((FRAME.LeftFoot.O_long  - MARKERS.Derived.LeftAnkleJC_long), Wheight.Foot)./1000; %wg Nmm zu Nm
             KINETICS.LeftAnkle.Term3 = cross((FRAME.LeftFoot.O_long - MARKERS.Derived.LeftAnkleJC_long), MA.LeftFoot)./1000; %wg Nmm zu Nm
-            
+
             I.Foot = repmat([OPTIONS.ANTHRO.MoI.Foot.X;OPTIONS.ANTHRO.MoI.Foot.Y;OPTIONS.ANTHRO.MoI.Foot.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftFoot.R_long,3)
                 LL.LeftFoot(:,:,kk)=FRAME.LeftFoot.R_long(:,:,kk)*I.Foot*FRAME.LeftFoot.R_long(:,:,kk)';
                 KINETICS.LeftAnkle.Term4(:,kk)=(LL.LeftFoot(:,:,kk)*FRAME.LeftFoot.ACC_long(:,kk))+(FRAME.LeftFoot.Theta_long(:,:,kk)*LL.LeftFoot(:,:,kk)*FRAME.LeftFoot.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftAnkle.Moment = -FP.FM.Left - KINETICS.LeftAnkle.Term1 - KINETICS.LeftAnkle.Term2 + KINETICS.LeftAnkle.Term3 + KINETICS.LeftAnkle.Term4;
             for f = 1:length(KINETICS.LeftAnkle.Moment)
                 KINETICS.LeftAnkleMomentInProximal(:,f) = FRAME.LeftShank.R_long(:,:,f)' * KINETICS.LeftAnkle.Moment(:,f);
@@ -6664,19 +6782,19 @@ axis equal
         end
         %3b. Lösen der Bewgungsgleichungen für das linke MTP Gelenk
         try
-            
-            
+
+
             KINETICS.LeftMPJ.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftMPJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
-            
-            
-            
+
+
+
             KINETICS.LeftMPJ.Moment = -FP.FM.Left - KINETICS.LeftMPJ.Term1;
             for f = 1:length(KINETICS.LeftMPJ.Moment)
                 KINETICS.LeftMPJMomentInProximal(:,f) = FRAME.LeftRearfoot.R_long(:,:,f)' * KINETICS.LeftMPJ.Moment(:,f);
             end
             KINETICS.LeftMPJMomentInProximal(1,:) = -KINETICS.LeftMPJMomentInProximal(1,:);
             KINETICS.LeftMPJMomentInProximal(3,:) = -KINETICS.LeftMPJMomentInProximal(3,:);
-            
+
             isnegMPJL = find(KINETICS.LeftMPJMomentInProximal(2,:) <= 0);
             KINETICS.LeftMPJMomentInProximal(:,isnegMPJL) = 0;
             KINETICS.LeftMPJMomentInProximal(1,:) = 0;
@@ -6686,42 +6804,42 @@ axis equal
         try
             Wheight.Shank = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Shank, 1, length(FP.COP.Right));
             MA.RightShank = repmat(OPTIONS.ANTHRO.SegmentMass.Shank,3,length(FP.COP.Right)) .* FRAME.RightShank.LinACC_long;
-            
+
             KINETICS.RightKnee.Term1 = cross((FP.COP.Right - MARKERS.Derived.RightKneeJC_long), FP.GRFfilt.Right)./1000; %wg Nmm zu Nm
             KINETICS.RightKnee.Term2 = cross((FRAME.RightShank.O_long  - MARKERS.Derived.RightKneeJC_long), Wheight.Shank)./1000; %wg Nmm zu Nm
             KINETICS.RightKnee.Term3 = cross((FRAME.RightShank.O_long - MARKERS.Derived.RightKneeJC_long), MA.RightShank)./1000; %wg Nmm zu Nm
-            
+
             I.Shank = repmat([OPTIONS.ANTHRO.MoI.Shank.X;OPTIONS.ANTHRO.MoI.Shank.Y;OPTIONS.ANTHRO.MoI.Shank.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightShank.R_long,3)
                 LL.RightShank(:,:,kk)=FRAME.RightShank.R_long(:,:,kk)*I.Shank*FRAME.RightShank.R_long(:,:,kk)';
                 KINETICS.RightKnee.Term4(:,kk)=(LL.RightShank(:,:,kk)*FRAME.RightShank.ACC_long(:,kk))+(FRAME.RightShank.Theta_long(:,:,kk)*LL.RightShank(:,:,kk)*FRAME.RightShank.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightKnee.Moment = -FP.FM.Right - KINETICS.RightKnee.Term1 - (KINETICS.RightKnee.Term2 + KINETICS.RightAnkle.Term2) + (KINETICS.RightKnee.Term3 + KINETICS.RightAnkle.Term3) + (KINETICS.RightKnee.Term4 + KINETICS.RightAnkle.Term4);
             for f = 1:length(KINETICS.RightKnee.Moment)
                 KINETICS.RightKneeMomentInProximal(:,f) = FRAME.RightThigh.R_long(:,:,f)' * KINETICS.RightKnee.Moment(:,f);
             end
-            
+
         end
-        
-        
+
+
         %5. Lösen der Bewgungsgleichungen für das linke Kniegelenk
         try
             Wheight.Shank = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Shank, 1, length(FP.COP.Right));
             MA.LeftShank = repmat(OPTIONS.ANTHRO.SegmentMass.Shank,3,length(FP.COP.Left)) .* FRAME.LeftShank.LinACC_long;
-            
+
             KINETICS.LeftKnee.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftKneeJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
             KINETICS.LeftKnee.Term2 = cross((FRAME.LeftShank.O_long  - MARKERS.Derived.LeftKneeJC_long), Wheight.Shank)./1000; %wg Nmm zu Nm
             KINETICS.LeftKnee.Term3 = cross((FRAME.LeftShank.O_long - MARKERS.Derived.LeftKneeJC_long), MA.LeftShank)./1000; %wg Nmm zu Nm
-            
+
             I.Shank = repmat([OPTIONS.ANTHRO.MoI.Shank.X;OPTIONS.ANTHRO.MoI.Shank.Y;OPTIONS.ANTHRO.MoI.Shank.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftShank.R_long,3)
                 LL.LeftShank(:,:,kk)=FRAME.LeftShank.R_long(:,:,kk)*I.Shank*FRAME.LeftShank.R_long(:,:,kk)';
                 KINETICS.LeftKnee.Term4(:,kk)=(LL.LeftShank(:,:,kk)*FRAME.LeftShank.ACC_long(:,kk))+(FRAME.LeftShank.Theta_long(:,:,kk)*LL.LeftShank(:,:,kk)*FRAME.LeftShank.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftKnee.Moment = -FP.FM.Left - KINETICS.LeftKnee.Term1 - (KINETICS.LeftKnee.Term2 + KINETICS.LeftAnkle.Term2) + (KINETICS.LeftKnee.Term3 + KINETICS.LeftAnkle.Term3) + (KINETICS.LeftKnee.Term4 + KINETICS.LeftAnkle.Term4);
             for f = 1:length(KINETICS.LeftKnee.Moment)
                 KINETICS.LeftKneeMomentInProximal(:,f) = FRAME.LeftThigh.R_long(:,:,f)' * KINETICS.LeftKnee.Moment(:,f);
@@ -6733,18 +6851,18 @@ axis equal
         try
             Wheight.Thigh = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Thigh, 1, length(FP.COP.Right));
             MA.RightThigh = repmat(OPTIONS.ANTHRO.SegmentMass.Thigh,3,length(FP.COP.Right)) .* FRAME.RightThigh.LinACC_long;
-            
+
             KINETICS.RightHip.Term1 = cross((FP.COP.Right - MARKERS.Derived.RightHipJC_long), FP.GRFfilt.Right)./1000; %wg Nmm zu Nm
             KINETICS.RightHip.Term2 = cross((FRAME.RightThigh.O_long  - MARKERS.Derived.RightHipJC_long), Wheight.Thigh)./1000; %wg Nmm zu Nm
             KINETICS.RightHip.Term3 = cross((FRAME.RightThigh.O_long - MARKERS.Derived.RightHipJC_long), MA.RightThigh)./1000; %wg Nmm zu Nm
-            
+
             I.Thigh = repmat([OPTIONS.ANTHRO.MoI.Thigh.X;OPTIONS.ANTHRO.MoI.Thigh.Y;OPTIONS.ANTHRO.MoI.Thigh.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightThigh.R_long,3)
                 LL.RightThigh(:,:,kk)=FRAME.RightThigh.R_long(:,:,kk)*I.Thigh*FRAME.RightThigh.R_long(:,:,kk)';
                 KINETICS.RightHip.Term4(:,kk)=(LL.RightThigh(:,:,kk)*FRAME.RightThigh.ACC_long(:,kk))+(FRAME.RightThigh.Theta_long(:,:,kk)*LL.RightThigh(:,:,kk)*FRAME.RightThigh.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightHip.Moment = -FP.FM.Right - KINETICS.RightHip.Term1 - (KINETICS.RightHip.Term2 + KINETICS.RightKnee.Term2 + KINETICS.RightAnkle.Term2) + (KINETICS.RightHip.Term3 + KINETICS.RightKnee.Term3 + KINETICS.RightAnkle.Term3) + (KINETICS.RightHip.Term4 + KINETICS.RightKnee.Term4 + KINETICS.RightAnkle.Term4);
             for f = 1:length(KINETICS.RightHip.Moment)
                 KINETICS.RightHipMomentInProximal(:,f) = FRAME.RightPelvis.R_long(:,:,f)' * KINETICS.RightHip.Moment(:,f);
@@ -6754,18 +6872,18 @@ axis equal
         try
             Wheight.Thigh = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Thigh, 1, length(FP.COP.Right));
             MA.LeftThigh = repmat(OPTIONS.ANTHRO.SegmentMass.Thigh,3,length(FP.COP.Left)) .* FRAME.LeftThigh.LinACC_long;
-            
+
             KINETICS.LeftHip.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftHipJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
             KINETICS.LeftHip.Term2 = cross((FRAME.LeftThigh.O_long  - MARKERS.Derived.LeftHipJC_long), Wheight.Thigh)./1000; %wg Nmm zu Nm
             KINETICS.LeftHip.Term3 = cross((FRAME.LeftThigh.O_long - MARKERS.Derived.LeftHipJC_long), MA.LeftThigh)./1000; %wg Nmm zu Nm
-            
+
             I.Thigh = repmat([OPTIONS.ANTHRO.MoI.Thigh.X;OPTIONS.ANTHRO.MoI.Thigh.Y;OPTIONS.ANTHRO.MoI.Thigh.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftThigh.R_long,3)
                 LL.LeftThigh(:,:,kk)=FRAME.LeftThigh.R_long(:,:,kk)*I.Thigh*FRAME.LeftThigh.R_long(:,:,kk)';
                 KINETICS.LeftHip.Term4(:,kk)=(LL.LeftThigh(:,:,kk)*FRAME.LeftThigh.ACC_long(:,kk))+(FRAME.LeftThigh.Theta_long(:,:,kk)*LL.LeftThigh(:,:,kk)*FRAME.LeftThigh.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftHip.Moment = -FP.FM.Left - KINETICS.LeftHip.Term1 - (KINETICS.LeftHip.Term2 + KINETICS.LeftKnee.Term2 + KINETICS.LeftAnkle.Term2) + (KINETICS.LeftHip.Term3 + KINETICS.LeftKnee.Term3 + KINETICS.LeftAnkle.Term3) + (KINETICS.LeftHip.Term4 + KINETICS.LeftKnee.Term4 + KINETICS.LeftAnkle.Term4);
             for f = 1:length(KINETICS.LeftHip.Moment)
                 KINETICS.LeftHipMomentInProximal(:,f) = FRAME.LeftPelvis.R_long(:,:,f)' * KINETICS.LeftHip.Moment(:,f);
@@ -6773,151 +6891,151 @@ axis equal
             KINETICS.LeftHipMomentInProximal(1,:) = -KINETICS.LeftHipMomentInProximal(1,:);
             KINETICS.LeftHipMomentInProximal(3,:) = -KINETICS.LeftHipMomentInProximal(3,:);
         end
-        
+
         %8. Lösen der Bewgungsgleichungen für das rechte Handgelenk
         try
             Wheight.Hand = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Hand, 1, length(FP.COP.Right));
             MA.RightHand = repmat(OPTIONS.ANTHRO.SegmentMass.Hand,3,length(FP.COP.Right)) .* FRAME.RightHand.LinACC_long;
-            
+
             KINETICS.RightWrist.Term1 = zeros(3,length(FRAME.RightHand.O_long));
             KINETICS.RightWrist.Term2 = cross((FRAME.RightHand.O_long  - MARKERS.Derived.RightWristJC_long), Wheight.Hand)./1000; %wg Nmm zu Nm
             KINETICS.RightWrist.Term3 = cross((FRAME.RightHand.O_long - MARKERS.Derived.RightWristJC_long), MA.RightHand)./1000; %wg Nmm zu Nm
-            
+
             I.Hand = repmat([OPTIONS.ANTHRO.MoI.Hand.X;OPTIONS.ANTHRO.MoI.Hand.Y;OPTIONS.ANTHRO.MoI.Hand.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightHand.R_long,3)
                 LL.RightHand(:,:,kk)=FRAME.RightHand.R_long(:,:,kk)*I.Hand*FRAME.RightHand.R_long(:,:,kk)';
                 KINETICS.RightWrist.Term4(:,kk)=(LL.RightHand(:,:,kk)*FRAME.RightHand.ACC_long(:,kk))+(FRAME.RightHand.Theta_long(:,:,kk)*LL.RightHand(:,:,kk)*FRAME.RightHand.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightWrist.Moment = KINETICS.RightWrist.Term1 - (KINETICS.RightWrist.Term2) + (KINETICS.RightWrist.Term3) + (KINETICS.RightWrist.Term4);
             for f = 1:length(KINETICS.RightWrist.Moment)
                 KINETICS.RightWristMomentInProximal(:,f) = FRAME.RightLowerArm.R_long(:,:,f)' * KINETICS.RightWrist.Moment(:,f);
             end
         end
-        
+
         %9. Lösen der Bewgungsgleichungen für das rechte Ellbogengelenk
         try
             Wheight.LowerArm = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.LowerArm, 1, length(FP.COP.Right));
             MA.RightLowerArm = repmat(OPTIONS.ANTHRO.SegmentMass.LowerArm,3,length(FP.COP.Right)) .* FRAME.RightLowerArm.LinACC_long;
-            
+
             KINETICS.RightElbow.Term1 = zeros(3,length(FRAME.RightLowerArm.O_long));
             KINETICS.RightElbow.Term2 = cross((FRAME.RightLowerArm.O_long  - MARKERS.Derived.RightElbowJC_long), Wheight.LowerArm)./1000; %wg Nmm zu Nm
             KINETICS.RightElbow.Term3 = cross((FRAME.RightLowerArm.O_long - MARKERS.Derived.RightElbowJC_long), MA.RightLowerArm)./1000; %wg Nmm zu Nm
-            
+
             I.LowerArm = repmat([OPTIONS.ANTHRO.MoI.LowerArm.X;OPTIONS.ANTHRO.MoI.LowerArm.Y;OPTIONS.ANTHRO.MoI.LowerArm.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightLowerArm.R_long,3)
                 LL.RightLowerArm(:,:,kk)=FRAME.RightLowerArm.R_long(:,:,kk)*I.LowerArm*FRAME.RightLowerArm.R_long(:,:,kk)';
                 KINETICS.RightElbow.Term4(:,kk)=(LL.RightLowerArm(:,:,kk)*FRAME.RightLowerArm.ACC_long(:,kk))+(FRAME.RightLowerArm.Theta_long(:,:,kk)*LL.RightLowerArm(:,:,kk)*FRAME.RightLowerArm.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightElbow.Moment = KINETICS.RightWrist.Term1 - (KINETICS.RightWrist.Term2 + KINETICS.RightElbow.Term2) + (KINETICS.RightWrist.Term3 + KINETICS.RightElbow.Term3) + (KINETICS.RightWrist.Term4 + KINETICS.RightElbow.Term4);
             for f = 1:length(KINETICS.RightElbow.Moment)
                 KINETICS.RightElbowMomentInProximal(:,f) = FRAME.RightUpperArm.R_long(:,:,f)' * KINETICS.RightElbow.Moment(:,f);
             end
         end
-        
-        
+
+
         %10. Lösen der Bewgungsgleichungen für das rechte Schultergelenk
         try
             Wheight.UpperArm = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.UpperArm, 1, length(FP.COP.Right));
             MA.RightUpperArm = repmat(OPTIONS.ANTHRO.SegmentMass.UpperArm,3,length(FP.COP.Right)) .* FRAME.RightUpperArm.LinACC_long;
-            
+
             KINETICS.RightShoulder.Term1 = zeros(3,length(FRAME.RightThigh.O_long));
             KINETICS.RightShoulder.Term2 = cross((FRAME.RightUpperArm.O_long  - MARKERS.Derived.RightShoulderJC_long), Wheight.UpperArm)./1000; %wg Nmm zu Nm
             KINETICS.RightShoulder.Term3 = cross((FRAME.RightUpperArm.O_long - MARKERS.Derived.RightShoulderJC_long), MA.RightUpperArm)./1000; %wg Nmm zu Nm
-            
+
             I.UpperArm = repmat([OPTIONS.ANTHRO.MoI.UpperArm.X;OPTIONS.ANTHRO.MoI.UpperArm.Y;OPTIONS.ANTHRO.MoI.UpperArm.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.RightUpperArm.R_long,3)
                 LL.RightUpperArm(:,:,kk)=FRAME.RightUpperArm.R_long(:,:,kk)*I.UpperArm*FRAME.RightUpperArm.R_long(:,:,kk)';
                 KINETICS.RightShoulder.Term4(:,kk)=(LL.RightUpperArm(:,:,kk)*FRAME.RightUpperArm.ACC_long(:,kk))+(FRAME.RightUpperArm.Theta_long(:,:,kk)*LL.RightUpperArm(:,:,kk)*FRAME.RightUpperArm.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.RightShoulder.Moment = KINETICS.RightShoulder.Term1 - (KINETICS.RightWrist.Term2 + KINETICS.RightElbow.Term2 + KINETICS.RightShoulder.Term2) + (KINETICS.RightWrist.Term3 + KINETICS.RightElbow.Term3 + KINETICS.RightShoulder.Term3) + (KINETICS.RightWrist.Term4 + KINETICS.RightElbow.Term4 + KINETICS.RightShoulder.Term4);
             for f = 1:length(KINETICS.RightShoulder.Moment)
                 KINETICS.RightShoulderMomentInProximal(:,f) = FRAME.Trunk.R_long(:,:,f)' * KINETICS.RightShoulder.Moment(:,f);
             end
         end
-        
-        
+
+
         %11. Lösen der Bewgungsgleichungen für das linke Handgelenk
         try
             Wheight.Hand = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Hand, 1, length(FP.COP.Left));
             MA.LeftHand = repmat(OPTIONS.ANTHRO.SegmentMass.Hand,3,length(FP.COP.Left)) .* FRAME.LeftHand.LinACC_long;
-            
+
             KINETICS.LeftWrist.Term1 = zeros(3,length(FRAME.LeftHand.O_long));
             KINETICS.LeftWrist.Term2 = cross((FRAME.LeftHand.O_long  - MARKERS.Derived.LeftWristJC_long), Wheight.Hand)./1000; %wg Nmm zu Nm
             KINETICS.LeftWrist.Term3 = cross((FRAME.LeftHand.O_long - MARKERS.Derived.LeftWristJC_long), MA.LeftHand)./1000; %wg Nmm zu Nm
-            
+
             I.Hand = repmat([OPTIONS.ANTHRO.MoI.Hand.X;OPTIONS.ANTHRO.MoI.Hand.Y;OPTIONS.ANTHRO.MoI.Hand.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftHand.R_long,3)
                 LL.LeftHand(:,:,kk)=FRAME.LeftHand.R_long(:,:,kk)*I.Hand*FRAME.LeftHand.R_long(:,:,kk)';
                 KINETICS.LeftWrist.Term4(:,kk)=(LL.LeftHand(:,:,kk)*FRAME.LeftHand.ACC_long(:,kk))+(FRAME.LeftHand.Theta_long(:,:,kk)*LL.LeftHand(:,:,kk)*FRAME.LeftHand.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftWrist.Moment = KINETICS.LeftWrist.Term1 - (KINETICS.LeftWrist.Term2) + (KINETICS.LeftWrist.Term3) + (KINETICS.LeftWrist.Term4);
             for f = 1:length(KINETICS.LeftWrist.Moment)
                 KINETICS.LeftWristMomentInProximal(:,f) = FRAME.LeftLowerArm.R_long(:,:,f)' * KINETICS.LeftWrist.Moment(:,f);
             end
         end
-        
+
         %12. Lösen der Bewgungsgleichungen für das linke Ellbogengelenk
         try
             Wheight.LowerArm = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.LowerArm, 1, length(FP.COP.Left));
             MA.LeftLowerArm = repmat(OPTIONS.ANTHRO.SegmentMass.LowerArm,3,length(FP.COP.Left)) .* FRAME.LeftLowerArm.LinACC_long;
-            
+
             KINETICS.LeftElbow.Term1 = zeros(3,length(FRAME.LeftLowerArm.O_long));
             KINETICS.LeftElbow.Term2 = cross((FRAME.LeftLowerArm.O_long  - MARKERS.Derived.LeftElbowJC_long), Wheight.LowerArm)./1000; %wg Nmm zu Nm
             KINETICS.LeftElbow.Term3 = cross((FRAME.LeftLowerArm.O_long - MARKERS.Derived.LeftElbowJC_long), MA.LeftLowerArm)./1000; %wg Nmm zu Nm
-            
+
             I.LowerArm = repmat([OPTIONS.ANTHRO.MoI.LowerArm.X;OPTIONS.ANTHRO.MoI.LowerArm.Y;OPTIONS.ANTHRO.MoI.LowerArm.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftLowerArm.R_long,3)
                 LL.LeftLowerArm(:,:,kk)=FRAME.LeftLowerArm.R_long(:,:,kk)*I.LowerArm*FRAME.LeftLowerArm.R_long(:,:,kk)';
                 KINETICS.LeftElbow.Term4(:,kk)=(LL.LeftLowerArm(:,:,kk)*FRAME.LeftLowerArm.ACC_long(:,kk))+(FRAME.LeftLowerArm.Theta_long(:,:,kk)*LL.LeftLowerArm(:,:,kk)*FRAME.LeftLowerArm.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftElbow.Moment = KINETICS.LeftWrist.Term1 - (KINETICS.LeftWrist.Term2 + KINETICS.LeftElbow.Term2) + (KINETICS.LeftWrist.Term3 + KINETICS.LeftElbow.Term3) + (KINETICS.LeftWrist.Term4 + KINETICS.LeftElbow.Term4);
             for f = 1:length(KINETICS.LeftElbow.Moment)
                 KINETICS.LeftElbowMomentInProximal(:,f) = FRAME.LeftUpperArm.R_long(:,:,f)' * KINETICS.LeftElbow.Moment(:,f);
             end
         end
-        
-        
+
+
         %13. Lösen der Bewgungsgleichungen für das linke Schultergelenk
         try
             Wheight.UpperArm = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.UpperArm, 1, length(FP.COP.Left));
             MA.LeftUpperArm = repmat(OPTIONS.ANTHRO.SegmentMass.UpperArm,3,length(FP.COP.Left)) .* FRAME.LeftUpperArm.LinACC_long;
-            
+
             KINETICS.LeftShoulder.Term1 = zeros(3,length(FRAME.LeftThigh.O_long));
             KINETICS.LeftShoulder.Term2 = cross((FRAME.LeftUpperArm.O_long  - MARKERS.Derived.LeftShoulderJC_long), Wheight.UpperArm)./1000; %wg Nmm zu Nm
             KINETICS.LeftShoulder.Term3 = cross((FRAME.LeftUpperArm.O_long - MARKERS.Derived.LeftShoulderJC_long), MA.LeftUpperArm)./1000; %wg Nmm zu Nm
-            
+
             I.UpperArm = repmat([OPTIONS.ANTHRO.MoI.UpperArm.X;OPTIONS.ANTHRO.MoI.UpperArm.Y;OPTIONS.ANTHRO.MoI.UpperArm.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.LeftUpperArm.R_long,3)
                 LL.LeftUpperArm(:,:,kk)=FRAME.LeftUpperArm.R_long(:,:,kk)*I.UpperArm*FRAME.LeftUpperArm.R_long(:,:,kk)';
                 KINETICS.LeftShoulder.Term4(:,kk)=(LL.LeftUpperArm(:,:,kk)*FRAME.LeftUpperArm.ACC_long(:,kk))+(FRAME.LeftUpperArm.Theta_long(:,:,kk)*LL.LeftUpperArm(:,:,kk)*FRAME.LeftUpperArm.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.LeftShoulder.Moment = KINETICS.LeftShoulder.Term1 - (KINETICS.LeftWrist.Term2 + KINETICS.LeftElbow.Term2 + KINETICS.LeftShoulder.Term2) + (KINETICS.LeftWrist.Term3 + KINETICS.LeftElbow.Term3 + KINETICS.LeftShoulder.Term3) + (KINETICS.LeftWrist.Term4 + KINETICS.LeftElbow.Term4 + KINETICS.LeftShoulder.Term4);
             for f = 1:length(KINETICS.LeftShoulder.Moment)
                 KINETICS.LeftShoulderMomentInProximal(:,f) = FRAME.Trunk.R_long(:,:,f)' * KINETICS.LeftShoulder.Moment(:,f);
             end
         end
-        
+
         %14. Lösen der Bewgungsgleichungen für das Nackengelenk
         try
             Wheight.Head = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Head, 1, length(FP.COP.Left));
             MA.Head = repmat(OPTIONS.ANTHRO.SegmentMass.Head,3,length(FP.COP.Left)) .* FRAME.Head.LinACC_long;
-            
+
             KINETICS.Neck.Term1 = zeros(3,length(FRAME.Head.O_long));
             KINETICS.Neck.Term2 = cross((FRAME.Head.O_long  - MARKERS.Derived.NeckJC_long), Wheight.Head)./1000; %wg Nmm zu Nm
             KINETICS.Neck.Term3 = cross((FRAME.Head.O_long - MARKERS.Derived.NeckJC_long), MA.Head)./1000; %wg Nmm zu Nm
-            
+
             I.Head = repmat([OPTIONS.ANTHRO.MoI.Head.X;OPTIONS.ANTHRO.MoI.Head.Y;OPTIONS.ANTHRO.MoI.Head.Z],1,3).*eye(3,3);
             I.Trunk = repmat([OPTIONS.ANTHRO.MoI.Trunk.X;OPTIONS.ANTHRO.MoI.Trunk.Y;OPTIONS.ANTHRO.MoI.Trunk.Z],1,3).*eye(3,3);
             for kk=1:size(FRAME.Head.R_long,3)
@@ -6925,8 +7043,8 @@ axis equal
                 LL.Trunk(:,:,kk)=FRAME.Trunk.R_long(:,:,kk)*I.Trunk*FRAME.Trunk.R_long(:,:,kk)';
                 KINETICS.Neck.Term4(:,kk)=(LL.Head(:,:,kk)*FRAME.Head.ACC_long(:,kk))+(FRAME.Head.Theta_long(:,:,kk)*LL.Head(:,:,kk)*FRAME.Head.V_long(:,kk));
             end
-            
-            
+
+
             KINETICS.Neck.Moment = KINETICS.Neck.Term1 - (KINETICS.Neck.Term2) + (KINETICS.Neck.Term3) + (KINETICS.Neck.Term4);
             for f = 1:length(KINETICS.Neck.Moment)
                 KINETICS.NeckMomentInProximal(:,f) = FRAME.Trunk.R_long(:,:,f)' * KINETICS.Neck.Moment(:,f);
@@ -6936,7 +7054,7 @@ axis equal
 
 
     function R = rotZ_sw(rang)
-        
+
         R = [cosd(rang) -sind(rang) 0; sind(rang) cosd(rang) 0; 0 0 1];
     end % rotZ_sw
 

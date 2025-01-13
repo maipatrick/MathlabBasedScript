@@ -1348,7 +1348,7 @@ gui = createInterface();
         superordner = char(get(gui.EditTopFolder, 'String'));
         sordner = dir(superordner);
         for n_ordner = 3:size(sordner,1)
-            ueberordner = [superordner,'\',char(sordner(n_ordner).name)];
+            ueberordner = [superordner,'\',char(sordner(n_orddispner).name)];
             ordner = dir(ueberordner);
             n_dir = 1;
             for d = 3:size(ordner,1)
@@ -1976,6 +1976,7 @@ gui = createInterface();
 
         OPTIONS = data.OPTIONS;
         ConditionFolders = dir(OPTIONS.TopFolder);
+        ConditionFolders(find(contains({ConditionFolders.name}, '.mat')==1)) = [];
         whichConditions = get(gui.WhichConditions, 'String');
         % WC is created from the information provided in the Run Model tab
         if strcmp(whichConditions, ':')
@@ -2003,12 +2004,14 @@ gui = createInterface();
                 % Set specific folder variables and athropometric information for this Condition - Subject
                 % Combination - they will be deleted at the end of n_sub loop
                 pathname = char(FRAMEWORK(n_sub).pathname);
+                pathsplitted = split(FRAMEWORK(n_sub).pathname, '\'); 
                 filename = FRAMEWORK(n_sub).filename;
                 anthrofile = [pathname, FRAMEWORK(n_sub).anthro];
                 [OPTIONS.ANTHRO, OPTIONS.mass, OPTIONS.RunningSpeed] = getANTHRO_GUI(anthrofile, 'ZAT1983');
 
                 %% Find the reference trial
                 % try
+                disp( ['Condition: ',  pathsplitted{end-2},' Subject: ',pathsplitted{end-1}])
                 ind_reftrial = get_reftrial(filename, OPTIONS.RefSpecifier);
                 [REFFRAME, REFMARKERS, ~] = get_refinfo_GUI([pathname,char(filename(ind_reftrial))], OPTIONS);
                 %                 catch
@@ -2018,9 +2021,21 @@ gui = createInterface();
                 %  end
 
                 % Once again to determine MoIs
+                % get bodymass and foot length from csv file and store it
+                % to the csv file
+                % static file
+                static_file_path = [pathname,char(filename(ind_reftrial))];
+                static_file = load (static_file_path);
+                bodymass_from_fp =  nanmean(static_file.Static_POSE_1.Force.Force(end,:))*-1/9.81;
+                footlength_from_static_file = abs((nanmean(REFMARKERS.Filt.calc_back_right.data(1,:))-nanmean(REFMARKERS.Filt.toe_right.data(1,:)))/10);
+                old_antro = csvread(anthrofile);
+                old_antro(2) = bodymass_from_fp;
+                old_antro(3) = footlength_from_static_file;
+                writematrix(old_antro, anthrofile);
                 try
                     [OPTIONS.ANTHRO, OPTIONS.mass, OPTIONS.RunningSpeed] = getANTHRO_GUI(anthrofile, 'ZAT1983', REFFRAME);
                 end
+
                 %% Analysis of dynamic trials
                 runi = 0;
 
@@ -2038,7 +2053,7 @@ gui = createInterface();
                         runi = runi +1;
                         %% Determine Structname (name to identify individual trials)
                         name = correctumlaut(char(filename(1,i)));
-                        disp(name);
+                        disp([name, ' @ ', pathname] );
                         structname = ['T_', name(1:end-4)];
                         % Reading Analog Data if wanted
                         if get(gui.SaveAnalogData, 'Value')
@@ -3572,9 +3587,24 @@ gui = createInterface();
                                 ContactR.(structname).data = 1:nframes.(structname);
                                 ContactL.(structname).data = 1:nframes.(structname);
                             end
-                            try
-                                NORMAL.HEADER(1,ns+(runi-1)*numsteps) = filename(1,i);
+                            % try
+                            NORMAL.HEADER(1,ns+(runi-1)*numsteps) = {[erase(filename{1,i}, '.mat'), '_step_',num2str(ns)]}; %filename(1,i);
+                            % end
+                            markernames_labels = fieldnames(MARKERS.(structname).Derived);
+                            for ml = 1 : length (markernames_labels)
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(1,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(2,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(3,ContactR.(structname).data), 0.5)';
                             end
+
+                            markernames_labels = fieldnames(MARKERS.(structname).Opti);
+                            for ml = 1 : length (markernames_labels)
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(1,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(2,ContactR.(structname).data), 0.5)';
+                                NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(3,ContactR.(structname).data), 0.5)';
+                            end
+
+
                             try
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.X(ContactR.(structname).data), 0.5)';
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.Y(ContactR.(structname).data), 0.5)';
@@ -3743,6 +3773,7 @@ gui = createInterface();
                                 NORMAL.L.FM.DATA.Z(:,ns+(runi-1)*numsteps)=   normalize(FP.(structname).FM.Left(3,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
 
                             end
+                            a = 2;
 
 
                             if (OPTIONS.ExperimentalSetup == 6) || (OPTIONS.ExperimentalSetup == 7)  ||  (OPTIONS.ExperimentalSetup == 8)
@@ -3750,6 +3781,9 @@ gui = createInterface();
                                     NORMAL.R.GRF.DATA.X(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(1,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                     NORMAL.R.GRF.DATA.Y(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(2,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
                                     NORMAL.R.GRF.DATA.Z(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).GRFfilt.Right(3,ContactR_analog.(structname).data)./OPTIONS.mass, 0.5)';
+                                    NORMAL.R.COP.DATA.X(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(1,ContactR_analog.(structname).data), 0.5)';
+                                    NORMAL.R.COP.DATA.Y(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(2,ContactR_analog.(structname).data), 0.5)';
+                                    NORMAL.R.COP.DATA.Z(:,ns+(runi-1)*numsteps) = normalize(FP.(structname).COP.Right(3,ContactR_analog.(structname).data), 0.5)';
                                 end
                             end
 
@@ -4757,31 +4791,31 @@ gui = createInterface();
             % figure(100)
             % temp = mean( Markers.(Labels{n}).data,2);
             % if strcmp((Labels{n}), 'epi_med_right')
-            % 
+            %
             %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
             % elseif strcmp((Labels{n}), 'mal_med_right')
             %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
             % elseif strcmp((Labels{n}), 'toe_right')
             %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
-            % 
+            %
             % elseif strcmp((Labels{n}), 'SIPS_right')
             %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
-            % 
+            %
             % else
             %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100)
-            % 
+            %
             % end
             % hold on
             % Plot the x-axis (from origin to [1, 0, 0])
             % plot3([0 5], [0 0], [0 0], 'r', 'LineWidth', 2); % x-axis in red
             % hold on; % Hold the plot for additional plotting
-            % 
+            %
             % Plot the y-axis (from origin to [0, 1, 0])
             % plot3([0 0], [0 5], [0 0], 'g', 'LineWidth', 2); % y-axis in green
-            % 
+            %
             % Plot the z-axis (from origin to [0, 0, 1])
             % plot3([0 0], [0 0], [0 5], 'b', 'LineWidth', 2); % z-axis in blue
-            % 
+            %
             % Label the axes
             % text(1, 0, 0, 'X', 'FontSize', 12, 'Color', 'r'); % X-axis label
             % text(0, 1, 0, 'Y', 'FontSize', 12, 'Color', 'g'); % Y-axis label
@@ -4822,35 +4856,35 @@ gui = createInterface();
             % rotated_data = rotate_marker_90_z(squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :)));
             % Markers.(Labels{n}).data =rotated_data ; % squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
             Markers.(Labels{n}).data =squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
-  
+
             % % % figure(100)
             % % % temp = mean( Markers.(Labels{n}).data,2);
             % % % if strcmp((Labels{n}), 'epi_med_right')
-            % % % 
+            % % %
             % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
             % % % elseif strcmp((Labels{n}), 'mal_med_right')
             % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
             % % % elseif strcmp((Labels{n}), 'toe_right')
             % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
-            % % % 
+            % % %
             % % % elseif strcmp((Labels{n}), 'SIPS_right')
             % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100, 'filled')
-            % % % 
+            % % %
             % % % else
             % % %     scatter3 (temp(1)/100, temp(2)/100, temp(3)/100)
-            % % % 
+            % % %
             % % % end
             % % % hold on
             % % % % Plot the x-axis (from origin to [1, 0, 0])
             % % % plot3([0 5], [0 0], [0 0], 'r', 'LineWidth', 2); % x-axis in red
             % % % hold on; % Hold the plot for additional plotting
-            % % % 
+            % % %
             % % % % Plot the y-axis (from origin to [0, 1, 0])
             % % % plot3([0 0], [0 5], [0 0], 'g', 'LineWidth', 2); % y-axis in green
-            % % % 
+            % % %
             % % % % Plot the z-axis (from origin to [0, 0, 1])
             % % % plot3([0 0], [0 0], [0 5], 'b', 'LineWidth', 2); % z-axis in blue
-            % % % 
+            % % %
             % % % % Label the axes
             % % % text(1, 0, 0, 'X', 'FontSize', 12, 'Color', 'r'); % X-axis label
             % % % text(0, 1, 0, 'Y', 'FontSize', 12, 'Color', 'g'); % Y-axis label

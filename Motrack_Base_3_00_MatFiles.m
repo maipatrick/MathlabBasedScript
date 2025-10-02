@@ -2026,7 +2026,8 @@ gui = createInterface();
                 % static file
                 static_file_path = [pathname,char(filename(ind_reftrial))];
                 static_file = load (static_file_path);
-                bodymass_from_fp =  nanmean(static_file.Static_POSE_1.Force.Force(end,:))*-1/9.81;
+                STATIC_FIELD_NAME = fieldnames(static_file); 
+                bodymass_from_fp =  nanmean(static_file.(STATIC_FIELD_NAME{1, 1}).Force.Force(end,:))*-1/9.81;
                 footlength_from_static_file = abs((nanmean(REFMARKERS.Filt.calc_back_right.data(1,:))-nanmean(REFMARKERS.Filt.toe_right.data(1,:)))/10);
                 old_antro = csvread(anthrofile);
                 old_antro(2) = bodymass_from_fp;

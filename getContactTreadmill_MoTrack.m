@@ -27,10 +27,10 @@ EVENTSvid = floor(EVENTS ./ (ones(size(EVENTS)).*OPTIONS.ftkratio)) + ones(size(
 ContactTimes = (EVENTS(2,:) - EVENTS(1,:)) / OPTIONS.freqGRF;
 FlightTimes = (EVENTS(1,2:end) - EVENTS(2,1:end-1)) / OPTIONS.freqGRF;
 
- 
+
 for i = 1:length(EVENTS)-1
     StepFrequency(i) = 1/((EVENTS(1,i+1) - EVENTS(1,i))/OPTIONS.freqGRF);
-    
+
 end
 
 TIMING.ContactTimes = ContactTimes;
@@ -40,13 +40,18 @@ TIMING.EVENTSgrf = EVENTS;
 TIMING.EVENTSvid = EVENTSvid;
 
 if ~isempty(MARKERS)
-    TOERIGHT = fit(MARKERS.Raw.toe_right.data, FP.GRFfilt.Both);
-    HEELRIGHT = fit(MARKERS.Raw.calc_back_right.data, FP.GRFfilt.Both);
-%     TOERIGHT = fit(MARKERS.Raw.RTIP.data, FP.GRFfilt.Both);
-%     HEELRIGHT = fit(MARKERS.Raw.RHCAL.data, FP.GRFfilt.Both);
+    try
+        TOERIGHT = fit(MARKERS.Raw.toe_right.data, FP.GRFfilt.Both);
+        HEELRIGHT = fit(MARKERS.Raw.calc_back_right.data, FP.GRFfilt.Both);
+    catch
+        TOERIGHT = fit(MARKERS.Raw.toe_left.data, FP.GRFfilt.Both);
+        HEELRIGHT = fit(MARKERS.Raw.calc_back_left.data, FP.GRFfilt.Both);
+    end
+    %     TOERIGHT = fit(MARKERS.Raw.RTIP.data, FP.GRFfilt.Both);
+    %     HEELRIGHT = fit(MARKERS.Raw.RHCAL.data, FP.GRFfilt.Both);
     assignin('base', 'HEELRIGHT', HEELRIGHT);
-%     TOELEFT = fit(MARKERS.Raw.toe_left.data, FP.GRFfilt.Both);
-%     if TOERIGHT(1,EVENTS(1,1)) > TOELEFT(1,EVENTS(1,1))
+    %     TOELEFT = fit(MARKERS.Raw.toe_left.data, FP.GRFfilt.Both);
+    %     if TOERIGHT(1,EVENTS(1,1)) > TOELEFT(1,EVENTS(1,1))
     if HEELRIGHT(3,EVENTS(1,1)) < HEELRIGHT(3,EVENTS(1,2))
         TIMING.EVENTS_R = EVENTS(:,1:2:size(EVENTS,2));
         TIMING.EVENTS_L = EVENTS(:,2:2:size(EVENTS,2));
@@ -56,13 +61,14 @@ if ~isempty(MARKERS)
         TIMING.FlightTimes_R = TIMING.FlightTimes(1:2:size(EVENTS,2)-1);
         TIMING.StepFrequency_R = TIMING.StepFrequency(1:2:size(EVENTS,2)-1);
     else
-        TIMING.EVENTS_R = EVENTS(:,2:2:size(EVENTS,2));
-        TIMING.EVENTS_L = EVENTS(:,3:2:size(EVENTS,2));
-        TIMING.EVENTS_R_vid = TIMING.EVENTSvid(:,2:2:size(EVENTSvid,2));
-        TIMING.EVENTS_L_vid = TIMING.EVENTSvid(:,3:2:size(EVENTSvid,2));
-        TIMING.ContactTimes_R = TIMING.ContactTimes(2:2:size(EVENTS,2));
-        TIMING.FlightTimes_R = TIMING.FlightTimes(2:2:size(EVENTS,2)-1);
-        TIMING.StepFrequency_R = TIMING.StepFrequency(2:2:size(EVENTS,2)-1);
+        TIMING.EVENTS_L = EVENTS(:,2:2:size(EVENTS,2));
+        TIMING.EVENTS_R = EVENTS(:,3:2:size(EVENTS,2));
+        
+        TIMING.EVENTS_L_vid = TIMING.EVENTSvid(:,2:2:size(EVENTSvid,2));
+        TIMING.EVENTS_R_vid = TIMING.EVENTSvid(:,3:2:size(EVENTSvid,2));
+        TIMING.ContactTimes_L = TIMING.ContactTimes(2:2:size(EVENTS,2));
+        TIMING.FlightTimes_L = TIMING.FlightTimes(2:2:size(EVENTS,2)-1);
+        TIMING.StepFrequency_L = TIMING.StepFrequency(2:2:size(EVENTS,2)-1);
     end
     try
         for i = 1:length(TIMING.EVENTS_R_vid)-1

@@ -1,4 +1,4 @@
-function [COP, COP_vid, GRFfilt,GRFfilt_vid, FM, ind_baseline, O] = get_treadmill_GRF_GUI_MoTrack_mat(file, OPTIONS, baseline_correct)
+function [COP, COP_vid, GRFfilt,GRFfilt_vid, FM, ind_baseline, O, CORNERPOINTS] = get_treadmill_GRF_GUI_MoTrack_mat(file, OPTIONS, baseline_correct)
 
  close all
 % clc
@@ -31,7 +31,7 @@ data = load (file);
 structname = fieldnames (data);
 data.(structname{1, 1});
 
-
+CORNERPOINTS = data.(structname{1, 1}).Force(OPTIONS.ForcePlateNumber).ForcePlateLocation; 
 force(:,[1:2]) = data.(structname{1, 1}).Force(1).Force([1,2], :)'*-1; 
 % force(:,[7:8]) = data.(structname{1, 1}).Force(2).Force([1,2], :)'*-1;
 force(:,[3]) = data.(structname{1, 1}).Force(1).Force([3], :)'*-1;

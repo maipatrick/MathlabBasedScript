@@ -1,0 +1,47 @@
+function [FP] = optimize_force_mill(MARKERS, OPTIONS,FP)
+
+
+stepEvents = detectTD_TO_events(FP.GRFfilt.Both(end,:), OPTIONS.ForceTreshold, 30);
+stepEvents_vid = fix(stepEvents./OPTIONS.ftkratio);
+
+%% all events now I need to get onlz valid events this is when
+%a) the foot markers at each TD are within the boundaries of the force
+%plate
+%b) cop within the foot marker of the leg of interest
+% first redeterime TD and TO considering all steps
+% simple version for now
+% if strcmp(OPTIONS.AnalyzedLeg, 'L')
+%
+% else
+%
+% end
+%
+force = FP.GRFfilt.Both(:,:);
+cop = FP.COP.Both(:,:);
+for i = 2: 2:length(stepEvents)
+    stepEvents(i,1);
+    stepEvents(i,2);
+    force(:,[stepEvents(i,1)-300: stepEvents(i,2)]+200)  = 0;
+    cop(:,[stepEvents(i,1)-300: stepEvents(i,2)]+200)  = 0;
+    % FP.COP_vid.Left(:,[stepEvents(i,1), stepEvents(i,2)])  == 0;
+    % FP.GRFfilt_vid.Left(:,[stepEvents(i,1), stepEvents(i,2)]) == 0;
+end
+lauf = 1;
+for i = 1: 2:length(stepEvents)
+    FP.CONTACT(1,lauf) = stepEvents(i,1);
+    FP.CONTACT(2,lauf) = stepEvents(i,2);
+    lauf = lauf+1;
+    % FP.COP_vid.Left(:,[stepEvents(i,1), stepEvents(i,2)])  == 0;
+    % FP.GRFfilt_vid.Left(:,[stepEvents(i,1), stepEvents(i,2)]) == 0;
+end
+FP.COP.Left = cop;
+FP.GRFfilt.Left = force;
+
+%%
+for c = 1 : 4
+scatter(FP.CORNERPOINTS(c,1), FP.CORNERPOINTS(c,2), 'MarkerFaceColor','k', 'MarkerEdgeColor','flat')
+hold on
+plot ([FP.CORNERPOINTS(c,1), FP.CORNERPOINTS(c+1,1)], [FP.CORNERPOINTS(c,2), FP.CORNERPOINTS(c+1,1)])
+
+end
+end

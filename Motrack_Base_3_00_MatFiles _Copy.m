@@ -1495,7 +1495,7 @@ gui = createInterface();
         else
             WC = eval(whichConditions{1});
         end
-        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -1601,7 +1601,7 @@ gui = createInterface();
 
 
         char(subfolders(3).name)
-        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -1734,7 +1734,7 @@ gui = createInterface();
         TopFolder = get(gui.EditTopFolder, 'String')
         subfolders = dir(TopFolder)
         char(subfolders(3).name)
-        matfiles = dir([TopFolder,'\',char(subfolders(3).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(3).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(3).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -4048,7 +4048,7 @@ gui = createInterface();
         for d = 3:size_framework+2
             if folders(d).isdir
                 FRAMEWORK(n_dir).pathname = cellstr([char(top_folder),'\', folders(d).name, '\']);  %#ok<AGROW>
-                C3ds = dir([char(FRAMEWORK(n_dir).pathname),'*.c3d']);
+                C3ds = dir([char(FRAMEWORK(n_dir).pathname),'*.mat']);
                 C3ds = C3ds(arrayfun(@(x) ~strcmp(x.name(1),'.'),C3ds));
                 try
 

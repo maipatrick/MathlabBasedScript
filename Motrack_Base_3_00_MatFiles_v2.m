@@ -1495,7 +1495,7 @@ gui = createInterface();
         else
             WC = eval(whichConditions{1});
         end
-        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -1601,7 +1601,7 @@ gui = createInterface();
 
 
         char(subfolders(3).name)
-        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(WC(1)+2).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(WC(1)+2).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -1734,7 +1734,7 @@ gui = createInterface();
         TopFolder = get(gui.EditTopFolder, 'String')
         subfolders = dir(TopFolder)
         char(subfolders(3).name)
-        matfiles = dir([TopFolder,'\',char(subfolders(3).name), '\', '*.c3d'])
+        matfiles = dir([TopFolder,'\',char(subfolders(3).name), '\', '*.mat'])
         pathname = char([TopFolder,'\',subfolders(3).name, '\'])
         filename = char(matfiles(1).name);
         load([pathname, filename], 'NORMAL');
@@ -2026,7 +2026,8 @@ gui = createInterface();
                 % static file
                 static_file_path = [pathname,char(filename(ind_reftrial))];
                 static_file = load (static_file_path);
-                bodymass_from_fp =  nanmean(static_file.Static_POSE_1.Force.Force(end,:))*-1/9.81;
+                static_field_name = fieldnames(static_file); 
+                bodymass_from_fp =  nanmean(static_file.(static_field_name{1, 1}).Force.Force(end,:))*-1/9.81;
                 footlength_from_static_file = abs((nanmean(REFMARKERS.Filt.calc_back_right.data(1,:))-nanmean(REFMARKERS.Filt.toe_right.data(1,:)))/10);
                 old_antro = csvread(anthrofile);
                 old_antro(2) = bodymass_from_fp;
@@ -2801,7 +2802,7 @@ gui = createInterface();
                         %% Read in force data
                         if (OPTIONS.ExperimentalSetup == 6)
 
-                            [FP.(structname).COP, FP.(structname).COP_vid,  FP.(structname).GRFfilt,FP.(structname).GRFfilt_vid, FP.(structname).FM, FP.(structname).ind_baseline] = get_treadmill_GRF_GUI_MoTrack_mat([pathname, char(filename(1,i))], OPTIONS, 1);
+                            [FP.(structname).COP, FP.(structname).COP_vid,  FP.(structname).GRFfilt,FP.(structname).GRFfilt_vid, FP.(structname).FM, O, FP.(structname).ind_baseline, FP.(structname).CORNERPOINTS] = get_treadmill_GRF_GUI_MoTrack_mat([pathname, char(filename(1,i))], OPTIONS, 1);
 
 
                             CONTACT.(structname) = getContactTreadmill_MoTrack(FP.(structname), MARKERS.(structname), OPTIONS);
@@ -2846,6 +2847,12 @@ gui = createInterface();
                                 end
                             end
                             a=2;
+                            % make a function that optimized the forces and
+                            % cop input is marker data
+                            % MARKERS.(structname), OPTIONS,
+                            % FP.(structname) 
+                            % TODO Patrick
+                            [FP.(structname)] = optimize_force_mill(MARKERS.(structname), OPTIONS,FP.(structname));
                             KINETICS.(structname) = InverseDynamik_Hof(FRAME.(structname).Anatomical, OPTIONS, FP.(structname), MARKERS.(structname));
 
                         end
@@ -3552,6 +3559,12 @@ gui = createInterface();
                                 numsteps = str2double(get(gui.Nsteps, 'String'));
                             end
                         end
+                        if strcmp (OPTIONS.AnalyzedLeg, 'L')
+                            numsteps =   length(CONTACT.(structname).EVENTS_L  );
+                        else
+                            numsteps = length(CONTACT.(structname).EVENTS_R  );
+                        end
+
                         for ns = 1:numsteps
                             if (OPTIONS.ExperimentalSetup == 3) || (OPTIONS.ExperimentalSetup == 4) || (OPTIONS.ExperimentalSetup == 5) || (OPTIONS.ExperimentalSetup == 9)  || (OPTIONS.ExperimentalSetup == 10)
                                 try
@@ -3591,19 +3604,34 @@ gui = createInterface();
                             NORMAL.HEADER(1,ns+(runi-1)*numsteps) = {[erase(filename{1,i}, '.mat'), '_step_',num2str(ns)]}; %filename(1,i);
                             % end
                             markernames_labels = fieldnames(MARKERS.(structname).Derived);
+                            try
                             for ml = 1 : length (markernames_labels)
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(1,ContactR.(structname).data), 0.5)';
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(2,ContactR.(structname).data), 0.5)';
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(3,ContactR.(structname).data), 0.5)';
                             end
+                            catch
+                                for ml = 1 : length (markernames_labels)
+                                    NORMAL.L.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(1,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                                    NORMAL.L.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(2,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                                    NORMAL.L.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Derived.(markernames_labels{ml, 1})(3,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                                end
+                            end
 
                             markernames_labels = fieldnames(MARKERS.(structname).Opti);
+                            try
                             for ml = 1 : length (markernames_labels)
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(1,ContactR.(structname).data), 0.5)';
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(2,ContactR.(structname).data), 0.5)';
                                 NORMAL.R.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(3,ContactR.(structname).data), 0.5)';
                             end
-
+                            catch
+               for ml = 1 : length (markernames_labels)
+                                NORMAL.L.MARKERS.(markernames_labels{ml, 1}).X(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(1,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                                NORMAL.L.MARKERS.(markernames_labels{ml, 1}).Y(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(2,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                                NORMAL.L.MARKERS.(markernames_labels{ml, 1}).Z(:,ns+(runi-1)*numsteps) = normalize(MARKERS.(structname).Opti.(markernames_labels{ml, 1}).data(3,[(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg,'_vid'])(2,ns))]), 0.5)';
+                            end
+                            end
 
                             try
                                 NORMAL.R.ANGLES.RIGHT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Right_Ankle.grad.X(ContactR.(structname).data), 0.5)';
@@ -3792,9 +3820,9 @@ gui = createInterface();
 
                             % Left
                             try
-                                NORMAL.L.ANGLES.LEFT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.X(ContactL.(structname).data), 0.5)';
-                                NORMAL.L.ANGLES.LEFT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.Y(ContactL.(structname).data), 0.5)';
-                                NORMAL.L.ANGLES.LEFT_ANKLE.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.Z(ContactL.(structname).data), 0.5)';
+                                NORMAL.L.ANGLES.LEFT_ANKLE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.X([(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(2,ns))]), 0.5)';
+                                NORMAL.L.ANGLES.LEFT_ANKLE.Y(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.Y([(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(2,ns))]), 0.5)';
+                                NORMAL.L.ANGLES.LEFT_ANKLE.Z(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Ankle.grad.Z([(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(1,ns)):(CONTACT.(structname).(['EVENTS_', OPTIONS.AnalyzedLeg, '_vid'])(2,ns))]), 0.5)';
                             end
                             try
                                 NORMAL.L.ANGLES.LEFT_KNEE.X(:,ns+(runi-1)*numsteps) = normalize(WINKEL.(structname).JOINT.Classic.Left_Knee.grad.X(ContactL.(structname).data), 0.5)';
@@ -4048,7 +4076,7 @@ gui = createInterface();
         for d = 3:size_framework+2
             if folders(d).isdir
                 FRAMEWORK(n_dir).pathname = cellstr([char(top_folder),'\', folders(d).name, '\']);  %#ok<AGROW>
-                C3ds = dir([char(FRAMEWORK(n_dir).pathname),'*.c3d']);
+                C3ds = dir([char(FRAMEWORK(n_dir).pathname),'*.mat']);
                 C3ds = C3ds(arrayfun(@(x) ~strcmp(x.name(1),'.'),C3ds));
                 try
 
@@ -4783,9 +4811,9 @@ gui = createInterface();
         Labels = mainStruct.(name).Trajectories.Labeled.Labels';
 
         for n = 1:length(Labels)
-            rotated_data = rotate_marker_90_z(squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :)));
-            Markers.(Labels{n}).data =rotated_data ; % squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
-            %Markers.(Labels{n}).data =squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+            %rotated_data = rotate_marker_90_z(squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :)));
+            %Markers.(Labels{n}).data =rotated_data ; % squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
+            Markers.(Labels{n}).data =squeeze(mainStruct.(name).Trajectories.Labeled.Data(n, 1:3, :));
             Markers.(Labels{n}).data(1,:) =Markers.(Labels{n}).data(1,:) +500 ;
             Markers.(Labels{n}).data (2,:) = Markers.(Labels{n}).data (2,:)+300;
             % figure(100)
@@ -6369,6 +6397,7 @@ gui = createInterface();
         %% Vorgehensweise wie in Hof 1992 beschrieben
         %1. Gechwindigkeiten, Beschleunigungen und Rotationsmatrizen auf mit
         %reaktionskräften auf eine Länge bringen --> interpolieren
+        FP.FM.Left  = zeros(3,length(FP.GRFfilt.Left)); 
         for j = 1:3
             for k = 1:3
 
@@ -6761,7 +6790,7 @@ gui = createInterface();
 
         %3. Lösen der Bewgungsgleichungen für das linke Sprunggelenk
         try
-            Wheight.Foot = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Foot, 1, length(FP.COP.Right));
+            Wheight.Foot = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Foot, 1, length(FP.COP.Left));
             MA.LeftFoot = repmat(OPTIONS.ANTHRO.SegmentMass.Foot,3,length(FP.COP.Left)) .* FRAME.LeftFoot.LinACC_long;
 
             KINETICS.LeftAnkle.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftAnkleJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
@@ -6828,7 +6857,7 @@ gui = createInterface();
 
         %5. Lösen der Bewgungsgleichungen für das linke Kniegelenk
         try
-            Wheight.Shank = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Shank, 1, length(FP.COP.Right));
+            Wheight.Shank = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Shank, 1, length(FP.COP.Left));
             MA.LeftShank = repmat(OPTIONS.ANTHRO.SegmentMass.Shank,3,length(FP.COP.Left)) .* FRAME.LeftShank.LinACC_long;
 
             KINETICS.LeftKnee.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftKneeJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
@@ -6872,7 +6901,7 @@ gui = createInterface();
         end
         %7. Lösen der Bewgungsgleichungen für das linke Hüftgelenk
         try
-            Wheight.Thigh = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Thigh, 1, length(FP.COP.Right));
+            Wheight.Thigh = repmat([0;0;-9.81].*OPTIONS.ANTHRO.SegmentMass.Thigh, 1, length(FP.COP.Left));
             MA.LeftThigh = repmat(OPTIONS.ANTHRO.SegmentMass.Thigh,3,length(FP.COP.Left)) .* FRAME.LeftThigh.LinACC_long;
 
             KINETICS.LeftHip.Term1 = cross((FP.COP.Left - MARKERS.Derived.LeftHipJC_long), FP.GRFfilt.Left)./1000; %wg Nmm zu Nm
